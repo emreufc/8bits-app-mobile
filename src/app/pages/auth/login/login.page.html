@@ -7,25 +7,21 @@
 <ion-content class="ion-padding">
 
   <form (submit)="onLogin()">
-    <!-- Kullanıcı adı girişi -->
     <ion-item>
       <ion-label position="floating">Email</ion-label>
       <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
     </ion-item>
 
-    <!-- Şifre girişi -->
     <ion-item>
       <ion-label position="floating">Password</ion-label>
       <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
     </ion-item>
 
-    <!-- Giriş yap düğmesi -->
     <ion-button expand="block" type="submit" color="primary" class="ion-margin-top">
       Login
     </ion-button>
   </form>
 
-  <!-- Şifremi unuttum bağlantısı -->
   <div class="ion-text-center ion-margin-top">
     <ion-text>
       <a href="/auth/forgot-password">Forgot your password?</a>
