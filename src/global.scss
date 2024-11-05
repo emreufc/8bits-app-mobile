@@ -25,13 +25,170 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+@font-face {
+  font-family: 'MuseoSans';
+  src: url('assets/fonts/MuseoSans/MuseoSans.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('assets/fonts/Poppins/Poppins-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+app-content ion-content {
+    --padding-bottom: 150px;
+  }
+  
+  ion-modal.datetime-modal {
+    --background: none;
+  }
+  
+  
+  
+  ion-header {
+    ion-toolbar {
+      .head {
+        display: flex;
+  
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 34px;
+      }
+  
+      .heart {
+        font-size: 22px;
+        transform: translateY(-10px);
+      }
+  
+      .head-text {
+        display: flex;
+        flex-direction: column-reverse;
+  
+        .sunny-span {
+          font-size: 14px;
+          display: flex;
+          align-items: center;
+          font-weight: 250;
+          color: var(--ion-font-color-1);
+          gap: 5px;
+          margin-top: 10px;
+  
+          ion-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--ion-color-primary);
+          }
+        }
+  
+        ion-title {
+          text-align: left;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+
+.light-header {
+    box-shadow: none;
+    ion-toolbar {
+      --padding-top: 10px;
+      --padding-bottom: 10px;
+      --padding-start: 25px;
+      --padding-end: 25px;
+      --inner-padding-end: 0px;
+      --background: var(--ion-color-light);
+      --border-width: 0px !important;
+      --border-color: #fff !important;
+      color: var(--ion-color-dark);
+  
+      ion-back-button {
+        --color: var(--ion-color-dark) !important;
+      }
+  
+      ion-title {
+        color: var(--ion-color-dark) !important;
+        font-size: 18px;
+      }
+    }
+  }
+  
+  .inner-padding {
+      padding-left: 25px;
+      padding-right: 25px;
+  }
+
+
+ion-input,
+ion-select,
+datetime-picker {
+  --padding-start: 15px !important;
+  --highlight-color: none !important;
+  border: 2px solid var(--ion-color-medium) !important;
+  --color: var(--ion-color-black) !important;
+  color: var(--ion-color-black) !important;
+  border-radius: 8px;
+  --border-radius: 8px;
+  overflow: hidden;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  font-size: 14px !important;
+  height: 56px;
+}
+
+ion-input:hover,
+ion-select:hover,
+ion-datetime:hover {
+    border: 2px solid var(--ion-color-secondary);
+}
+
+
+ion-content,
+ion-footer {
+    box-shadow: none !important;
+}
+
+ion-item {
+  --background: none;
+}
+
+ion-button {
+  text-transform: none;
+  border-radius: 8px;
+  --border-radius: 10px;
+  min-height: 45px;
+  --box-shadow: none;
+}
+
+ion-segment {
+  padding: 8px;
+  border-radius: 16px;
+  --background: var(--ion-color-medium);
+
+  ion-segment-button {
+    --ripple-color: transparent;
+    // --background-checked: var(--ion-color-secondary);
+    --border-radius: 16px;
+    color: var(--ion-color-black);
+    --color-checked: var(--ion-color-black);
+    text-transform: none;
+
+    &::part(indicator) {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    &::part(indicator-background) {
+      height: 100%;
+    }
+  }
+
+  ion-segment-button.segment-button-checked {
+    color: var(--ion-color-light);
+  }
+}
