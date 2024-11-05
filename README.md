@@ -1,79 +1,101 @@
-# **8bits**
 
-Bu proje, Ionic kullanılarak geliştirilmiş bir mobil uygulama
-projesidir. Bu doküman, projeyi kurmak ve ayağa kaldırmak için gerekli
-adımları içermektedir.
+# 8bits
 
-## **Başlarken**
+Bu proje, Ionic kullanılarak geliştirilmiş bir mobil uygulama projesidir. Bu doküman, projeyi kurmak ve ayağa kaldırmak için gerekli adımları içermektedir.
 
-Bu proje için aşağıdaki adımları takip ederek yerel ortamınızda
-çalıştırabilirsiniz.
+## Başlarken
 
-### **Gereksinimler**
+Bu proje için aşağıdaki adımları takip ederek yerel ortamınızda çalıştırabilirsiniz.
 
--   [[Node.js]{.underline}](https://nodejs.org/) (v14 veya üzeri)
+### Gereksinimler
 
--   [[NPM]{.underline}](https://www.npmjs.com/) (Node.js ile birlikte
-    > gelir)
+- [Node.js](https://nodejs.org/) (v14 veya üzeri)
+- [NPM](https://www.npmjs.com/) (Node.js ile birlikte gelir) veya [Yarn](https://yarnpkg.com/)
+- [Ionic CLI](https://ionicframework.com/docs/cli/installation) (Global olarak kurulmalıdır)
 
--   Ionic CLI (Global olarak kurulmalıdır)
+### Kurulum
 
-### **Kurulum**
+1. **Node.js** ve **NPM**'in kurulu olduğundan emin olun:
+   ```bash
+   node -v
+   npm -v
+   ```
 
-**Node.js** ve **NPM**\'in kurulu olduğundan emin olun:\
-node -v
+2. **Ionic CLI**'yi global olarak kurun:
+   ```bash
+   npm install -g @ionic/cli
+   ```
 
-npm -v
+3. Projenizi klonlayın veya yeni bir Ionic projesi başlatın:
+   ```bash
+   git clone https://github.com/kullanici/proje-adi.git
+   cd proje-adi
+   ```
 
-**Ionic CLI**\'yi global olarak kurun:\
-npm install -g \@ionic/cli
+   *veya*
 
-Projenizi klonlayın:\
-git clone https://github.com/kullanici/proje-adi.git
+   ```bash
+   ionic start proje-adi blank
+   cd proje-adi
+   ```
 
-cd proje-adi
+4. Proje bağımlılıklarını yükleyin:
+   ```bash
+   npm install
+   ```
 
-cd proje-adi
+### Geliştirme Sunucusunu Başlatma
 
-Proje bağımlılıklarını yükleyin:\
-npm install
-
-### **Geliştirme Sunucusunu Başlatma**
-
-Projenizi yerel geliştirme ortamında çalıştırmak için aşağıdaki komutu
-kullanın:
-
+Projenizi yerel geliştirme ortamında çalıştırmak için aşağıdaki komutu kullanın:
+```bash
 ionic serve
+```
 
-Bu komut, projeyi yerel olarak http://localhost:8100 adresinde başlatır
-ve dosyalarınızda yapılan değişiklikler otomatik olarak yenilenir. Bu
-yöntem, hızlı bir şekilde geliştirme yaparken projeyi test etmek için
-idealdir.
+Bu komut, projeyi yerel olarak `http://localhost:8100` adresinde başlatır ve dosyalarınızda yapılan değişiklikler otomatik olarak yenilenir. Bu yöntem, hızlı bir şekilde geliştirme yaparken projeyi test etmek için idealdir.
 
-### **Uygulamayı Cihaz veya Emülatörde Çalıştırma (Ilk asamada gerekmeyecektir)**
+### Uygulamayı Cihaz veya Emülatörde Çalıştırma
 
-**Android veya iOS platformunu ekleyin**:\
-ionic capacitor add android
+1. **Android veya iOS platformunu ekleyin**:
+   ```bash
+   ionic capacitor add android
+   ionic capacitor add ios
+   ```
 
-ionic capacitor add ios
+2. Uygulamayı cihazda veya emülatörde çalıştırın:
+   ```bash
+   ionic capacitor run android
+   ionic capacitor run ios
+   ```
 
-Uygulamayı cihazda veya emülatörde çalıştırın:\
-\
-ionic capacitor run android
+   *Not: iOS için Mac bilgisayara ve Xcode'a ihtiyacınız vardır.*
 
-ionic capacitor run ios
+## Proje Yapısı
 
-1.  *Not: iOS için Mac bilgisayara ve Xcode\'a ihtiyacınız vardır.*
+Projenin genel klasör yapısı şu şekildedir:
+```
+proje-adi/
+├── src/
+│   ├── app/
+│   ├── assets/
+│   ├── environments/
+│   └── index.html
+├── capacitor.config.ts
+├── package.json
+└── README.md
+```
 
-## **Faydalı Komutlar**
+## Faydalı Komutlar
 
-**Ionic uygulamasını paketlemek için**: ionic build
+- **Ionic uygulamasını paketlemek için**:
+  ```bash
+  ionic build
+  ```
 
-**Capacitor komutlarını senkronize etmek için**: ionic capacitor sync
+- **Capacitor komutlarını senkronize etmek için**:
+  ```bash
+  ionic capacitor sync
+  ```
 
-## **Destek**
+## Destek
 
-Sorularınız veya yardıma ihtiyaç duyduğunuz durumlar için Ionic
-belgelerine göz atabilirsiniz.
-
-[[https://ionicframework.com/]{.underline}](https://ionicframework.com/)
+Sorularınız veya yardıma ihtiyaç duyduğunuz durumlar için [Ionic belgelerine](https://ionicframework.com/docs) göz atabilirsiniz.
