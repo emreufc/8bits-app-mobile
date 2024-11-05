@@ -6,7 +6,8 @@ import { ContentPage } from './content.page';
 const routes: Routes = [
   {
     path: '',
-    component: ContentPage
+    redirectTo: 'home',
+    pathMatch: 'full'
   },
   {
     path: 'dashboard',
@@ -19,6 +20,10 @@ const routes: Routes = [
   {
     path: 'settings',
     loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   }
 ];
 
