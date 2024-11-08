@@ -1,31 +1,60 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-title>Login</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-
-  <form (submit)="onLogin()">
-    <ion-item>
-      <ion-label position="floating">Email</ion-label>
-      <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
-    </ion-item>
-
-    <ion-button expand="block" type="submit" color="primary" class="ion-margin-top">
-      Login
-    </ion-button>
-  </form>
-
-  <div class="ion-text-center ion-margin-top">
-    <ion-text>
-      <a href="/auth/forgot-password">Forgot your password?</a>
-    </ion-text>
+<ion-content [fullscreen]="true">
+  <div class="curved-header">
+    <h1>Welcome</h1>
+    <h2>To MealMatch</h2>
   </div>
 
+  <div class="login-container">
+    <ion-list class="ion-no-padding">
+      <ion-item lines="none">
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input type="email" placeholder="Enter your email"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="password-input-container">
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="Enter your password"></ion-input>
+        <ion-icon
+        [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+        slot="end"
+        (click)="togglePasswordVisibility()"
+        class="eye-icon"
+      ></ion-icon>
+      </ion-item>
+    </ion-list>
+    
+    <div class="forgot-password">
+      <ion-button fill="clear" size="small">Forgot password?</ion-button>
+    </div>
+
+    <ion-button expand="block" class="login-button">
+      Log In Now
+    </ion-button>
+
+    <div class="divider">
+      <span>Or</span>
+    </div>
+
+    <div class="social-buttons">
+      <ion-button expand="block" class="google-button">
+        <ion-icon slot="start" name="logo-google"></ion-icon>
+        Continue with Google
+      </ion-button>
+      <ion-button expand="block" class="facebook-button">
+        <ion-icon slot="start" name="logo-facebook"></ion-icon>
+        Continue with Facebook
+      </ion-button>
+    </div>
+
+    <div class="signup-prompt">
+      <span>I don't have an account? </span>
+      <ion-button fill="clear" size="small">Sign Up Now</ion-button>
+    </div>
+  </div>
 </ion-content>
