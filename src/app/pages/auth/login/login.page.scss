@@ -1,0 +1,205 @@
+ion-header {
+    position: absolute;
+    /* Header'ın sayfa içinde mutlak konumlandırılması */
+  
+    ion-toolbar {
+      --background: transparent;
+      /* Arka planı şeffaf ayarlanmış */
+    }
+  }
+  
+  .curved-header {
+    background: #FF8C00;
+    /* Üst kısım için turuncu arka plan */
+    height: 30vh;
+    /* 30% dikey alanı kaplar */
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    /* Köşeler kıvrımlı */
+    padding: 20px;
+    color: white;
+    /* Yazı rengi beyaz */
+  
+    h1 {
+      font-size: 32px;
+      margin-bottom: 0;
+      padding-top: 40px;
+      font-weight: bold;
+      /* Başlık metni büyük ve kalın */
+    }
+  
+    h2 {
+      font-size: 28px;
+      margin-top: 5px;
+      font-weight: normal;
+      /* Alt başlık metni daha küçük ve normal kalınlıkta */
+    }
+  }
+  
+  .login-container {
+    padding: 20px;
+    margin-top: -50px;
+    /* Sayfanın üst kısmına yakın konumlandırma */
+  
+    ion-list {
+      background: transparent;
+      margin-bottom: 20px;
+      /* Giriş listesi arka planı şeffaf */
+  
+      ion-item {
+        --background: #f5f5f5;
+        /* Giriş alanlarının arka plan rengi */
+        --border-radius: 8px;
+        /* Kenarlar yuvarlak */
+        --padding-start: 12px;
+        --padding-end: 12px;
+        --inner-padding-end: 12px;
+        margin-bottom: 16px;
+        /* Giriş alanları arasındaki mesafe */
+  
+        ion-label {
+          color: #FF8C00;
+          font-weight: 500;
+          margin-bottom: 8px;
+          /* Etiket rengi turuncu ve yarı kalın */
+        }
+  
+        ion-input {
+          --padding-start: 0;
+          --padding-end: 0;
+          font-size: 16px;
+          /* Giriş metni boyutu */
+        }
+  
+        ion-icon {
+          color: #666;
+          font-size: 20px;
+          /* Göz ikonu için gri renk ve boyut */
+        }
+      }
+    }
+  }
+  
+  .forgot-password {
+    text-align: right;
+    margin-bottom: 20px;
+    /* Sağ hizalı şifre unutma alanı */
+  
+    ion-button {
+      --color: #666;
+      font-size: 14px;
+      text-transform: none;
+      font-weight: normal;
+      /* Buton rengi gri ve küçük */
+    }
+  }
+  
+  .login-button {
+    --background: #FF8C00;
+    --border-radius: 25px;
+    margin: 20px 0;
+    height: 48px;
+    /* Giriş butonu turuncu, yuvarlak ve büyük */
+  }
+  
+  .divider {
+    text-align: center;
+    position: relative;
+    margin: 30px 0;
+    /* Ayracı ortalar ve etrafında boşluk bırakır */
+  
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 45%;
+      height: 1px;
+      background: #ddd;
+      /* Ayracı belirten çizgiler */
+    }
+  
+    &::before {
+      left: 0;
+    }
+  
+    &::after {
+      right: 0;
+    }
+  
+    span {
+      background: white;
+      padding: 0 10px;
+      color: #666;
+      /* "Or" yazısının ortada konumlanması */
+    }
+  }
+  
+  .social-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    /* Sosyal medya butonları arasında boşluk */
+  
+    ion-button {
+      --border-radius: 25px;
+      height: 48px;
+      /* Sosyal medya butonları yuvarlak ve yüksek */
+  
+      &.google-button {
+        --border-color: #ddd;
+        --color: #000;
+        /* Google butonu çevresi çizgili ve siyah metin */
+      }
+  
+      &.facebook-button {
+        --border-color: #ddd;
+        --color: #000;
+        /* Facebook butonu çevresi çizgili ve siyah metin */
+      }
+  
+      ion-icon {
+        font-size: 24px;
+        /* Sosyal medya ikonları boyutu */
+      }
+    }
+  }
+  
+  .signup-prompt {
+    text-align: center;
+    margin-top: 30px;
+    /* Kayıt olma yönlendirmesi ortalanmış */
+  
+    span {
+      color: #666;
+      /* Metin rengi gri */
+    }
+  
+    ion-button {
+      --color: #FF8C00;
+      text-transform: none;
+      font-weight: 500;
+      font-size: 14px;
+      /* Kayıt ol butonu turuncu, küçük ve kalın */
+    }
+
+  }
+
+  .password-input-container {
+    position: relative;
+  
+    ion-input {
+      padding-right: 40px; // Sağ tarafta ikon için yer açıyoruz
+    }
+  
+    .eye-icon {
+      position: absolute;
+      right: 16px; // İkonun sağ kenara yaslanması için
+      top: 50%;
+      transform: translateY(-50%);
+      color: #666;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  }
+  
