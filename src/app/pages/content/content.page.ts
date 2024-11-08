@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+  import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-content',
@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./content.page.scss'],
 })
 export class ContentPage implements OnInit {
-
+  public color = 'white';
   constructor() { }
 
   ngOnInit() {
