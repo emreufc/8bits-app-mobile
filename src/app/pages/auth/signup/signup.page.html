@@ -1,30 +1,30 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>Sign Up</ion-title>
+    <ion-title>Kayıt Ol</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <div class="curved-header">
-    <h1>Welcome</h1>
-    <h2>To MealMatch</h2>
+    <h1>Hoş Geldiniz</h1>
+    <h2>MealMatch'e</h2>
   </div>
 
   <div class="signup-container">
     <ion-list class="ion-no-padding">
       <ion-item lines="none">
-        <ion-label position="stacked">Name</ion-label>
-        <ion-input type="text" placeholder="Enter your name"></ion-input>
+        <ion-label position="stacked">Ad</ion-label>
+        <ion-input type="text" placeholder="Adınızı girin"></ion-input>
       </ion-item>
 
       <ion-item lines="none">
-        <ion-label position="stacked">Email</ion-label>
-        <ion-input type="email" placeholder="Enter your email"></ion-input>
+        <ion-label position="stacked">E-posta</ion-label>
+        <ion-input type="email" placeholder="E-posta adresinizi girin"></ion-input>
       </ion-item>
 
       <ion-item lines="none" class="password-input-container">
-        <ion-label position="stacked">Password</ion-label>
-        <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="Enter your password"></ion-input>
+        <ion-label position="stacked">Şifre</ion-label>
+        <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="Şifrenizi girin"></ion-input>
         <ion-icon
           [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
           slot="end"
@@ -34,8 +34,8 @@
       </ion-item>
 
       <ion-item lines="none" class="password-input-container">
-        <ion-label position="stacked">Re-enter Password</ion-label>
-        <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="Re-enter your password"></ion-input>
+        <ion-label position="stacked">Şifreyi Tekrar Girin</ion-label>
+        <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="Şifrenizi tekrar girin"></ion-input>
         <ion-icon
           [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
           slot="end"
@@ -46,21 +46,21 @@
     </ion-list>
 
     <ion-item lines="none">
-      <ion-checkbox slot="start" [(ngModel)]="termsAccepted"></ion-checkbox>
-      <ion-label>I agree to all terms and conditions</ion-label>
+      <ion-checkbox slot="start"></ion-checkbox>
+      <ion-label>Tüm şartları ve koşulları kabul ediyorum</ion-label>
     </ion-item>
 
     <ion-button expand="block" class="signup-button">
-      Sign Up Now
+      Şimdi Kayıt Ol
     </ion-button>
 
     <div class="divider">
-      <span>Or</span>
+      <span>Veya</span>
     </div>
 
     <div class="login-prompt">
-      <span>Already have an account? </span>
-      <ion-button fill="clear" size="small" routerLink="/auth/login">Log In Now</ion-button>
+      <span>Zaten bir hesabım var mı? </span>
+      <ion-button fill="clear" size="small" routerLink="/auth/login">Şimdi Giriş Yap</ion-button>
     </div>
   </div>
 </ion-content>
