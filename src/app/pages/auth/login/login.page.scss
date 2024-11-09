@@ -148,16 +148,23 @@ ion-header {
 .signup-prompt {
   text-align: center; /* Ortalanmış metin */
   margin-top: 30px; /* Üst boşluk */
+  display: flex; /* Flexbox düzeni */
+  align-items: center; /* Dikey hizalama */
+  justify-content: center; /* Yatay hizalama */
   
   span {
     color: #666; /* Metin rengi gri */
+    margin-right: 5px; /* Sağ boşluk */
   }
   
   ion-button {
     --color: #FF8C00; /* Buton rengi turuncu */
     text-transform: none; /* Yazı dönüşümü yok */
-    font-weight: 500; /* Yarı kalın yazı */
+    font-weight: bold; /* Kalın yazı */
     font-size: 14px; /* Yazı boyutu küçük */
+    padding-left: 0; /* Sol boşluk yok */
+    height: auto; /* Yükseklik otomatik */
+    line-height: normal; /* Satır yüksekliği normal */
   }
 }
 
