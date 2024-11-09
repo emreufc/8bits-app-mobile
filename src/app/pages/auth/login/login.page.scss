@@ -86,8 +86,25 @@ ion-content {
   }
 
   .login-button {
-    --background: #FF8C00; /* Giriş butonu turuncu */
+    --background: #FF8C00; /* Buton arka plan rengi turuncu */
     --border-radius: 25px; /* Kenarlar yuvarlak */
+    color: white; /* Yazı rengi beyaz */
+    margin: 20px 0; /* Üst ve alt boşluk */
+    height: 48px; /* Buton yüksekliği */
+  }
+
+  .google-button {
+    --background: #DB4437; /* Google buton arka plan rengi kırmızı */
+    --border-radius: 25px; /* Kenarlar yuvarlak */
+    color: white; /* Yazı rengi beyaz */
+    margin: 20px 0; /* Üst ve alt boşluk */
+    height: 48px; /* Buton yüksekliği */
+  }
+
+  .facebook-button {
+    --background: #3B5998; /* Facebook buton arka plan rengi mavi */
+    --border-radius: 25px; /* Kenarlar yuvarlak */
+    color: white; /* Yazı rengi beyaz */
     margin: 20px 0; /* Üst ve alt boşluk */
     height: 48px; /* Buton yüksekliği */
   }
