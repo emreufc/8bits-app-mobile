@@ -85,6 +85,16 @@ ion-content {
     }
   }
 
+  .forgot-password {
+    ion-button {
+      color: #FF8C00; /* Yazı rengi turuncu */
+      font-size: 14px; /* Yazı boyutu */
+      text-transform: none; /* Yazı dönüşümü yok */
+      padding: 0; /* İçerik etrafında boşluk yok */
+      font-weight: bold; /* Kalın yazı */ 
+    }
+  }
+
   .login-button {
     --background: #FF8C00; /* Buton arka plan rengi turuncu */
     --border-radius: 25px; /* Kenarlar yuvarlak */
@@ -94,7 +104,7 @@ ion-content {
   }
 
   .google-button {
-    --background: #DB4437; /* Google buton arka plan rengi kırmızı */
+    --background: #4285F4; /* Google buton arka plan rengi kırmızı */
     --border-radius: 25px; /* Kenarlar yuvarlak */
     color: white; /* Yazı rengi beyaz */
     margin: 20px 0; /* Üst ve alt boşluk */
