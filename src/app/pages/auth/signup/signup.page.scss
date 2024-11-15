@@ -10,9 +10,10 @@ ion-header {
     .curved-header {
       background: #FF8C00; /* Üst kısım için turuncu arka plan */
       height: 30vh; /* 30% dikey alanı kaplar */
+      border-bottom-left-radius: 30px; /* Sol alt köşe kıvrımlı */
+      border-bottom-right-radius: 30px; /* Sağ alt köşe kıvrımlı */
       padding: 20px; /* İçerik etrafında boşluk */
       color: white; /* Yazı rengi beyaz */
-      position: relative; /* Dalgalı alt kısım için konumlandırma */
       
       h1 {
         font-size: 32px; /* Başlık metni büyük */
