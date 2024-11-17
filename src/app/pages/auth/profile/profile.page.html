@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Profile</ion-title> <!-- Başlık kısmı -->
+    <ion-buttons slot="end"> <!-- Araç çubuğunun sağ tarafındaki butonlar -->
+      <ion-button>
+        <ion-icon name="notifications-outline"></ion-icon> <!-- Bildirim simgesi -->
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Profil başlığı -->
+  <div class="profile-header">
+    <ion-avatar class="profile-avatar">
+      <img src="https://i.pravatar.cc/300" alt="Profile Picture"> <!-- Profil fotoğrafı -->
+    </ion-avatar>
+    <h2 class="profile-name">Name - Surname</h2> <!-- Profil adı ve soyadı -->
+    <p class="profile-location">New York, USA</p> <!-- Konum bilgisi -->
+    <ion-button class="edit-profile-btn" fill="solid">Edit Profile</ion-button> <!-- Profil düzenleme butonu -->
+  </div>
+
+  <!-- Tarif filtreleri -->
+  <div class="recipe-filters">
+    <ion-button class="filter-btn active" fill="solid">Old Recipes</ion-button> <!-- Aktif buton: Eski Tarifler -->
+    <ion-button class="filter-btn" fill="clear">Favorites</ion-button> <!-- Favoriler butonu -->
+  </div>
+
+  <!-- Tarif kartlarının olduğu grid -->
+  <div class="recipe-grid">
+    <!-- İlk tarif kartı -->
+    <div class="recipe-card">
+      <img src="https://via.placeholder.com/300x150" alt="Vegetable Noodle"> <!-- Tarif resmi -->
+      <h3>Vegetable Noodle</h3> <!-- Tarif adı -->
+      <div class="recipe-info">
+        <span><ion-icon name="star"></ion-icon> 4.3</span> <!-- Yıldız derecelendirmesi -->
+        <span><ion-icon name="time-outline"></ion-icon> 20 min</span> <!-- Hazırlık süresi -->
+        <span><ion-icon name="eye-outline"></ion-icon> 2.3k</span> <!-- Görüntülenme sayısı -->
+      </div>
+    </div>
+    <!-- İkinci tarif kartı -->
+    <div class="recipe-card">
+      <img src="https://via.placeholder.com/300x150" alt="Seafood Fried Rice"> <!-- Tarif resmi -->
+      <h3>Seafood Fried Rice</h3> <!-- Tarif adı -->
+      <div class="recipe-info">
+        <span><ion-icon name="star"></ion-icon> 4.8</span> <!-- Yıldız derecelendirmesi -->
+        <span><ion-icon name="time-outline"></ion-icon> 15 min</span> <!-- Hazırlık süresi -->
+        <span><ion-icon name="eye-outline"></ion-icon> 4.4k</span> <!-- Görüntülenme sayısı -->
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- Navbar -->
+<ion-tabs>
+  <ion-tab-bar slot="bottom"> 
+    <ion-tab-button tab="home"> <!-- Ana sayfa sekmesi -->
+      <ion-icon name="home-outline"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button tab="chef"> <!-- Şef sekmesi -->
+      <ion-icon name="restaurant-outline"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button tab="list"> <!-- Liste sekmesi -->
+      <ion-icon name="clipboard-outline"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button tab="cart"> <!-- Sepet sekmesi -->
+      <ion-icon name="cart-outline"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button tab="profile"> <!-- Profil sekmesi -->
+      <ion-icon name="person-outline"></ion-icon>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
