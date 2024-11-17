@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, ViewChild } from '@angular/core';
+import Swiper from 'swiper';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -7,8 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoryComponent  implements OnInit {
 
-  constructor() { }
+  selectedMealIndex: number = 0;
+  meals = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
+
+  constructor() {}
 
   ngOnInit() {}
+
+  selectMeal(index: number) {
+    this.selectedMealIndex = index;
+  }
 
 }

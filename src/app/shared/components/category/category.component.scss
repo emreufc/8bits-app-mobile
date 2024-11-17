@@ -1,0 +1,40 @@
+ion-header {
+  ion-title {
+    --color: var(--ion-color-dark);
+    font-size: large;
+    font-weight: bold;
+    padding: 0;
+  }
+  ion-buttons {
+    ion-button {
+      --color: var(--ion-color-orange);
+    }
+  }
+}
+ion-content {
+    --padding-start: 25px;
+    --padding-end: 25px;
+    --inner-padding-end: 0px;
+    --background: var(--ion-color-light);
+    --border-width: 0px;
+    --padding-bottom: 10px;
+    --padding-top: 10px;
+    .button-container {
+        display: flex;
+        flex-wrap: nowrap; 
+        overflow-x: auto;  
+        padding: 10px 0;
+      }
+      
+      ion-button {
+        margin-right: 10px; 
+        white-space: nowrap;
+        --background: var(--ion-color-gray);
+        color: var(--ion-color-dark); 
+      }
+      
+      .selected {
+        --background: var(--ion-color-orange); /* Seçili butonun arka planı turuncu */
+        color: var(--ion-color-white); /* Seçili butonun yazısı beyaz */
+      }
+}

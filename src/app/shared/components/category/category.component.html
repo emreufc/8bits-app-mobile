@@ -1,0 +1,18 @@
+<ion-header class="light-header">
+  <ion-toolbar>
+    <ion-title>Category</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>See All</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="button-container">
+    <ion-button *ngFor="let meal of meals; let i = index"
+                [ngClass]="{'selected': i === selectedMealIndex}"
+                (click)="selectMeal(i)">
+      {{ meal }}
+    </ion-button>
+  </div>
+</ion-content>
