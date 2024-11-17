@@ -1,0 +1,63 @@
+ion-header {
+    position: absolute; /* Header'ın sayfa içinde mutlak konumlandırılması */
+    
+    ion-toolbar {
+      --background: transparent; /* Arka planı şeffaf ayarlanmış */
+    }
+  }
+  
+  ion-content {
+    .curved-header {
+      background: #FF8C00; /* Üst kısım için turuncu arka plan */
+      height: 30vh; /* 30% dikey alanı kaplar */
+      border-bottom-left-radius: 30px; /* Sol alt köşe kıvrımlı */
+      border-bottom-right-radius: 30px; /* Sağ alt köşe kıvrımlı */
+      padding: 20px; /* İçerik etrafında boşluk */
+      color: white; /* Yazı rengi beyaz */
+      
+      h1 {
+        font-size: 28px; /* Başlık metni büyük */
+        margin-bottom: 0; /* Alt boşluk yok */
+        padding-top: 20px; /* Üstten boşluk */
+        font-weight: bold; /* Kalın yazı */
+      }
+      
+      h2 {
+        font-size: 20px; /* Alt başlık metni daha küçük */
+        margin-top: 5px; /* Üstten küçük boşluk */
+        font-weight: normal; /* Normal kalınlıkta yazı */
+      }
+    }
+    .ingredient-button {
+      --background-activated: var(--background);
+      --background-hover: var(--background);
+      --border-radius: 12px;
+      --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      
+      --color: #000000; /* Siyah yazı rengi */
+      height: 50px;
+      margin: 0;
+      transition: all 0.3s ease;
+  
+      &::part(native) {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+   
+    
+    .confirm-button {
+      --background:#FF8C00; /* Turuncu arka plan rengi */
+      --background-activated: #f97316 !important;
+      --background-focused: #f97316 !important;
+      --color: #ffffff; /* Beyaz yazı rengi */
+       --border-radius: 50px; // Köşeleri tamamen yuvarlak yapar
+        width: 80px; // Buton genişliği (ihtiyaca göre ayarlayın)
+        height: 50px; // Buton yüksekliği (ihtiyaca göre ayarlayın)
+        font-weight: bold; // Metni kalın yapar
+        margin-top: 20px;
+        float: right; // Butonu sağa yaslar
+      
+    }  
+  }  
