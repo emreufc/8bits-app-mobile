@@ -30,6 +30,15 @@ const routes: Routes = [
     path: 'profile',
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   },
+  {
+    path: 'diet-filter',
+    loadChildren: () => import('./diet-filter/diet-filter.module').then( m => m.DietFilterPageModule)
+  },
+  {
+    path: 'allergen-filter',
+    loadChildren: () => import('./allergen-filter/allergen-filter.module').then( m => m.AllergenFilterPageModule)
+  },
+
 
 ];
 
