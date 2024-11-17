@@ -26,6 +26,16 @@ const routes: Routes = [
     path: 'signup',
     loadChildren: () => import('./signup/signup.module').then( m => m.SignupPageModule)
   },
+  {
+    path: 'diet-filter',
+    loadChildren: () => import('./diet-filter/diet-filter.module').then( m => m.DietFilterPageModule)
+  },
+  {
+    path: 'allergen-filter',
+    loadChildren: () => import('./allergen-filter/allergen-filter.module').then( m => m.AllergenFilterPageModule)
+  },
+
+
 ];
 
 @NgModule({

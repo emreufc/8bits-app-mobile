@@ -11,13 +11,13 @@
   </div>
   <ion-grid>
     <ion-row>
-      <ion-col size="6" *ngFor="let diet of dietOptions">
+      <ion-col size="6" *ngFor="let diet of dietOptions"> <!-- diet optionsta dönüyor kaç tane varsa ona göre kutu oluşturcak -->
         <ion-button expand="block" fill="clear" class="diet-button" 
-          
-            [class.selected]="isDietSelected(diet.id)"
             (click)="toggleDiet(diet)"
-            [ngStyle]="{'--selected-color': diet.selectedColor, '--border-color': diet.color}">
+            [ngStyle]="getDietButtonStyle(diet)">
             <ion-icon [src]="diet.icon" slot="start"></ion-icon>
+            <!-- butona basıldığında toggle fonk çağırılacak basılıp basılmamasına 
+             bağlı olarak butoun rengi değişmesi için get dietbutton style çağırılıyor -->
         <span>{{ diet.name }}</span>
         </ion-button>
       </ion-col>
