@@ -36,6 +36,12 @@ export class AllergenFilterPage implements OnInit {
     if (this.selectedIngredients.has(ingredient.id)) {
       this.selectedIngredients.delete(ingredient.id);
     } else {
+      if(ingredient.id === 'none'){
+        this.selectedIngredients.clear();
+      }
+      else{ 
+        this.selectedIngredients.delete('none')
+      }
       this.selectedIngredients.add(ingredient.id);
     }
   }

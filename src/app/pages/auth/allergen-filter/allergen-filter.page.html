@@ -14,6 +14,7 @@
     <ion-row>
       <ion-col size="6" *ngFor="let ingredient of ingredients">
         <ion-button expand="block" fill="clear" class="ingredient-button" 
+          
           [ngStyle]="getIngredientButtonStyle(ingredient)"
           (click)="toggleIngredient(ingredient)">
           <ion-icon [src]="ingredient.icon" slot="start"></ion-icon>

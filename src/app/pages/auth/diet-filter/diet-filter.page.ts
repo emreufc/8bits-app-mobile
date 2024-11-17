@@ -5,8 +5,6 @@ interface Diet {
   id: string;
   name: string;
   icon: string;
-  color: string;
-  selectedColor: string;
 }
 @Component({
   selector: 'app-diet-filter',
@@ -14,13 +12,13 @@ interface Diet {
   styleUrls: ['./diet-filter.page.scss'],
 })
 export class DietFilterPage implements OnInit {
-  dietOptions: Diet[] = [
-    { id: 'vegetarian', name: 'Vejetaryan', icon: 'assets/icons/leaf.svg', color: '#22c55e', selectedColor: '#dcfce7' },
-    { id: 'vegan', name: 'Vegan', icon: 'seedling', color: '#eab308', selectedColor: '#fef9c3' },
-    { id: 'keto', name: 'Keto', icon: 'assets/icons/lightning.svg', color: '#facc15', selectedColor: '#fef9c3' },
-    { id: 'düşük-karbonhidrat', name: 'Düşük Karbonhidrat', icon: 'assets/icons/salad.svg', color: '#4ade80', selectedColor: '#dcfce7' },
-    { id: 'paleo', name: 'Paleo', icon: 'assets/icons/apple.svg', color: '#fb923c', selectedColor: '#ffedd5' },
-    { id: 'none', name: 'Yok', icon: 'assets/icons/utensils.svg', color: '#9ca3af', selectedColor: '#f3f4f6' },
+  dietOptions: Diet[] = [// grupları belirledim renkleri farklı yaptım ama bunu değiştirebiliriz
+    { id: 'vegetarian', name: 'Vejetaryan', icon: 'assets/icons/leaf.svg' },
+    { id: 'vegan', name: 'Vegan', icon: 'seedling' },
+    { id: 'keto', name: 'Keto', icon: 'assets/icons/lightning.svg' },
+    { id: 'düşük-karbonhidrat', name: 'Düşük Karbonhidrat', icon: 'assets/icons/salad.svg'},
+    { id: 'paleo', name: 'Paleo', icon: 'assets/icons/apple.svg' },
+    { id: 'none', name: 'Yok', icon: 'assets/icons/utensils.svg' },
   ];
 
   selectedDiets: Set<string> = new Set();
@@ -31,10 +29,10 @@ export class DietFilterPage implements OnInit {
     if (this.selectedDiets.has(diet.id)) {
       this.selectedDiets.delete(diet.id);
     } else {
-      if (diet.id === 'none') {
-        this.selectedDiets.clear();
+      if (diet.id === 'none') {// none basılınca 
+        this.selectedDiets.clear(); // diğer seçenekleri sıfırla
       } else {
-        this.selectedDiets.delete('none');
+        this.selectedDiets.delete('none'); // başka bir şey seçildiyse none kaldır
       }
       this.selectedDiets.add(diet.id);
     }
@@ -44,19 +42,19 @@ export class DietFilterPage implements OnInit {
     return this.selectedDiets.has(dietId);
   }
 
-  getDietButtonStyle(diet: Diet): { [key: string]: string } {
+  getDietButtonStyle(diet: Diet): { [key: string]: string } {// basıldıktan sonra kutunun rengi değişsin diye yazıldı
     return {
-      'background-color': this.isDietSelected(diet.id) ? diet.selectedColor : '#ffffff',
-      'border-color': this.isDietSelected(diet.id) ? diet.color : 'transparent',
+      'background-color': this.isDietSelected(diet.id) ? '#fff7ed' : '#ffffff',
+      'border-color': this.isDietSelected(diet.id) ? '#f97316' : 'transparent',
       'border-width': '2px',
       'border-style': 'solid'
     };
   }
 
   next() {
-    if (this.selectedDiets.size > 0) {
+    if (this.selectedDiets.size > 0) {//sonraki butonu için seçili diet yoksa ilerletmiyor
       const selectedDiets = this.dietOptions.filter(diet => this.selectedDiets.has(diet.id));
-      this.navCtrl.navigateForward('/auth/allergen-filter', { state: { diets: selectedDiets } });
+      this.navCtrl.navigateForward('/auth/allergen-filter', { state: { diets: selectedDiets } });// bir sonraki sayfaya yönlendirdi
     } else {
       console.log("Lütfen en az bir diyet seçin.");
     }
