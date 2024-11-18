@@ -1,0 +1,158 @@
+// Segment stilleri
+ion-segment {
+    --ion-color-primary: #ff9f0a; // Birincil renk ayarı
+    background: transparent; // Arka plan şeffaf
+    
+    ion-segment-button {
+      --indicator-color: #ff9f0a; 
+      --color: white; // Buton metni rengi
+      --color-checked: white; 
+      --background-checked: #ff9f0a;
+      border-radius: 12px !important; // Butonlara yuvarlatılmış köşe ekle
+      margin: 0 5px; // Butonların arasına mesafe bırak
+      
+      &[value="old-recipes"] {
+        &.segment-button-checked {
+          --color: white;
+          --background: #ff9f0a; 
+          border-radius: 12px !important;
+        }
+        
+        &::part(native) {
+          border-radius: 12px !important; 
+        }
+      }
+      
+      &[value="favorites"] {
+        &.segment-button-checked {
+          --color: white; 
+          --background: white;
+          border-radius: 12px !important;
+        }
+        
+        &::part(native) {
+          border-radius: 12px !important;
+        }
+      }
+    }
+  }
+  
+  // Profil başlığı ve filtrelerin stilleri
+  .profile-header {
+    text-align: center; // Ortaya hizala
+    margin-bottom: 20px; // Alt boşluk ekle
+    
+    .profile-avatar {
+      width: 100px; // Profil fotoğrafı genişliği
+      height: 100px; // Profil fotoğrafı yüksekliği
+      margin: 0 auto 10px; // Merkeze hizala ve alt boşluk ekle
+      border: 2px solid white; // Beyaz çerçeve ekle
+    }
+  
+    .profile-name {
+      font-weight: 700; // Yazı kalınlığı
+      font-size: 20px; // Yazı boyutu
+      margin: 10px 0 5px; // Kenar boşlukları
+    }
+  
+    .profile-location {
+      color: #666; // Yazı rengi
+      margin: 0 0 15px; // Alt boşluk
+      font-size: 14px; // Yazı boyutu
+    }
+  
+    .edit-profile-btn {
+      --background: #ff9f0a; // Arka plan rengi
+      --border-radius: 20px; // Yuvarlatılmış köşe
+      --padding-start: 30px; // Sol boşluk
+      --padding-end: 30px; // Sağ boşluk
+      font-size: 14px; // Yazı boyutu
+    }
+  }
+  
+  .recipe-filters {
+    display: flex; // Esnek kutu düzeni
+    justify-content: center; // Ortaya hizala
+    gap: 10px; // Elemanlar arası boşluk
+    margin: 20px -16px; // Kenar boşlukları
+    padding: 0 16px; // İçerik boşlukları
+    
+    .filter-btn {
+      --border-radius: 20px; // Yuvarlatılmış köşe
+      --padding-start: 20px; // Sol boşluk
+      --padding-end: 20px; // Sağ boşluk
+      font-size: 14px; // Yazı boyutu
+      margin: 0; // Kenar boşluğu
+      min-width: 120px; // Minimum genişlik
+      
+      &.active {
+        --background: #ff9f0a; // Aktif durum arka planı
+        --color: white; // Aktif durum metni rengi
+      }
+      
+      &:not(.active) {
+        --background: transparent; // Pasif durum arka planı
+        --color: #666; // Pasif durum metni rengi
+        --ripple-color: transparent; // Dalga efekti rengi
+      }
+    }
+  }
+  
+  // Araç çubuğu ve başlık stilleri
+  ion-title {
+    font-weight: 700; // Başlık kalınlığı
+  }
+  
+  ion-buttons {
+    ion-button {
+      --padding-end: 8px; // Sağ boşluk
+      ion-icon {
+        font-size: 24px; // İkon boyutu
+      }
+    }
+  }
+  
+  // Tarif ızgara stilleri
+  .recipe-grid {
+    display: grid; // Izgara düzeni
+    grid-template-columns: repeat(2, 1fr); // İki sütun
+    gap: 16px; // Elemanlar arası boşluk
+    margin-top: 20px; // Üst boşluk
+  }
+  
+  .recipe-card {
+    background: white; // Arka plan rengi
+    border-radius: 12px; // Yuvarlatılmış köşe
+    overflow: hidden; // Taşmaları gizle
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); // Gölge efekti
+    
+    img {
+      width: 100%; // Görüntü genişliği
+      height: 150px; // Görüntü yüksekliği
+      object-fit: cover; // Görüntüyü sığdır
+    }
+    
+    h3 {
+      margin: 12px; // Kenar boşlukları
+      font-size: 16px; // Başlık yazı boyutu
+      font-weight: 600; // Başlık kalınlığı
+    }
+    
+    .recipe-info {
+      display: flex; // Esnek kutu düzeni
+      justify-content: space-between; // Elemanları yatayda yay
+      padding: 0 12px 12px; // İçerik boşlukları
+      font-size: 14px; // Yazı boyutu
+      color: #666; // Yazı rengi
+      
+      span {
+        display: flex; // Esnek kutu düzeni
+        align-items: center; // Elemanları dikeyde hizala
+        gap: 4px; // Elemanlar arası boşluk
+        
+        ion-icon {
+          font-size: 16px; // İkon boyutu
+        }
+      }
+    }
+  }
