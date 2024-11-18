@@ -22,12 +22,15 @@
     </div>
 
     <div class="scroll-container">
-      <ion-chip color="primary" selected>
-        Breakfast
+      <ion-chip
+        *ngFor="let chip of chips"
+        [ngClass]="{'selected-chip': selectedChip === chip}"
+        (click)="selectChip(chip)"
+      >
+        {{ chip }}
       </ion-chip>
-      <ion-chip>Lunch</ion-chip>
-      <ion-chip>Dinner</ion-chip>
     </div>
+    
   </div>
 
    <!-- Recipes Grid -->
