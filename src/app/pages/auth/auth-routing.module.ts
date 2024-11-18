@@ -6,7 +6,7 @@ import { AuthPage } from './auth.page';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'register',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
