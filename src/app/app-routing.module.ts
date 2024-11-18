@@ -21,8 +21,7 @@ const routes: Routes = [
   {
     path: 'content',
     loadChildren: () => import('./pages/content/content.module').then(m => m.ContentPageModule)
-  },
-  
+  }
 ];
 
 // NgModule ile uygulamanın rotalarını ayarlıyoruz
