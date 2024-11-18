@@ -44,7 +44,7 @@
 }
 
 app-content ion-content {
-    --padding-bottom: 150px;
+    --padding-bottom: 100px;
   }
   
   ion-modal.datetime-modal {
@@ -151,6 +151,10 @@ ion-datetime:hover {
 ion-content,
 ion-footer {
     box-shadow: none !important;
+}
+
+ion-content {
+    --padding-bottom: 100px;
 }
 
 ion-item {
