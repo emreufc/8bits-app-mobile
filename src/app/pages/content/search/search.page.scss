@@ -1,0 +1,138 @@
+.custom-searchbar {
+    --border-radius: 8px; /* Arama çubuğunun kenar yuvarlaklığı */
+    margin: 16px 0; /* Üst ve alt marj */
+}
+
+.category-section {
+    margin-bottom: 20px; /* Alt marj */
+}
+
+.header-row {
+    display: flex; /* Esnek kutu düzeni */
+    justify-content: space-between; /* Elemanları yatayda dağıt */
+    align-items: center; /* Elemanları dikeyde ortala */
+    margin-bottom: 12px; /* Alt marj */
+}
+
+.see-all {
+    color: #f4a460; /* Yazı rengi */
+    text-decoration: none; /* Alt çizgi yok */
+}
+
+.scroll-container {
+    display: flex; /* Esnek kutu düzeni */
+    overflow-x: auto; /* Yatay taşma */
+    gap: 8px; /* Elemanlar arası boşluk */
+    padding-bottom: 8px; /* Alt iç boşluk */
+    -webkit-overflow-scrolling: touch; /* Dokunmatik kaydırma */
+}
+
+ion-chip {
+    --background: #f4f5f8; /* Arka plan rengi */
+    --color: #000; /* Yazı rengi */
+}
+
+ion-chip[color="primary"] {
+    --background: #f4a460; /* Arka plan rengi */
+    --color: #fff; /* Yazı rengi */
+}
+
+.recipes-grid {
+    display: grid; /* Izgara düzeni */
+    gap: 16px; /* Elemanlar arası boşluk */
+    grid-template-columns: repeat(2, 1fr); /* Her zaman iki sütun */
+}
+
+.recipe-card {
+    margin: 0; /* Marj yok */
+    border-radius: 12px; /* Kenar yuvarlaklığı */
+    overflow: hidden; /* Taşmayı gizle */
+}
+
+.recipe-card h3 {
+    margin: 8px 0; /* Üst ve alt marj */
+    font-size: 16px; /* Yazı boyutu */
+    text-align: left; /* Sol tarafa yaslanır */
+    white-space: normal; /* Alt satıra geçmesini sağlar */
+    overflow: visible; /* Metin taşmasını görünür yapar */
+    text-overflow: clip; /* Taşan metinlerin kısaltılmasını engeller */
+}
+
+.recipe-image {
+    width: 100%; /* Genişlik %100 */
+    height: auto; /* Yükseklik genişliğe göre otomatik ayarlanır */
+    aspect-ratio: 1 / 1; /* Görselin kare olmasını sağlar */
+    object-fit: cover; /* Görselin taşmasını engeller */
+}
+
+.recipe-meta {
+    display: flex; /* Esnek kutu düzeni */
+    justify-content: space-between; /* Sağ ve sol tarafta öğeler */
+    align-items: center; /* Elemanları dikeyde ortala */
+    gap: 16px; /* Elemanlar arası boşluk */
+    margin: 8px 0; /* Üst ve alt marj */
+    color: #666; /* Yazı rengi */
+    flex-wrap: nowrap; /* Satır taşmasını engeller */
+}
+
+.rating,
+.time {
+    display: flex; /* Esnek kutu düzeni */
+    align-items: center; /* Elemanları dikeyde ortala */
+    gap: 5px; /* Elemanlar arası boşluk */
+    white-space: nowrap; /* Tek satırda kalmasını sağlar */
+    overflow: hidden; /* Taşmayı gizler */
+    text-overflow: ellipsis; /* Taşan metinleri üç nokta ile kısaltır */
+}
+
+.recipe-stats {
+    display: flex; /* Esnek kutu düzeni */
+    justify-content: space-between; /* Elemanları yatayda dağıt */
+    align-items: center; /* Elemanları dikeyde ortala */
+    gap: 16px; /* Elemanlar arası boşluk */
+    margin: 8px 0; /* Üst ve alt marj */
+}
+
+.views {
+    display: flex; /* Esnek kutu düzeni */
+    align-items: center; /* Elemanları dikeyde ortala */
+    gap: 5px; /* Elemanlar arası boşluk */
+    white-space: nowrap; /* Tek satırda kalmasını sağlar */
+    overflow: hidden; /* Taşmayı gizler */
+    text-overflow: ellipsis; /* Taşan metinleri üç nokta ile kısaltır */
+}
+
+ion-icon {
+    font-size: 20px;
+    color: #666;
+}
+
+.placeholder-image {
+    display: flex; /* Esnek kutu düzeni */
+    align-items: center; /* Elemanları dikeyde ortala */
+    justify-content: center; /* Elemanları yatayda ortala */
+    width: 100%; /* Genişlik %100 */
+    height: 200px; /* Yükseklik 200px */
+    background-color: #f4f5f8; /* Arka plan rengi */
+    color: #666; /* Yazı rengi */
+    font-size: 16px; /* Yazı boyutu */
+    text-align: center; /* Metni ortala */
+    font-weight: bold; /* Kalın yazı */
+}
+
+.bookmark-icon {
+    font-size: 20px; /* Yazı boyutu */
+    color: #666; /* Yazı rengi */
+    align-self: center; /* Dikey ortalama */
+}
+
+@media (min-width: 768px) {
+    .recipes-grid {
+        grid-template-columns: repeat(2, 1fr); /* Her zaman iki sütun */
+    }
+}
+
+ion-card-content {
+    margin: 0; /* Margin sıfırlandı */
+    padding: 8px 8px; /* Sağdan ve soldan 8px, üstten ve alttan 8px padding */
+}

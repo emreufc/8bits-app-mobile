@@ -1,0 +1,209 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id="myid" class="ion-padding">
+  <!-- Search Bar -->
+  <ion-searchbar
+    placeholder="Chicken"
+    class="custom-searchbar"
+    style="--background: #f4f5f8;">
+  </ion-searchbar>
+
+  <!-- Category Section -->
+  <div class="category-section ion-padding-vertical">
+    <div class="header-row">
+      <h2 class="ion-no-margin">Category</h2>
+      <a href="#" class="see-all">
+        See All
+      </a>
+    </div>
+
+    <div class="scroll-container">
+      <ion-chip color="primary" selected>
+        Breakfast
+      </ion-chip>
+      <ion-chip>Lunch</ion-chip>
+      <ion-chip>Dinner</ion-chip>
+    </div>
+  </div>
+
+   <!-- Recipes Grid -->
+  <div class="recipes-grid">
+    <!-- Recipe 1 -->
+    <ion-card class="recipe-card">
+      <img
+        alt="Vegetable Noodle"
+        src="https://via.placeholder.com/400?text=Vegetable+Noodle"
+        class="recipe-image"
+      />
+      <ion-card-content>
+        <h3>Vegetable Noodle</h3>
+        <div class="recipe-meta">
+          <div class="rating">
+            <ion-icon name="star" color="warning"></ion-icon>
+            <span>4.3</span>
+          </div>
+          <div class="time">
+            <ion-icon name="time"></ion-icon>
+            <span>20 min</span>
+          </div>
+        </div>
+        <div class="recipe-stats">
+          <div class="views">
+            <ion-icon name="eye"></ion-icon>
+            <span>2.3K</span>
+          </div>
+          <ion-icon name="bookmark" class="bookmark-icon"></ion-icon>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Recipe 2 -->
+    <ion-card class="recipe-card">
+      <img
+        alt="Seafood Fried Rice"
+        src="https://via.placeholder.com/400?text=Seafood+Fried+Rice"
+        class="recipe-image"
+      />
+      <ion-card-content>
+        <h3>Seafood Fried Rice</h3>
+        <div class="recipe-meta">
+          <div class="rating">
+            <ion-icon name="star" color="warning"></ion-icon>
+            <span>4.5</span>
+          </div>
+          <div class="time">
+            <ion-icon name="time"></ion-icon>
+            <span>15 min</span>
+          </div>
+        </div>
+        <div class="recipe-stats">
+          <div class="views">
+            <ion-icon name="eye"></ion-icon>
+            <span>4.4K</span>
+          </div>
+          <ion-icon name="bookmark" class="bookmark-icon"></ion-icon>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Recipe 3 -->
+    <ion-card class="recipe-card">
+      <img
+        alt="Chocolate Cake"
+        src="https://via.placeholder.com/400?text=Chocolate+Cake"
+        class="recipe-image"
+      />
+      <ion-card-content>
+        <h3>Chocolate Cake</h3>
+        <div class="recipe-meta">
+          <div class="rating">
+            <ion-icon name="star" color="warning"></ion-icon>
+            <span>4.8</span>
+          </div>
+          <div class="time">
+            <ion-icon name="time"></ion-icon>
+            <span>45 min</span>
+          </div>
+        </div>
+        <div class="recipe-stats">
+          <div class="views">
+            <ion-icon name="eye"></ion-icon>
+            <span>3.2K</span>
+          </div>
+          <ion-icon name="bookmark" class="bookmark-icon"></ion-icon>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Recipe 4 -->
+    <ion-card class="recipe-card">
+      <img
+        alt="Pancakes"
+        src="https://via.placeholder.com/400?text=Pancakes"
+        class="recipe-image"
+      />
+      <ion-card-content>
+        <h3>Pancakes</h3>
+        <div class="recipe-meta">
+          <div class="rating">
+            <ion-icon name="star" color="warning"></ion-icon>
+            <span>4.6</span>
+          </div>
+          <div class="time">
+            <ion-icon name="time"></ion-icon>
+            <span>30 min</span>
+          </div>
+        </div>
+        <div class="recipe-stats">
+          <div class="views">
+            <ion-icon name="eye"></ion-icon>
+            <span>5.1K</span>
+          </div>
+          <ion-icon name="bookmark" class="bookmark-icon"></ion-icon>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Recipe 5 -->
+    <ion-card class="recipe-card">
+      <img
+        alt="Grilled Chicken"
+        src="https://via.placeholder.com/400?text=Grilled+Chicken"
+        class="recipe-image"
+      />
+      <ion-card-content>
+        <h3>Grilled Chicken</h3>
+        <div class="recipe-meta">
+          <div class="rating">
+            <ion-icon name="star" color="warning"></ion-icon>
+            <span>4.7</span>
+          </div>
+          <div class="time">
+            <ion-icon name="time"></ion-icon>
+            <span>25 min</span>
+          </div>
+        </div>
+        <div class="recipe-stats">
+          <div class="views">
+            <ion-icon name="eye"></ion-icon>
+            <span>3.9K</span>
+          </div>
+          <ion-icon name="bookmark" class="bookmark-icon"></ion-icon>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Recipe 6 -->
+    <ion-card class="recipe-card">
+      <img
+        alt="Caesar Salad"
+        src="https://via.placeholder.com/400?text=Caesar+Salad"
+        class="recipe-image"
+      />
+      <ion-card-content>
+        <h3>Caesar Salad</h3>
+        <div class="recipe-meta">
+          <div class="rating">
+            <ion-icon name="star" color="warning"></ion-icon>
+            <span>4.4</span>
+          </div>
+          <div class="time">
+            <ion-icon name="time"></ion-icon>
+            <span>15 min</span>
+          </div>
+        </div>
+        <div class="recipe-stats">
+          <div class="views">
+            <ion-icon name="eye"></ion-icon>
+            <span>2.1K</span>
+          </div>
+          <ion-icon name="bookmark" class="bookmark-icon"></ion-icon>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
