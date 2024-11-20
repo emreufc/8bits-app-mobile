@@ -32,9 +32,14 @@ const routes: Routes = [
         path: 'allergen-filter',
         loadChildren: () => import('./allergen-filter/allergen-filter.module').then( m => m.AllergenFilterPageModule)
       },
-    
+      {
+        path: 'profile-edit',
+        loadChildren: () => import('./profile-edit/profile-edit.module').then( m => m.ProfileEditPageModule)
+      },
     ]
   },
+
+
   
 ];
 
