@@ -1,40 +1,58 @@
-ion-header {
-  ion-title {
-    --color: var(--ion-color-dark);
-    font-size: large;
-    font-weight: bold;
-    padding: 0;
-  }
-  ion-buttons {
-    ion-button {
-      --color: var(--ion-color-orange);
-    }
-  }
+.category-section {
+  margin-bottom: 20px; /* Alt marj */
 }
-ion-content {
-    --padding-start: 25px;
-    --padding-end: 25px;
-    --inner-padding-end: 0px;
-    --background: var(--ion-color-light);
-    --border-width: 0px;
-    --padding-bottom: 10px;
-    --padding-top: 10px;
-    .button-container {
-        display: flex;
-        flex-wrap: nowrap; 
-        overflow-x: auto;  
-        padding: 10px 0;
-      }
-      
-      ion-button {
-        margin-right: 10px; 
-        white-space: nowrap;
-        --background: var(--ion-color-gray);
-        color: var(--ion-color-dark); 
-      }
-      
-      .selected {
-        --background: var(--ion-color-orange); /* Seçili butonun arka planı turuncu */
-        color: var(--ion-color-white); /* Seçili butonun yazısı beyaz */
-      }
+
+.header-row {
+  display: flex; /* Esnek kutu düzeni */
+  justify-content: space-between; /* Elemanları yatayda dağıt */
+  align-items: center; /* Elemanları dikeyde ortala */
+  margin-bottom: 12px; /* Alt marj */
+}
+
+.see-all {
+  color: #f4a460; /* Yazı rengi */
+  text-decoration: none; /* Alt çizgi yok */
+}
+
+.scroll-container {
+  display: flex; /* Esnek kutu düzeni */
+  flex-wrap: nowrap; /* Satır taşmasını engeller */
+  overflow-x: auto; /* Yatay taşma */
+  gap: 12px; /* Elemanlar arası boşluk */
+  padding-bottom: 8px 0; /* Alt iç boşluk */
+  -webkit-overflow-scrolling: auto; /* Dokunmatik kaydırma */
+  scroll-behavior: smooth; /* Yumuşak kaydırma */
+}
+
+ion-chip {
+  --background: #f4f5f8; /* Varsayılan arka plan rengi */
+  --color: #000; /* Varsayılan yazı rengi */
+  --padding-start: 12px; /* Sol iç boşluk */
+  --padding-end: 12px; /* Sağ iç boşluk */
+  --height: 44px; /* Chip'in yüksekliği */
+  font-size: 16px; /* Yazı boyutu */
+  white-space: nowrap; /* Tek satırda kalmasını sağlar */
+  cursor: pointer; /* Fare imlecini tık */
+  max-width: 150px; /* Maksimum genişlik */
+  min-width: 90px; /* Minimum genişlik */
+  display: flex; /* Flexbox kullanımı */
+  align-items: center; /* Dikey ortalama */
+  justify-content: center; /* Yatay ortalama */
+}
+
+.selected-chip {
+  --background: #FF8C00; /* Seçili chip'in arka plan rengi */
+  --color: #fff; /* Seçili chip'in yazı rengi */
+}
+.scroll-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background: #cccccc; /* Kaydırma çubuğu rengi */
+  border-radius: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  background: transparent;
 }

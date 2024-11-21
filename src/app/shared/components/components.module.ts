@@ -4,11 +4,15 @@ import { HeaderComponent } from './header/header.component';
 import { CategoryComponent } from './category/category.component';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
+import { SearchbarComponent } from './searchbar/searchbar.component';
+import { RecipeCardComponent } from './recipe-card/recipe-card.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    CategoryComponent
+    CategoryComponent,
+    SearchbarComponent,
+    RecipeCardComponent,
   ],
   imports: [
     CommonModule,
@@ -17,7 +21,9 @@ import { RouterModule } from '@angular/router';
   ],
   exports: [
     HeaderComponent,
-    CategoryComponent
+    CategoryComponent,
+    SearchbarComponent,
+    RecipeCardComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

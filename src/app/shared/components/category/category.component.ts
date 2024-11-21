@@ -6,16 +6,18 @@ import Swiper from 'swiper';
   styleUrls: ['./category.component.scss'],
 })
 export class CategoryComponent  implements OnInit {
+  chips: string[] = ['All','Breakfast', 'Lunch', 'Dinner', 'Snack','Dessert', 'Drink']; // Chip'ler
+  selectedChip: string = 'All';
 
-  selectedMealIndex: number = 0;
-  meals = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
+  constructor() { }
 
-  constructor() {}
-
-  ngOnInit() {}
-
-  selectMeal(index: number) {
-    this.selectedMealIndex = index;
+  selectChip(chip: string) {
+    this.selectedChip = chip; // Seçilen chip'i güncelle
   }
 
+
+  ngOnInit() {console.log('SearchPage initialized');}
+
 }
+
+
