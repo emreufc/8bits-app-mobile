@@ -79,10 +79,11 @@ ion-icon {
     font-weight: bold; /* Kalın yazı */
 }
 
-.bookmark-icon {
-    font-size: 20px; /* Yazı boyutu */
-    color: #666; /* Yazı rengi */
+.heart-icon {
+    font-size: 24px; /* Kalp boyutu */
     align-self: center; /* Dikey ortalama */
+    cursor: pointer; /* Tıklanabilirlik göstergesi */
+    transition: color 0.3s ease; /* Renk değişimi için yumuşak geçiş */
 }
 
 @media (min-width: 768px) {

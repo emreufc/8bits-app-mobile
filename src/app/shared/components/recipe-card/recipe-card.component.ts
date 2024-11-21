@@ -6,6 +6,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./recipe-card.component.scss'],
 })
 export class RecipeCardComponent  implements OnInit {
+  isLiked: boolean = false; // Varsayılan olarak içi boş kalp
+
   // Input: Dışarıdan veri almak için kullanılıyor
   @Input() recipe!: {
     title: string;
@@ -13,15 +15,16 @@ export class RecipeCardComponent  implements OnInit {
     rating: number;
     time: string;
     views: string;
+    isLiked: boolean;
   };
   constructor() { }
-  // Output: Favorilere ekleme gibi olaylar için kullanılıyor
-  @Output() bookmarkClicked = new EventEmitter<void>();
 
-  // Bookmark ikonuna tıklanıldığında bu fonksiyon tetiklenir
-  onBookmark() {
-    this.bookmarkClicked.emit();
-  }
+
+    // Kalp durumunu değiştirir
+    toggleLike() {
+      this.isLiked = !this.isLiked;
+      console.log('Kalp durumu:', this.isLiked ? 'Beğenildi' : 'Beğenilmedi');
+    }
 
   ngOnInit() {console.log();}
 

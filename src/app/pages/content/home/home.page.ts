@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  
+  isLiked: boolean = false; // Varsayılan olarak içi boş kalp
+
   recipes = [
     {
       title: 'Vegetable Noodle',
@@ -14,6 +15,7 @@ export class HomePage implements OnInit {
       rating: 4.3,
       time: '20 min',
       views: '2.3K',
+      isLiked: false,
     },
     {
       title: 'Chicken Curry',
@@ -21,6 +23,7 @@ export class HomePage implements OnInit {
       rating: 4.8,
       time: '45 min',
       views: '5.1K',
+      isLiked: false,
     },
   {
     title: 'Beef Stroganoff',
@@ -28,6 +31,7 @@ export class HomePage implements OnInit {
     rating: 4.5,
     time: '30 min',
     views: '3.8K',
+    isLiked: false,
   },
   {
     title: 'Spaghetti Bolognese',
@@ -35,6 +39,7 @@ export class HomePage implements OnInit {
     rating: 4.7,
     time: '40 min',
     views: '4.2K',
+    isLiked: false,
   },
   {
     title: 'Grilled Salmon',
@@ -42,6 +47,7 @@ export class HomePage implements OnInit {
     rating: 4.9,
     time: '25 min',
     views: '6.1K',
+    isLiked: false,
   },
   {
     title: 'Caesar Salad',
@@ -49,12 +55,17 @@ export class HomePage implements OnInit {
     rating: 4.2,
     time: '15 min',
     views: '2.9K',
+    isLiked: false,
   }
   ];
 
-  onBookmark(recipe: any) {
-    console.log(`${recipe.title} bookmarked!`);
-  }
+    // Kalp durumunu değiştirir
+    toggleLike(recipe: any) {
+      recipe.isLiked = !recipe.isLiked;
+      console.log(`${recipe.title} durumu: ${recipe.isLiked ? 'Beğenildi' : 'Beğenilmedi'}`);
+    }
+
+  
   constructor() { }
 
   ngOnInit() {console.log();

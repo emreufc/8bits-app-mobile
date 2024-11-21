@@ -4,127 +4,45 @@
     <app-searchbar></app-searchbar>
     <app-category></app-category>
 
-        <div class="recipes-grid-horizontal" id="recipes-grid-horizontal">
-          <!-- Tarif 1 -->
-          <ion-card class="recipe-card">
-            <img
-              alt="Vegetable Noodle"
-              src="https://via.placeholder.com/400?text=Vegetable+Noodle"
-              class="recipe-image"
-            />
-            <ion-card-content>
-              <h3>Vegetable Noodle</h3>
-              <div class="recipe-meta">
-                <div class="rating">
-                  <ion-icon name="star" color="warning"></ion-icon>
-                  <span>4.3</span>
-                </div>
-                <div class="time">
-                  <ion-icon name="time"></ion-icon>
-                  <span>20 min</span>
-                </div>
+    <div class="recipes-grid-horizontal" #recipesGrid>
+      <ion-card class="recipe-card" *ngFor="let recipe of recipes">
+          <img
+            [alt]="recipe.title"
+            [src]="recipe.image"
+            class="recipe-image"
+          />
+          <ion-card-content>
+            <h3>{{ recipe.title }}</h3>
+            <div class="recipe-meta">
+              <div class="rating">
+                <ion-icon name="star" color="warning"></ion-icon>
+                <span>{{ recipe.rating }}</span>
               </div>
-              <div class="recipe-stats">
-                <div class="views">
-                  <ion-icon name="eye"></ion-icon>
-                  <span>2.3K</span>
-                </div>
-                <ion-icon name="bookmark" class="bookmark-icon"></ion-icon>
+              <div class="time">
+                <ion-icon name="time"></ion-icon>
+                <span>{{ recipe.time }}</span>
               </div>
-            </ion-card-content>
-          </ion-card>
-        
-          <!-- Tarif 2 -->
-          <ion-card class="recipe-card">
-            <img
-              alt="Chicken Curry"
-              src="https://via.placeholder.com/400?text=Chicken+Curry"
-              class="recipe-image"
-            />
-            <ion-card-content>
-              <h3>Chicken Curry</h3>
-              <div class="recipe-meta">
-                <div class="rating">
-                  <ion-icon name="star" color="warning"></ion-icon>
-                  <span>4.8</span>
-                </div>
-                <div class="time">
-                  <ion-icon name="time"></ion-icon>
-                  <span>45 min</span>
-                </div>
+            </div>
+            <div class="recipe-stats">
+              <div class="views">
+                <ion-icon name="eye"></ion-icon>
+                <span>{{ recipe.views }}</span>
               </div>
-              <div class="recipe-stats">
-                <div class="views">
-                  <ion-icon name="eye"></ion-icon>
-                  <span>5.1K</span>
-                </div>
-                <ion-icon name="bookmark" class="bookmark-icon"></ion-icon>
-              </div>
-            </ion-card-content>
-          </ion-card>
-        
-          <!-- Tarif 3 -->
-          <ion-card class="recipe-card">
-            <img
-              alt="Beef Stroganoff"
-              src="https://via.placeholder.com/400?text=Beef+Stroganoff"
-              class="recipe-image"
-            />
-            <ion-card-content>
-              <h3>Beef Stroganoff</h3>
-              <div class="recipe-meta">
-                <div class="rating">
-                  <ion-icon name="star" color="warning"></ion-icon>
-                  <span>4.6</span>
-                </div>
-                <div class="time">
-                  <ion-icon name="time"></ion-icon>
-                  <span>35 min</span>
-                </div>
-              </div>
-              <div class="recipe-stats">
-                <div class="views">
-                  <ion-icon name="eye"></ion-icon>
-                  <span>3.8K</span>
-                </div>
-                <ion-icon name="bookmark" class="bookmark-icon"></ion-icon>
-              </div>
-            </ion-card-content>
-          </ion-card>
-        
-          <!-- Tarif 4 -->
-          <ion-card class="recipe-card">
-            <img
-              alt="Pasta Carbonara"
-              src="https://via.placeholder.com/400?text=Pasta+Carbonara"
-              class="recipe-image"
-            />
-            <ion-card-content>
-              <h3>Pasta Carbonara</h3>
-              <div class="recipe-meta">
-                <div class="rating">
-                  <ion-icon name="star" color="warning"></ion-icon>
-                  <span>4.9</span>
-                </div>
-                <div class="time">
-                  <ion-icon name="time"></ion-icon>
-                  <span>25 min</span>
-                </div>
-              </div>
-              <div class="recipe-stats">
-                <div class="views">
-                  <ion-icon name="eye"></ion-icon>
-                  <span>6.2K</span>
-                </div>
-                <ion-icon name="bookmark" class="bookmark-icon"></ion-icon>
-              </div>
-            </ion-card-content>
-          </ion-card>
-        </div>
-        <div class = "recipes-grid">
-        <app-recipe-card
-          *ngFor="let recipe of recipes"
-          [recipe]="recipe"
-          (bookmarkClicked)="onBookmark(recipe)"
-        ></app-recipe-card></div>  
+              <ion-icon
+                [name]="recipe.isLiked ? 'heart' : 'heart-outline'"
+                class="heart-icon"
+                [style.color]="recipe.isLiked ? '#FF8C00' : '#666'"
+                (click)="toggleLike(recipe)"
+              ></ion-icon>
+            </div>
+          </ion-card-content>
+      </ion-card>
+  </div>
+<div class="recipes-grid">
+  <app-recipe-card
+    *ngFor="let recipe of recipes"
+    [recipe]="recipe"
+  ></app-recipe-card>
+</div>
+
 </ion-content>
