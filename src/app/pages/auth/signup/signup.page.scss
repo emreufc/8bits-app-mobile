@@ -96,6 +96,7 @@ ion-header {
     .signup-button {
       --background: #FF8C00; /* Giriş butonu turuncu */
       --border-radius: 25px; /* Kenarlar yuvarlak */
+      --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Hafif gölge */
       margin: 20px 0; /* Üst ve alt boşluk */
       height: 48px; /* Buton yüksekliği */
     }
