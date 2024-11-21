@@ -63,7 +63,7 @@ export class AllergenFilterPage implements OnInit {
       const selectedIngredients = this.ingredients.filter(ingredient => 
         this.selectedIngredients.has(ingredient.id)
       );
-      this.navCtrl.navigateForward('/next-page', { 
+      this.navCtrl.navigateForward('/content/home', { 
         state: { ingredients: selectedIngredients } 
       });
     }

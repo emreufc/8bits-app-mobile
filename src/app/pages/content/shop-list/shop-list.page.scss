@@ -1,0 +1,97 @@
+ion-content{
+.shopping-list-container {
+    padding: 16px;
+    padding-bottom: 80px;
+  }
+  
+  .custom-searchbar {
+    --background: #f4f4f5;
+    --border-radius: 12px;
+    --box-shadow: none;
+    --placeholder-color: #9ca3af;
+    --icon-color: #9ca3af;
+    margin-bottom: 16px;
+  }
+  
+  .list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  
+    h1 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #1f2937;
+      margin: 0;
+    }
+  
+    .items-count {
+      color: #6b7280;
+      font-size: 14px;
+    }
+  }
+  
+  .shopping-list {
+    background: transparent;
+  
+    .shopping-item {
+      --background: transparent;
+      --padding-start: 0;
+      --padding-end: 0;
+      --inner-padding-end: 0;
+      margin-bottom: 8px;
+  
+      .item-content {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        background: white;
+        border-radius: 12px;
+        padding: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+  
+      .item-details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+  
+        .item-name {
+          font-size: 16px;
+          font-weight: 500;
+          color: #1f2937;
+        }
+  
+        .item-quantity {
+          font-size: 14px;
+          color: #6b7280;
+        }
+      }
+  
+      .remove-button {
+        --padding-start: 8px;
+        --padding-end: 8px;
+        margin: 0;
+        height: 36px;
+        
+        ion-icon {
+          font-size: 20px;
+          color: #9ca3af;
+        }
+      }
+    }
+  }
+  
+  .add-button {
+    --background: #f97316;
+    --background-activated: #f97316;
+    --background-hover: #ea580c;
+    --border-radius: 12px;
+    --color: #ffffff;
+    margin-top: 16px;
+    height: 56px;
+    font-weight: 600;
+  }
+} 
