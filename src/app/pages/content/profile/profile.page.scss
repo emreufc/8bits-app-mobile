@@ -1,5 +1,5 @@
-// Segment stilleri
-ion-segment {
+
+ion-content {
     --ion-color-primary: #ff9f0a; // Birincil renk ayarı
     background: transparent; // Arka plan şeffaf
     
@@ -8,8 +8,8 @@ ion-segment {
       --color: white; // Buton metni rengi
       --color-checked: white; 
       --background-checked: #ff9f0a;
-      border-radius: 12px !important; // Butonlara yuvarlatılmış köşe ekle
-      margin: 0 5px; // Butonların arasına mesafe bırak
+      border-radius: 12px !important; // Butonlara yuvarlatılmış köşe 
+      margin: 0 5px; // Butonların arasına mesafe
       
       &[value="old-recipes"] {
         &.segment-button-checked {
@@ -35,7 +35,6 @@ ion-segment {
         }
       }
     }
-  }
   
   // Profil başlığı ve filtrelerin stilleri
   .profile-header {
@@ -129,7 +128,7 @@ ion-segment {
     img {
       width: 100%; // Görüntü genişliği
       height: 150px; // Görüntü yüksekliği
-      object-fit: cover; // Görüntüyü sığdır
+      object-fit: cover;
     }
     
     h3 {
@@ -140,14 +139,14 @@ ion-segment {
     
     .recipe-info {
       display: flex; // Esnek kutu düzeni
-      justify-content: space-between; // Elemanları yatayda yay
+      justify-content: space-between; 
       padding: 0 12px 12px; // İçerik boşlukları
       font-size: 14px; // Yazı boyutu
       color: #666; // Yazı rengi
       
       span {
         display: flex; // Esnek kutu düzeni
-        align-items: center; // Elemanları dikeyde hizala
+        align-items: center; 
         gap: 4px; // Elemanlar arası boşluk
         
         ion-icon {
@@ -156,3 +155,4 @@ ion-segment {
       }
     }
   }
+}

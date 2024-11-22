@@ -1,0 +1,37 @@
+<ion-content>
+  <div class="shopping-list-container">
+    <!-- Search Bar -->
+    <ion-searchbar 
+      placeholder="Type ingredients..." 
+      [(ngModel)]="searchTerm"
+      (ionChange)="onSearchChange($event)"
+      class="custom-searchbar">
+    </ion-searchbar>
+
+    <!-- Header -->
+    <div class="list-header">
+      <h1>Alışveriş Listesi</h1>
+      <span class="items-count">{{ filteredItems.length }} items</span>
+    </div>
+
+    <!-- Shopping List -->
+    <ion-list lines="none" class="shopping-list">
+      <ion-item *ngFor="let item of filteredItems" class="shopping-item">
+        <div class="item-content">
+          <div class="item-details">
+            <span class="item-name">{{ item.name }}</span>
+            <span class="item-quantity">{{ item.quantity }} {{ item.unit }}</span>
+          </div>
+          <ion-button fill="clear" (click)="removeItem(item.id)" class="remove-button">
+            <ion-icon name="close-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-item>
+    </ion-list>
+
+    <!-- Add Button -->
+    <ion-button expand="block" class="add-button" (click)="goToAddNewItem()" routerLink="/content/addnewitem">
+      Add New Item
+    </ion-button>
+  </div>
+
