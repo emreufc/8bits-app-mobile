@@ -33,16 +33,10 @@ const routes: Routes = [
         loadChildren: () => import('./allergen-filter/allergen-filter.module').then( m => m.AllergenFilterPageModule)
       },
       {
-<<<<<<< HEAD
         path: 'search',
         loadChildren: () => import('./search/search.module').then( m => m.SearchPageModule)
       },
     
-=======
-        path: 'profile-edit',
-        loadChildren: () => import('./profile-edit/profile-edit.module').then( m => m.ProfileEditPageModule)
-      },
->>>>>>> 81ddd0914e54b0f07bb54529caa4fca153ab4729
     ]
   },
 

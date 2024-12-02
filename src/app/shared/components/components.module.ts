@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { RecipeCardComponent } from './recipe-card/recipe-card.component';
+import { DetailsIngredientComponent } from './details-ingredient/details-ingredient.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { RecipeCardComponent } from './recipe-card/recipe-card.component';
     CategoryComponent,
     SearchbarComponent,
     RecipeCardComponent,
+    DetailsIngredientComponent,
   ],
   imports: [
     CommonModule,
@@ -24,6 +26,7 @@ import { RecipeCardComponent } from './recipe-card/recipe-card.component';
     CategoryComponent,
     SearchbarComponent,
     RecipeCardComponent,
+    DetailsIngredientComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
