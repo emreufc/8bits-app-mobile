@@ -1,0 +1,53 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Yeni Ürün Ekle</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="add-ingredient-container">
+    <h1>Alışveriş Listesine Ürün Ekle</h1>
+    
+    <!-- Ürün Adı -->
+    <ion-label position="floating">Ürün Adı</ion-label>
+    <ion-item>
+      <ion-input
+        type="text"
+        placeholder="Ürün adını girin"
+        [(ngModel)]="itemName"
+      ></ion-input>
+    </ion-item>
+
+    <!-- Miktar -->
+    <ion-label position="floating">Miktar</ion-label>
+    <ion-item>
+      <ion-input
+        type="number"
+        placeholder="Miktarı girin"
+        [(ngModel)]="quantity"
+      ></ion-input>
+    </ion-item>
+
+    <!-- Ölçü Birimi -->
+    <ion-label position="stacked">Ölçü Birimi</ion-label>
+    <ion-item>
+      <ion-select placeholder="Ölçü birimi seçin" [(ngModel)]="unit">
+        <ion-select-option value="adet">Adet</ion-select-option>
+        <ion-select-option value="g">Gram</ion-select-option>
+        <ion-select-option value="kg">Kilogram</ion-select-option>
+        <ion-select-option value="ml">Mililitre</ion-select-option>
+        <ion-select-option value="l">Litre</ion-select-option>
+        <ion-select-option value="tsp">Tatlı Kaşığı</ion-select-option>
+        <ion-select-option value="tbsp">Yemek Kaşığı</ion-select-option>
+        <ion-select-option value="çay bardağı">Çay Bardağı</ion-select-option>
+        <ion-select-option value="su bardağı">Su Bardağı</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Kaydet Butonu -->
+    <ion-button expand="block" class="add-button" (click)="addNewItem()">Ürünü Ekle</ion-button>
+  </div>
+</ion-content>
