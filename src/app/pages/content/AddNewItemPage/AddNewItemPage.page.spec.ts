@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AddnewitemPage } from './addnewitem.page';
+import { AddnewitemPage } from './AddNewItemPage.page';
 
 describe('AddnewitemPage', () => {
   let component: AddnewitemPage;

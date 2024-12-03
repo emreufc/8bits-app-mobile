@@ -3,8 +3,8 @@ import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-add-new-item',
-  templateUrl: './addnewitem.page.html',
-  styleUrls: ['./addnewitem.page.scss'],
+  templateUrl: './AddNewItemPage.page.html',
+  styleUrls: ['./AddNewItemPage.page.scss'],
 })
 export class AddnewitemPage {
   itemName: string = '';

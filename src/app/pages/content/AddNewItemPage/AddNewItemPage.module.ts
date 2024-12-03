@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AddnewitemPageRoutingModule } from './addnewitem-routing.module';
+import { AddnewitemPageRoutingModule } from './AddNewItemPage-routing.module';
 
-import { AddnewitemPage } from './addnewitem.page';
+import { AddnewitemPage } from './AddNewItemPage.page';
 
 @NgModule({
   imports: [

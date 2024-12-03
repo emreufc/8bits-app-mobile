@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ContentPage } from './content.page';
+import { ShopListPageRoutingModule } from './shop-list/shop-list-routing.module';
 
 const routes: Routes = [
   {
@@ -31,6 +32,14 @@ const routes: Routes = [
       {
         path: 'allergen-filter',
         loadChildren: () => import('./allergen-filter/allergen-filter.module').then( m => m.AllergenFilterPageModule)
+      },
+      {
+        path: 'AddNewItemPage',
+        loadChildren: () => import('./AddNewItemPage/AddNewItemPage.module').then( m => m.AddnewitemPageModule)
+      },
+      {
+        path: 'shop-list',
+        loadChildren: () => import('./shop-list/shop-list.module').then( m => m.ShopListPageModule)
       },
     
     ]
