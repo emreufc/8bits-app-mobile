@@ -36,9 +36,14 @@ const routes: Routes = [
         path: 'search',
         loadChildren: () => import('./search/search.module').then( m => m.SearchPageModule)
       },
+      {
+        path: 'recipes/:id',
+        loadChildren: () => import('./recipes/recipes.module').then( m => m.RecipesPageModule)
+      },
     
     ]
   },
+  
 
 
   

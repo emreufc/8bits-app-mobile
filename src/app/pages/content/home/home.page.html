@@ -5,7 +5,7 @@
     <app-category></app-category>
 
     <div class="recipes-grid-horizontal" #recipesGrid>
-      <ion-card class="recipe-card" *ngFor="let recipe of recipes">
+      <ion-card class="recipe-card" *ngFor="let recipe of recipes" (click)="goToRecipeDetail(recipe.id)">
           <img
             [alt]="recipe.title"
             [src]="recipe.image"
@@ -32,7 +32,7 @@
                 [name]="recipe.isLiked ? 'heart' : 'heart-outline'"
                 class="heart-icon"
                 [style.color]="recipe.isLiked ? '#FF8C00' : '#666'"
-                (click)="toggleLike(recipe)"
+                (click)="toggleLike(recipe, $event)"
               ></ion-icon>
             </div>
           </ion-card-content>
@@ -42,6 +42,7 @@
   <app-recipe-card
     *ngFor="let recipe of recipes"
     [recipe]="recipe"
+    (click)="goToRecipeDetail(recipe.id)"
   ></app-recipe-card>
 </div>
 
