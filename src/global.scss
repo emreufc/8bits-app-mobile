@@ -10,7 +10,9 @@
  */
 
 /* Core CSS required for Ionic components to work properly */
-@import "@ionic/angular/css/core.css";
+
+// Bozulmasi durumunda burayi geri acin
+// @import "@ionic/angular/css/core.css";
 
 /* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
@@ -25,6 +27,7 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+@import 'swiper/swiper-bundle.css';
 
 @font-face {
   font-family: 'MuseoSans';
@@ -41,14 +44,12 @@
 }
 
 app-content ion-content {
-    --padding-bottom: 150px;
+    --padding-bottom: 100px;
   }
   
   ion-modal.datetime-modal {
     --background: none;
   }
-  
-  
   
   ion-header {
     ion-toolbar {
@@ -147,10 +148,13 @@ ion-datetime:hover {
     border: 2px solid var(--ion-color-secondary);
 }
 
-
 ion-content,
 ion-footer {
     box-shadow: none !important;
+}
+
+ion-content {
+    --padding-bottom: 100px;
 }
 
 ion-item {
