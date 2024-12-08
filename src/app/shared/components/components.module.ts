@@ -1,12 +1,14 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './header/header.component';
-import { CategoryComponent } from './category/category.component';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
+import { HeaderComponent } from './header/header.component';
+import { CategoryComponent } from './category/category.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { RecipeCardComponent } from './recipe-card/recipe-card.component';
 import { DetailsIngredientComponent } from './details-ingredient/details-ingredient.component';
+
+
 
 @NgModule({
   declarations: [
@@ -14,7 +16,7 @@ import { DetailsIngredientComponent } from './details-ingredient/details-ingredi
     CategoryComponent,
     SearchbarComponent,
     RecipeCardComponent,
-    DetailsIngredientComponent,
+    DetailsIngredientComponent
   ],
   imports: [
     CommonModule,
@@ -26,8 +28,7 @@ import { DetailsIngredientComponent } from './details-ingredient/details-ingredi
     CategoryComponent,
     SearchbarComponent,
     RecipeCardComponent,
-    DetailsIngredientComponent,
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    DetailsIngredientComponent
+  ]
 })
 export class ComponentsModule { }

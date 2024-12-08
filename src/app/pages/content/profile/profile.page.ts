@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 interface Recipe {
   id: number;
@@ -37,28 +38,24 @@ export class ProfilePage implements OnInit {
     }
   ];
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit() {
-    // Any initialization logic can go here
+    
   }
 
   segmentChanged(event: any) {
     this.selectedSegment = event.detail.value;
-    // Here you would typically load different data based on the selected segment
-    console.log('Segment changed to:', this.selectedSegment);
   }
 
   editProfile() {
-    // Implement the logic to navigate to the edit profile page or open a modal
-    console.log('Edit profile clicked');
+    this.router.navigate(['/content/profile-edit']);
   }
 
   openNotifications() {
-    // Implement the logic to open notifications
     console.log('Notifications clicked');
   }
 
-  // You can add more methods here for handling other interactions
-  // For example, methods for handling tab changes, viewing recipe details, etc.
 }

@@ -9,12 +9,16 @@ const routes: Routes = [
     component: ContentPage,
     children: [
       {
+        path: 'allergen-filter',
+        loadChildren: () => import('./allergen-filter/allergen-filter.module').then( m => m.AllergenFilterPageModule)
+      },
+      {
         path: 'dashboard',
         loadChildren: () => import('./dashboard/dashboard.module').then( m => m.DashboardPageModule)
       },
       {
-        path: 'settings',
-        loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
+        path: 'diet-filter',
+        loadChildren: () => import('./diet-filter/diet-filter.module').then( m => m.DietFilterPageModule)
       },
       {
         path: 'home',
@@ -25,22 +29,31 @@ const routes: Routes = [
         loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
       },
       {
-        path: 'diet-filter',
-        loadChildren: () => import('./diet-filter/diet-filter.module').then( m => m.DietFilterPageModule)
+        path: 'profile-edit',
+        loadChildren: () => import('./profile-edit/profile-edit.module').then( m => m.ProfileEditPageModule)
       },
       {
-        path: 'allergen-filter',
-        loadChildren: () => import('./allergen-filter/allergen-filter.module').then( m => m.AllergenFilterPageModule)
+        path: 'recipes/:id',
+        loadChildren: () => import('./recipes/recipes.module').then( m => m.RecipesPageModule)
       },
       {
         path: 'search',
         loadChildren: () => import('./search/search.module').then( m => m.SearchPageModule)
       },
       {
-        path: 'recipes/:id',
-        loadChildren: () => import('./recipes/recipes.module').then( m => m.RecipesPageModule)
+        path: 'settings',
+        loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
       },
-    
+      {
+        path: 'shop-list',
+        loadChildren: () => import('./shop-list/shop-list.module').then( m => m.ShopListPageModule)
+      },
+      {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+      }
+
     ]
   },
   
