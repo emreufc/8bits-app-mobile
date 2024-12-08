@@ -1,0 +1,18 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Search Screen</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Search Bar -->
+   <app-searchbar></app-searchbar>
+  <!-- Category Section -->
+   <app-category></app-category>
+   <!-- Recipes Grid -->
+    <div class = "recipes-grid">
+     <app-recipe-card
+       *ngFor="let recipe of recipes"
+       [recipe]="recipe"
+     ></app-recipe-card></div>
+</ion-content>

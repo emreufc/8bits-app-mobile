@@ -54,7 +54,7 @@ export class DietFilterPage implements OnInit {
   next() {
     if (this.selectedDiets.size > 0) {//sonraki butonu için seçili diet yoksa ilerletmiyor
       const selectedDiets = this.dietOptions.filter(diet => this.selectedDiets.has(diet.id));
-      this.navCtrl.navigateForward('/auth/allergen-filter', { state: { diets: selectedDiets } });// bir sonraki sayfaya yönlendirdi
+      this.navCtrl.navigateForward('/content/allergen-filter', { state: { diets: selectedDiets } });// bir sonraki sayfaya yönlendirdi
     } else {
       console.log("Lütfen en az bir diyet seçin.");
     }

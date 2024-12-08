@@ -1,6 +1,6 @@
-<ion-header mode="ios">
+<ion-header class="light-header">
   <ion-toolbar>
-    <ion-item lines="none" >
+    <ion-item lines="none">
       <ion-avatar>
         <img src="https://picsum.photos/200/300" width="40" height="40" style="border-radius: 100%;">
       </ion-avatar>
@@ -10,11 +10,12 @@
       </ion-label>
     </ion-item>
     <ion-item slot="end" lines="none">
-    <ion-buttons>
-      <ion-button [routerLink]="['/content/favorites']">
-        <ion-icon slot="icon-only" src="/assets/icon/notification.svg"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+      <ion-buttons>
+        <ion-button [routerLink]="['/content/favorites']">
+          <ion-icon slot="icon-only" src="/assets/icon/notification.svg"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </ion-item>
   </ion-toolbar>
 </ion-header>
+

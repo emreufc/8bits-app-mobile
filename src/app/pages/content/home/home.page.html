@@ -1,5 +1,49 @@
 <app-header></app-header>
 
-<ion-content>
+<ion-content class = "ion-padding">
+    <app-searchbar></app-searchbar>
+    <app-category></app-category>
+
+    <div class="recipes-grid-horizontal" #recipesGrid>
+      <ion-card class="recipe-card" *ngFor="let recipe of recipes" (click)="goToRecipeDetail(recipe.id)">
+          <img
+            [alt]="recipe.title"
+            [src]="recipe.image"
+            class="recipe-image"
+          />
+          <ion-card-content>
+            <h3>{{ recipe.title }}</h3>
+            <div class="recipe-meta">
+              <div class="rating">
+                <ion-icon name="star" color="warning"></ion-icon>
+                <span>{{ recipe.rating }}</span>
+              </div>
+              <div class="time">
+                <ion-icon name="time"></ion-icon>
+                <span>{{ recipe.time }}</span>
+              </div>
+            </div>
+            <div class="recipe-stats">
+              <div class="views">
+                <ion-icon name="eye"></ion-icon>
+                <span>{{ recipe.views }}</span>
+              </div>
+              <ion-icon
+                [name]="recipe.isLiked ? 'heart' : 'heart-outline'"
+                class="heart-icon"
+                [style.color]="recipe.isLiked ? '#FF8C00' : '#666'"
+                (click)="toggleLike(recipe, $event)"
+              ></ion-icon>
+            </div>
+          </ion-card-content>
+      </ion-card>
+  </div>
+<div class="recipes-grid">
+  <app-recipe-card
+    *ngFor="let recipe of recipes"
+    [recipe]="recipe"
+    (click)="goToRecipeDetail(recipe.id)"
+  ></app-recipe-card>
+</div>
 
 </ion-content>

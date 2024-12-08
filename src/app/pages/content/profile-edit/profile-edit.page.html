@@ -1,0 +1,54 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <div class="header-container">
+      <ion-title class="header-title">Edit Profile</ion-title>
+      <ion-buttons>
+        <ion-button [routerLink]="['/content/favorites']">
+          <ion-icon slot="icon-only" src="/assets/icon/notification.svg"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding">
+  <div class="profile-edit-container">
+    <ion-avatar class="profile-photo">
+      <img src="https://i.pravatar.cc/300" alt="Profile Picture">
+    </ion-avatar>
+
+    <div class="user-name">
+      <h1>{{ user.name }}</h1>
+    </div>
+
+    <div class="form-fields">
+      <div class="form-item">
+        <ion-label>First Name</ion-label>
+        <div class="input-group">
+          <ion-input [value]="user.name" readonly></ion-input>
+          <span class="edit-inline">Edit</span>
+        </div>
+      </div>
+    
+      <div class="form-item">
+        <ion-label>Last Name</ion-label>
+        <div class="input-group">
+          <ion-input [value]="user.surname" readonly></ion-input>
+          <span class="edit-inline">Edit</span>
+        </div>
+      </div>
+
+      <div class="form-item">
+        <ion-label>Birthday</ion-label>
+        <div class="input-group">
+          <ion-input [value]="user.dateOfBirth | date:'dd MMM yyyy'" readonly></ion-input>
+          <span class="edit-inline">Edit</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</ion-content>
+

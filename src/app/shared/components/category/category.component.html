@@ -1,0 +1,18 @@
+<div class="category-section ion-padding-vertical">
+  <div class="header-row">
+    <h2 class="ion-no-margin">Category</h2>
+    <a href="#" class="see-all">
+      See All
+    </a>
+  </div>
+
+  <div class="scroll-container">
+    <ion-chip
+      *ngFor="let chip of chips"
+      [ngClass]="{'selected-chip': selectedChip === chip}"
+      (click)="selectChip(chip)"
+    >
+      {{ chip }}
+    </ion-chip>
+  </div>
+</div>

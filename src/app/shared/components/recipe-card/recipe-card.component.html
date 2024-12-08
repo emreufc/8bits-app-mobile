@@ -1,0 +1,32 @@
+<ion-card class="recipe-card">
+  <img
+    [alt]="recipe.title"
+    [src]="recipe.image"
+    class="recipe-image"
+  />
+  <ion-card-content>
+    <h3>{{ recipe.title }}</h3>
+    <div class="recipe-meta">
+      <div class="rating">
+        <ion-icon name="star" color="warning"></ion-icon>
+        <span>{{ recipe.rating }}</span>
+      </div>
+      <div class="time">
+        <ion-icon name="time"></ion-icon>
+        <span>{{ recipe.time }}</span>
+      </div>
+    </div>
+    <div class="recipe-stats">
+      <div class="views">
+        <ion-icon name="eye"></ion-icon>
+        <span>{{ recipe.views }}</span>
+      </div>
+      <ion-icon
+      [name]="isLiked ? 'heart' : 'heart-outline'"
+      class="heart-icon"
+      [style.color]="isLiked ? '#FF8C00' : '#666'"
+      (click)="toggleLike()"
+    ></ion-icon>
+    </div>
+  </ion-card-content>
+</ion-card>
