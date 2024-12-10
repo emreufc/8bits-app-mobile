@@ -27,9 +27,7 @@ export class RecipeCardComponent  implements OnInit {
   toggleLike(event : Event) {
     event.stopPropagation();
     this.likeToggled.emit(this.recipe.id); // Parent'a tarifin ID'sini bildir
-    console.log(
-      `${this.recipe.title} ${this.recipe.isLiked ? 'beğenildi' : 'beğenilmedi'}`
-    );
+    console.log(`${this.recipe.title} beğenme durumu güncellendi.`);
   }
 
 
