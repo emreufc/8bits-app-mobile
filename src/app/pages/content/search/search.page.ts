@@ -10,6 +10,7 @@ export class SearchPage implements OnInit {
 
   recipes = [
     {
+      id : 1,
       title: 'Vegetable Noodle',
       image: 'https://via.placeholder.com/400?text=Vegetable+Noodle',
       rating: 4.3,
@@ -18,6 +19,7 @@ export class SearchPage implements OnInit {
       isLiked: false,
     },
     {
+      id : 2,
       title: 'Chicken Curry',
       image: 'https://via.placeholder.com/400?text=Chicken+Curry',
       rating: 4.8,
@@ -26,6 +28,7 @@ export class SearchPage implements OnInit {
       isLiked: false,
     },
   {
+    id : 3,
     title: 'Beef Stroganoff',
     image: 'https://via.placeholder.com/400?text=Beef+Stroganoff',
     rating: 4.5,
@@ -42,6 +45,7 @@ export class SearchPage implements OnInit {
     isLiked: false,
   },
   {
+    id : 5,
     title: 'Grilled Salmon',
     image: 'https://via.placeholder.com/400?text=Grilled+Salmon',
     rating: 4.9,
@@ -50,6 +54,7 @@ export class SearchPage implements OnInit {
     isLiked: false,
   },
   {
+    id : 6,
     title: 'Caesar Salad',
     image: 'https://via.placeholder.com/400?text=Caesar+Salad',
     rating: 4.2,
