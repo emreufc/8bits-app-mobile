@@ -19,9 +19,32 @@
     <ion-button class="edit-profile-btn" fill="solid">Edit Profile</ion-button> <!-- Profil düzenleme butonu -->
   </div>
 
-  <!-- Tarif filtreleri -->
-  <div class="recipe-filters">
-    <ion-button class="filter-btn active" fill="solid">Old Recipes</ion-button> <!-- Aktif buton: Eski Tarifler -->
-    <ion-button class="filter-btn" fill="clear">Favorites</ion-button> <!-- Favoriler butonu -->
+  <ion-segment (ionChange)="segmentChanged($event)" value="old-recipes">
+    <ion-segment-button value="old-recipes">
+      <ion-label>Old Recipes</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="favorites">
+      <ion-label>Favorites</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Tarif Listesi -->
+  <div class="recipes-grid" *ngIf="selectedSegment === 'old-recipes'">
+    <app-recipe-card
+      *ngFor="let recipe of recipes"
+      [recipe]="recipe"
+      (likeToggled)="handleLikeToggled($event)"
+      (click)="goToRecipeDetail(recipe.id)"
+    ></app-recipe-card>
   </div>
+
+  <div class="recipes-grid" *ngIf="selectedSegment === 'favorites'">
+    <app-recipe-card
+      *ngFor="let recipe of favoriteRecipes"
+      [recipe]="recipe"
+      (likeToggled)="handleLikeToggled($event)"
+      (click)="goToRecipeDetail(recipe.id)"
+    ></app-recipe-card>
+  </div>
+  
 </ion-content>
