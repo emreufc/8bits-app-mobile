@@ -21,7 +21,7 @@ export class RecipeCardComponent  implements OnInit {
   constructor() { }
 
 
-  ngOnInit() {console.log("tetiklendi");}
+  ngOnInit() {console.log("Card Component'i tetiklendi");}
 
 
   toggleLike(event : Event) {
