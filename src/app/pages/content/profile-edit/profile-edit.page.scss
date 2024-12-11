@@ -83,6 +83,16 @@ ion-content {
     padding-left: 15px;
     padding-bottom: 15px;
   }
+  ion-datetime {
+    --ion-color-primary: #FF8C00; /* Seçili tarih için turuncu renk */
+    --ion-color-primary-contrast: #fff; /* Seçili tarihin metin rengi */
+    --ion-color-primary-shade: #e07b00; /* Turuncu rengin koyu tonu */
+    --ion-color-primary-tint: #ffa94d; /* Turuncu rengin açık tonu */
+  
+    --background: #fff; /* Arka plan beyaz */
+    --color: #000; /* Tarih metin rengi siyah */
+  } 
+  
 
   /* Edit butonu turuncu olsun */
   ion-button[fill="clear"] {

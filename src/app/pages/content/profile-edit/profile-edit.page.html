@@ -49,7 +49,7 @@
     <ion-item lines="full">
       <ion-label position="stacked">Gender</ion-label>
       <ng-container *ngIf="isEditingGender; else genderText">
-        <ion-select [(ngModel)]="gender">
+        <ion-select interface="action-sheet" [(ngModel)]="gender">
           <ion-select-option value="Male">Male</ion-select-option>
           <ion-select-option value="Female">Female</ion-select-option>
           <ion-select-option value="Other">Other</ion-select-option>
