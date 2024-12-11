@@ -99,4 +99,22 @@ ion-content {
     --color: #FF8C00;
     font-size: 0.9em;
   }
+  ion-button.saveButton {
+    --background: #FF8C00 !important; /* Arka plan rengi turuncu */
+    --border-radius: 25px; /* Köşe yuvarlatma */
+    --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Hafif gölge */
+    color: white; /* Metin rengi beyaz */
+    margin: 20px 0; /* Üst ve alt boşluk */
+    height: 48px; /* Yükseklik */
+    width: 100%;
+    padding : 0 20px;
+  }
+  ion-toolbar {
+    display: flex;
+    justify-content: center; /* Butonu yatay olarak ortalar */
+    align-items: center; /* Butonu dikey olarak ortalar */
+    padding: 0 20px; /* Kenarlardan uzaklaştırır */
+  }
+  
+  
 }
