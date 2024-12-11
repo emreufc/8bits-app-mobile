@@ -63,15 +63,16 @@ ion-content {
     }
   
     .edit-profile-btn {
-      --background: #ff9f0a; // Arka plan rengi
-      --border-radius: 20px; // Yuvarlatılmış köşe
+      --background: #ff9f0a; // Arka plan rengi      --border-radius: 15px; // Yuvarlatılmış köşe
       --padding-start: 30px; // Sol boşluk
       --padding-end: 30px; // Sağ boşluk
       font-size: 14px; // Yazı boyutu
+      min-height: 10px;
+      --background-activated: transparent; /* Tıklama sırasında arka planı kaldırır */      
+      --color-activated: white; /* Metin rengini varsayılan yapar */
     }
   }
-  
-  
+
   // Araç çubuğu ve başlık stilleri
   ion-title {
     font-weight: 700; // Başlık kalınlığı
