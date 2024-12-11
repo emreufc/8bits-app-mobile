@@ -16,7 +16,7 @@
       <img src="https://i.pravatar.cc/300" alt="Profile Picture"> <!-- Profil fotoğrafı -->
     </ion-avatar>
     <h2 class="profile-name">Name - Surname</h2> <!-- Profil adı ve soyadı -->
-    <ion-button class="edit-profile-btn" fill="solid">Edit Profile</ion-button> <!-- Profil düzenleme butonu -->
+    <ion-button class="edit-profile-btn" fill="solid" (click)="editProfile()">Edit Profile</ion-button>
   </div>
 
   <ion-segment (ionChange)="segmentChanged($event)" value="old-recipes">
