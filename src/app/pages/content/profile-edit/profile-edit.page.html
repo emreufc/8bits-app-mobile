@@ -1,54 +1,112 @@
-<ion-header [translucent]="true">
+<!-- profile-edit.page.html -->
+
+<ion-header>
   <ion-toolbar>
-    <div class="header-container">
-      <ion-title class="header-title">Edit Profile</ion-title>
-      <ion-buttons>
-        <ion-button [routerLink]="['/content/favorites']">
-          <ion-icon slot="icon-only" src="/assets/icon/notification.svg"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </div>
+    <ion-title>Profil Bilgileri</ion-title>
   </ion-toolbar>
 </ion-header>
 
-
-<ion-content class="ion-padding">
-  <div class="profile-edit-container">
-    <ion-avatar class="profile-photo">
-      <img src="https://i.pravatar.cc/300" alt="Profile Picture">
+<ion-content>
+  <div class="profile-container">
+    <ion-avatar class="profile-avatar">
+      <img src="https://i.pravatar.cc/150?img=3" />
     </ion-avatar>
-
-    <div class="user-name">
-      <h1>{{ user.name }}</h1>
-    </div>
-
-    <div class="form-fields">
-      <div class="form-item">
-        <ion-label>First Name</ion-label>
-        <div class="input-group">
-          <ion-input [value]="user.name" readonly></ion-input>
-          <span class="edit-inline">Edit</span>
-        </div>
-      </div>
-    
-      <div class="form-item">
-        <ion-label>Last Name</ion-label>
-        <div class="input-group">
-          <ion-input [value]="user.surname" readonly></ion-input>
-          <span class="edit-inline">Edit</span>
-        </div>
-      </div>
-
-      <div class="form-item">
-        <ion-label>Birthday</ion-label>
-        <div class="input-group">
-          <ion-input [value]="user.dateOfBirth | date:'dd MMM yyyy'" readonly></ion-input>
-          <span class="edit-inline">Edit</span>
-        </div>
-      </div>
-
-    </div>
+    <h2>{{ firstName }} {{ lastName }}</h2>
+    <p>Of, Trabzon</p>
   </div>
 
-</ion-content>
+  <ion-list>
+    <!-- First Name -->
+    <ion-item lines="full"> <!-- Çizgili hatlar görünür -->
+      <ion-label position="stacked">First name</ion-label>
+      <ion-input 
+        [disabled]="!isEditingFirstName" 
+        [(ngModel)]="firstName">
+      </ion-input>
+      <ion-buttons slot="end">
+        <!-- Edit butonu turuncu -->
+        <ion-button fill="clear" (click)="toggleEdit('firstName')">
+          {{ isEditingFirstName ? 'Kaydet' : 'Edit' }}
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
 
+    <!-- Last Name -->
+    <ion-item lines="full">
+      <ion-label position="stacked">Last name</ion-label>
+      <ion-input 
+        [disabled]="!isEditingLastName" 
+        [(ngModel)]="lastName">
+      </ion-input>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="toggleEdit('lastName')">
+          {{ isEditingLastName ? 'Kaydet' : 'Edit' }}
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <!-- Gender -->
+    <ion-item lines="full">
+      <ion-label position="stacked">Gender</ion-label>
+      <ng-container *ngIf="isEditingGender; else genderText">
+        <ion-select [(ngModel)]="gender">
+          <ion-select-option value="Male">Male</ion-select-option>
+          <ion-select-option value="Female">Female</ion-select-option>
+          <ion-select-option value="Other">Other</ion-select-option>
+        </ion-select>
+      </ng-container>
+      <ng-template #genderText>
+        <div class="static-text">{{ gender }}</div>
+      </ng-template>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="toggleEdit('gender')">
+          {{ isEditingGender ? 'Kaydet' : 'Edit' }}
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <!-- Email -->
+    <ion-item lines="full">
+      <ion-label position="stacked">Email</ion-label>
+      <ion-input 
+        [disabled]="!isEditingEmail" 
+        [(ngModel)]="email">
+      </ion-input>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="toggleEdit('email')">
+          {{ isEditingEmail ? 'Kaydet' : 'Edit' }}
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <!-- Mobile Number -->
+    <ion-item lines="full">
+      <ion-label position="stacked">Mobile Number</ion-label>
+      <ion-input 
+        [disabled]="!isEditingMobileNumber" 
+        [(ngModel)]="mobileNumber">
+      </ion-input>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="toggleEdit('mobileNumber')">
+          {{ isEditingMobileNumber ? 'Kaydet' : 'Edit' }}
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <!-- Birthday -->
+    <ion-item lines="full">
+      <ion-label position="stacked">Birthday</ion-label>
+      <ng-container *ngIf="isEditingBirthday; else birthdayText">
+        <ion-datetime display-format="DD MMM YYYY" [(ngModel)]="birthday"></ion-datetime>
+      </ng-container>
+      <ng-template #birthdayText>
+        <div class="static-text">{{ birthday | date:'dd MMM yyyy' }}</div>
+      </ng-template>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="toggleEdit('birthday')">
+          {{ isEditingBirthday ? 'Kaydet' : 'Edit' }}
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+</ion-content>
