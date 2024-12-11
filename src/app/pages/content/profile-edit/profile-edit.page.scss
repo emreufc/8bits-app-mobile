@@ -6,6 +6,7 @@ ion-header {
 }
 
 ion-content {
+  --padding-bottom: 10px !important;
   .profile-container {
     display: flex;
     flex-direction: column;
