@@ -96,7 +96,8 @@ export class ProfilePage implements OnInit {
     this.router.navigate(['/content/recipes', recipeId]);
     console.log('Tarife git');
   }
-
+  // Geri dönülmesi gerekilen sayfalarda bu tarz bir navigasyon öneriyorlardı o yüzden denedim. 
+  // Gerekirse normal haline döneriz.
   editProfile() {
     this.navCtrl.navigateForward('/content/profile-edit', {
       animated: true,
