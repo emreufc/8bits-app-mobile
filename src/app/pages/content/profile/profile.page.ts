@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-profile',
@@ -69,7 +71,7 @@ export class ProfilePage implements OnInit {
     }
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private navCtrl: NavController) {}
 
   ngOnInit() {
     console.log('Profile Page');
@@ -96,8 +98,12 @@ export class ProfilePage implements OnInit {
   }
 
   editProfile() {
-    this.router.navigate(['/content/profile-edit']);
+    this.navCtrl.navigateForward('/content/profile-edit', {
+      animated: true,
+      animationDirection: 'forward',
+    });
   }
+  
 
   handleLikeToggled(recipeId: number) {
     const index = this.recipes.findIndex((r) => r.id === recipeId);
