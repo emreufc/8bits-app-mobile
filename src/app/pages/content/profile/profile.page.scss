@@ -8,18 +8,18 @@ ion-content {
       --color: white; // Buton metni rengi
       --color-checked: white; 
       --background-checked: #ff9f0a;
-      border-radius: 8px !important; // Butonlara yuvarlatılmış köşe 
+      border-radius: 50px !important; // Butonlara yuvarlatılmış köşe 
       margin: 0 5px; // Butonların arasına mesafe
       
       &[value="old-recipes"] {
         &.segment-button-checked {
           --color: white;
           --background: #ff9f0a; 
-          border-radius: 8px !important;
+          border-radius: 50px !important;
         }
         
         &::part(native) {
-          border-radius: 8px !important; 
+          border-radius: 50px !important; 
           transition: all 0.3s ease-in-out; /* Yumuşak geçiş */
 
         }
@@ -29,11 +29,11 @@ ion-content {
         &.segment-button-checked {
           --color: white; 
           --background: white;
-          border-radius: 8px !important;
+          border-radius: 50px !important;
         }
         
         &::part(native) {
-          border-radius: 8px !important;
+          border-radius: 50px !important;
         }
       }
     }
@@ -70,6 +70,7 @@ ion-content {
       min-height: 10px;
       --background-activated: transparent; /* Tıklama sırasında arka planı kaldırır */      
       --color-activated: white; /* Metin rengini varsayılan yapar */
+      border-radius: 50px;
     }
   }
 

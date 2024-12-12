@@ -22,7 +22,7 @@ export class ProfilePage implements OnInit {
       rating: 4.3,
       time: '20 min',
       views: '2.3K',
-      isLiked: false,
+      isLiked: true,
     },
     {
       id: 2,
