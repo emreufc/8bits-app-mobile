@@ -41,7 +41,7 @@
 }
 
 app-content ion-content {
-    --padding-bottom: 150px;
+    --padding-bottom: 0px;
   }
   
   ion-modal.datetime-modal {
@@ -160,7 +160,7 @@ ion-item {
 ion-button {
   text-transform: none;
   border-radius: 8px;
-  --border-radius: 10px;
+  --border-radius: 50px;
   min-height: 45px;
   --box-shadow: none;
   /* Butonun üzerine gelince ve tıklayınca gölge efekti olmasın ama ripple efekti olsun kodu buradan aşağısı*/
