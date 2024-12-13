@@ -41,17 +41,25 @@ export class AddItemComponent implements OnInit {
     // API'den veri çekip allAvailableItems'e aktarabilirsiniz
   }
 
+    // Arama çubuğunda değişiklik olduğunda + enter tuşuna basıldığında çalışır
   onSearchChange(event: any) {
-    this.searchTerm = event.detail.value;
-    if (!this.searchTerm) {
-      this.filteredItems = [...this.allAvailableItems];
-      return;
+      // Arama terimini günceller
+      this.searchTerm = event.detail.value;
+  
+      // Eğer arama terimi boşsa, tüm öğeleri göster
+      if (!this.searchTerm) {
+        this.filteredItems = [...this.allAvailableItems];
+        return;
+      }
+  
+      // Arama terimini küçük harflere dönüştürür
+      const lowerTerm = this.searchTerm.toLowerCase();
+  
+      // Arama terimini içeren öğeleri filtreler
+      this.filteredItems = this.allAvailableItems.filter(item =>
+        item.name.toLowerCase().includes(lowerTerm)
+      );
     }
-    const lowerTerm = this.searchTerm.toLowerCase();
-    this.filteredItems = this.allAvailableItems.filter(item =>
-      item.name.toLowerCase().includes(lowerTerm)
-    );
-  }
 
   selectItem(item: ShoppingItem) {
     this.selectedItem = { ...item };
@@ -76,17 +84,21 @@ export class AddItemComponent implements OnInit {
     }
   }
 
+    // Seçilen öğeyi onaylar ve modalı kapatır
   confirmItem() {
-    if (!this.selectedItem) return;
-
-    const newItem: ShoppingItem = {
-      id: 0,
-      name: this.selectedItem.name,
-      quantity: this.quantity,
-      unit: this.activeUnit
+      // Eğer bir öğe seçilmemişse işlemi durdurur
+      if (!this.selectedItem) return;
+  
+      // Yeni bir ShoppingItem nesnesi oluşturur
+      const newItem: ShoppingItem = {
+        id: 0, // ID değeri (gerekirse daha sonra atanabilir)
+        name: this.selectedItem.name, // Seçilen öğenin adı
+        quantity: this.quantity, // Girilen miktar
+        unit: this.activeUnit // Seçilen birim
+      }
+      // Modalı yeni öğe ile birlikte kapatır
+      this.modalCtrl.dismiss(newItem);
     }
-    this.modalCtrl.dismiss(newItem);
-  }
 
   cancel() {
     this.modalCtrl.dismiss(null);

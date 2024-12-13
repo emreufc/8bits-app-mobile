@@ -53,7 +53,17 @@ export class ShopListPage implements OnInit {
     this.filterItems();
   }
 
-  filterItems() {
+  /**
+   * @function filterItems
+   * @description
+   * Bu fonksiyon, `searchTerm` değişkenine göre `shoppingItems` listesini filtreler.
+   * Eğer `searchTerm` boş ise, `shoppingItems` listesinin tamamını `filteredItems` listesine kopyalar.
+   * Eğer `searchTerm` dolu ise, `shoppingItems` listesindeki öğelerin isimlerini küçük harfe çevirir ve
+   * `searchTerm` ile eşleşenleri `filteredItems` listesine ekler.
+   *
+   * @returns {void}
+   */
+  filterItems(): void {
     if (!this.searchTerm) {
       this.filteredItems = [...this.shoppingItems];
     } else {
@@ -70,6 +80,13 @@ export class ShopListPage implements OnInit {
   }
 
   // Modal açma fonksiyonu: yeni öğe eklemek için bir modal sayfa açıyoruz
+  /**
+   * AddItemComponent bileşenini açan bir modal oluşturur.
+   * 
+   * Kullanıcı modal içinde yeni bir öğe eklerse, bu öğeyi alışveriş listesine ekler.
+   * 
+   * @returns {Promise<void>} Modal işlemi tamamlandığında bir Promise döner.
+   */
   async openAddItemModal() {
     // ModalController ile oluşturacağımız AddItemModalPage componentini açıyoruz
     const modal = await this.modalCtrl.create({

@@ -3,10 +3,11 @@
     <ion-searchbar 
       placeholder="Type ingredients..." 
       [(ngModel)]="searchTerm"
-      (ionChange)="onSearchChange($event)"
+      (ionChange)="onSearchChange($event)" 
       class="custom-searchbar">
     </ion-searchbar>
-
+          <!-- (ionChange) triggers when the input loses focus or the user presses enter. 
+           (ionInput) triggers on every input change, which is more responsive for search functionality. --> 
     <div class="list-header">
       <h1>Alışveriş Listesi</h1>
       <span class="items-count">{{ filteredItems.length }} items</span>
