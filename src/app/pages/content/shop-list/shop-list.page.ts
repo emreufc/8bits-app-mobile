@@ -69,11 +69,6 @@ export class ShopListPage implements OnInit {
     this.filterItems();
   }
 
-  // Mevcut yönlendirme butonu, istersen bu fonksiyonu da kullanabilirsin
-  goToAddNewItem() {
-    this.navCtrl.navigateForward('/content/addnewitem');
-  }
-
   // Modal açma fonksiyonu: yeni öğe eklemek için bir modal sayfa açıyoruz
   async openAddItemModal() {
     // ModalController ile oluşturacağımız AddItemModalPage componentini açıyoruz
@@ -111,6 +106,6 @@ export class ShopListPage implements OnInit {
     // Filtreleme işlemini güncelle
     this.filterItems();
   }
-  
+
 }
 
