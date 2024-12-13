@@ -23,7 +23,6 @@ export class ShopListPage implements OnInit {
 
   // ModalController'ı constructor'a ekle
   constructor(
-    private navCtrl: NavController,
     private route: ActivatedRoute,
     private modalCtrl: ModalController
   ) {}
