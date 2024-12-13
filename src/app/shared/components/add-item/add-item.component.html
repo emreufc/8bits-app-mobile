@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Yeni Malzeme Ekle</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar
+    placeholder="Malzeme adı ara..."
+    (ionChange)="onSearchChange($event)">
+  </ion-searchbar>
+
+  <ion-list>
+    <ion-item 
+      *ngFor="let item of filteredItems"
+      (click)="selectItem(item)">
+      <ion-label>{{ item.name }}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="selectedItem" class="selected-item-container">
+    <ion-item>
+      <ion-label>
+        Seçilen Malzeme: <strong>{{ selectedItem.name }}</strong>
+      </ion-label>
+    </ion-item>
+
+    <!-- Segmenti kaydırılabilir yap -->
+    <ion-segment scrollable [(ngModel)]="activeUnit" (ionChange)="changeUnit($event.detail.value)" class="custom-segment">
+      <ion-segment-button *ngFor="let unit of unitOptions" [value]="unit">
+        {{ unit }}
+      </ion-segment-button>
+    </ion-segment>
+
+    <!-- Miktar Ortalamak için özel bir container -->
+    <div class="quantity-container">
+      <ion-button (click)="decrement()">-</ion-button>
+      <div class="quantity-number">
+        <strong>{{ quantity }}</strong>
+      </div>
+      <ion-button (click)="increment()">+</ion-button>
+    </div>
+
+    <ion-button expand="block" class="add-button" (click)="confirmItem()">
+      Ekle
+    </ion-button>
+  </div>
+</ion-content>

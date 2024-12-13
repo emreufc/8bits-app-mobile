@@ -7,8 +7,8 @@ import { CategoryComponent } from './category/category.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { RecipeCardComponent } from './recipe-card/recipe-card.component';
 import { DetailsIngredientComponent } from './details-ingredient/details-ingredient.component';
-
-
+import { AddItemComponent } from './add-item/add-item.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,19 +16,22 @@ import { DetailsIngredientComponent } from './details-ingredient/details-ingredi
     CategoryComponent,
     SearchbarComponent,
     RecipeCardComponent,
-    DetailsIngredientComponent
+    DetailsIngredientComponent,
+    AddItemComponent
   ],
   imports: [
     CommonModule,
     IonicModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   exports: [
     HeaderComponent,
     CategoryComponent,
     SearchbarComponent,
     RecipeCardComponent,
-    DetailsIngredientComponent
+    DetailsIngredientComponent,
+    AddItemComponent
   ]
 })
 export class ComponentsModule { }
