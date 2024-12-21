@@ -22,10 +22,10 @@
         <span>{{ recipe.views }}</span>
       </div>
       <ion-icon
-      [name]="isLiked ? 'heart' : 'heart-outline'"
+      [name]="recipe.isLiked ? 'heart' : 'heart-outline'"
       class="heart-icon"
-      [style.color]="isLiked ? '#FF8C00' : '#666'"
-      (click)="toggleLike()"
+      [style.color]="recipe.isLiked ? '#FF8C00' : '#666'"
+      (click)="toggleLike($event)"
     ></ion-icon>
     </div>
   </ion-card-content>

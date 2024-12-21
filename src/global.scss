@@ -41,7 +41,7 @@
 }
 
 app-content ion-content {
-    --padding-bottom: 150px;
+    --padding-bottom: 0px;
   }
   
   ion-modal.datetime-modal {
@@ -160,14 +160,47 @@ ion-item {
 ion-button {
   text-transform: none;
   border-radius: 8px;
-  --border-radius: 10px;
+  --border-radius: 50px;
   min-height: 45px;
   --box-shadow: none;
+  /* Butonun üzerine gelince ve tıklayınca gölge efekti olmasın ama ripple efekti olsun kodu buradan aşağısı*/
+  --background-activated: transparent;
+  --color-activated: inherit;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
 }
+
+ion-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+}
+
+ion-button:active::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: ripple 0.4s ease-out;
+}
+
+@keyframes ripple {
+  to {
+    width: 300%;
+    height: 300%;
+    opacity: 0;
+  }
+}
+
 
 ion-segment {
   padding: 8px;
-  border-radius: 16px;
+  border-radius: 50px;
   --background: var(--ion-color-medium);
 
   ion-segment-button {

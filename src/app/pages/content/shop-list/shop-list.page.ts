@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, ModalController } from '@ionic/angular'; // ModalController eklendi
 import { ActivatedRoute } from '@angular/router';
+import { AddItemComponent } from 'src/app/shared/components/add-item/add-item.component';
 
 interface ShoppingItem {
   id: number;
@@ -18,11 +19,15 @@ export class ShopListPage implements OnInit {
   searchTerm: string = '';
   shoppingItems: ShoppingItem[] = [];
   filteredItems: ShoppingItem[] = [];
+  nextId: number = 9; // Yeni item ID'si için başlangıç
 
-  constructor(private navCtrl: NavController, private route: ActivatedRoute) {}
+  // ModalController'ı constructor'a ekle
+  constructor(
+    private route: ActivatedRoute,
+    private modalCtrl: ModalController
+  ) {}
 
   ngOnInit() {
-    // Başlangıç öğeleri
     this.shoppingItems = [
       { id: 1, name: 'Extra-virgin olive oil', quantity: 1, unit: 'tbsp' },
       { id: 2, name: 'Extra-virgin olive oil', quantity: 1, unit: 'tbsp' },
@@ -34,7 +39,6 @@ export class ShopListPage implements OnInit {
     ];
     this.filteredItems = [...this.shoppingItems];
 
-    // Yeni öğeyi query parametreleriyle al ve ekle
     this.route.queryParams.subscribe((params) => {
       if (params['newItem']) {
         const newItem: ShoppingItem = JSON.parse(params['newItem']);
@@ -48,7 +52,17 @@ export class ShopListPage implements OnInit {
     this.filterItems();
   }
 
-  filterItems() {
+  /**
+   * @function filterItems
+   * @description
+   * Bu fonksiyon, `searchTerm` değişkenine göre `shoppingItems` listesini filtreler.
+   * Eğer `searchTerm` boş ise, `shoppingItems` listesinin tamamını `filteredItems` listesine kopyalar.
+   * Eğer `searchTerm` dolu ise, `shoppingItems` listesindeki öğelerin isimlerini küçük harfe çevirir ve
+   * `searchTerm` ile eşleşenleri `filteredItems` listesine ekler.
+   *
+   * @returns {void}
+   */
+  filterItems(): void {
     if (!this.searchTerm) {
       this.filteredItems = [...this.shoppingItems];
     } else {
@@ -64,16 +78,50 @@ export class ShopListPage implements OnInit {
     this.filterItems();
   }
 
-  goToAddNewItem() {
-    this.navCtrl.navigateForward('/content/addnewitem');
+  // Modal açma fonksiyonu: yeni öğe eklemek için bir modal sayfa açıyoruz
+  /**
+   * AddItemComponent bileşenini açan bir modal oluşturur.
+   * 
+   * Kullanıcı modal içinde yeni bir öğe eklerse, bu öğeyi alışveriş listesine ekler.
+   * 
+   * @returns {Promise<void>} Modal işlemi tamamlandığında bir Promise döner.
+   */
+  async openAddItemModal() {
+    // ModalController ile oluşturacağımız AddItemModalPage componentini açıyoruz
+    const modal = await this.modalCtrl.create({
+      component: AddItemComponent, 
+    });
+
+    // Modal kapandıktan sonra geri dönen item verisini yakalıyoruz
+    modal.onDidDismiss().then((res) => {
+      if (res.data) {
+        // Kullanıcının modal içinde girdiği newItem objesini alıyor
+        this.addItemToShoppingList(res.data);
+      }
+    });
+
+    await modal.present();
   }
 
-  // Yeni öğeyi alışveriş listesine ekleyin
-  addItemToShoppingList(item: ShoppingItem) {
-    // Yeni öğeyi shoppingItems'e ekleyin
-    this.shoppingItems.push(item);
-    
-    // Sonra filtreli öğeleri güncelleyin
+  // Yeni öğeyi alışveriş listesine ekle
+  addItemToShoppingList(newItem: ShoppingItem) {
+    // Liste içinde aynı item var mı kontrol et
+    const existingItem = this.shoppingItems.find(
+      item => item.name === newItem.name && item.unit === newItem.unit
+    );
+  
+    if (existingItem) {
+      // Aynı item varsa quantity'yi artır
+      existingItem.quantity += newItem.quantity;
+    } else {
+      // Aynı item yoksa yeni bir item olarak ekle
+      newItem.id = this.nextId++; // Yeni ID ata
+      this.shoppingItems.push(newItem);
+    }
+  
+    // Filtreleme işlemini güncelle
     this.filterItems();
   }
+
 }
+
