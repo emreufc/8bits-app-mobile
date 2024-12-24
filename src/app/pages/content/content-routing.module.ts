@@ -55,7 +55,11 @@ const routes: Routes = [
       }
 
     ]
+  },  {
+    path: 'edit-diet-preferences',
+    loadChildren: () => import('./edit-diet-preferences/edit-diet-preferences.module').then( m => m.EditDietPreferencesPageModule)
   },
+
   
 ];
 
