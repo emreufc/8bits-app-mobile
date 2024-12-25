@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+
 interface Diet {
   id: string;
   name: string;
@@ -12,12 +13,11 @@ interface Diet {
   styleUrls: ['./edit-diet-preferences.page.scss'],
 })
 export class EditDietPreferencesPage implements OnInit {
-
-dietOptions: Diet[] = [// grupları belirledim renkleri farklı yaptım ama bunu değiştirebiliriz
+  dietOptions: Diet[] = [
     { id: 'vegetarian', name: 'Vejetaryan', icon: 'assets/icons/leaf.svg' },
     { id: 'vegan', name: 'Vegan', icon: 'seedling' },
     { id: 'keto', name: 'Keto', icon: 'assets/icons/lightning.svg' },
-    { id: 'düşük-karbonhidrat', name: 'Düşük Karbonhidrat', icon: 'assets/icons/salad.svg'},
+    { id: 'düşük-karbonhidrat', name: 'Düşük Karbonhidrat', icon: 'assets/icons/salad.svg' },
     { id: 'paleo', name: 'Paleo', icon: 'assets/icons/apple.svg' },
     { id: 'none', name: 'Yok', icon: 'assets/icons/utensils.svg' },
   ];
@@ -25,15 +25,15 @@ dietOptions: Diet[] = [// grupları belirledim renkleri farklı yaptım ama bunu
   selectedDiets: Set<string> = new Set();
 
   constructor(private navCtrl: NavController) {}
-  
+
   toggleDiet(diet: Diet) {
     if (this.selectedDiets.has(diet.id)) {
       this.selectedDiets.delete(diet.id);
     } else {
-      if (diet.id === 'none') {// none basılınca 
-        this.selectedDiets.clear(); // diğer seçenekleri sıfırla
+      if (diet.id === 'none') {
+        this.selectedDiets.clear();
       } else {
-        this.selectedDiets.delete('none'); // başka bir şey seçildiyse none kaldır
+        this.selectedDiets.delete('none');
       }
       this.selectedDiets.add(diet.id);
     }
@@ -43,24 +43,14 @@ dietOptions: Diet[] = [// grupları belirledim renkleri farklı yaptım ama bunu
     return this.selectedDiets.has(dietId);
   }
 
-  getDietButtonStyle(diet: Diet): { [key: string]: string } {// basıldıktan sonra kutunun rengi değişsin diye yazıldı
-    return {
-      'background-color': this.isDietSelected(diet.id) ? '#fff7ed' : '#ffffff',
-      'border-color': this.isDietSelected(diet.id) ? '#f97316' : 'transparent',
-      'border-width': '2px',
-      'border-style': 'solid'
-    };
-  }
-
   next() {
-    if (this.selectedDiets.size > 0) {//sonraki butonu için seçili diet yoksa ilerletmiyor
+    if (this.selectedDiets.size > 0) {
       const selectedDiets = this.dietOptions.filter(diet => this.selectedDiets.has(diet.id));
-      this.navCtrl.navigateForward('/content/allergen-filter', { state: { diets: selectedDiets } });// bir sonraki sayfaya yönlendirdi
+      this.navCtrl.navigateForward('/content/allergen-filter', { state: { diets: selectedDiets } });
     } else {
       console.log("Lütfen en az bir diyet seçin.");
     }
   }
- ngOnInit() {
-  }
 
+  ngOnInit() {}
 }
