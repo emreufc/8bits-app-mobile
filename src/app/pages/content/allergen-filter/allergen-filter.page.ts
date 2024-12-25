@@ -18,7 +18,6 @@ export class AllergenFilterPage implements OnInit {
     { id: 'gluten', name: 'Glüten', icon: 'assets/icons/wheat.svg' },
     { id: 'garlic', name: 'Sarımsak', icon: 'assets/icons/garlic.svg' },
     { id: 'onion', name: 'Soğan', icon: 'assets/icons/onion.svg' },
-    { id: 'egg', name: 'Yumurta', icon: 'assets/icons/egg.svg' },
     { id: 'soy', name: 'Soya', icon: 'assets/icons/soy.svg' },
     { id: 'fish', name: 'Balık', icon: 'assets/icons/fish.svg' },
     { id: 'seafood', name: 'Deniz Ürünleri', icon: 'assets/icons/shrimp.svg' },
