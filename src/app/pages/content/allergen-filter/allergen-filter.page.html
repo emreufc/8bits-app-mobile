@@ -13,18 +13,21 @@
   <ion-grid>
     <ion-row>
       <ion-col size="6" *ngFor="let ingredient of ingredients">
-        <ion-button expand="block" fill="clear" class="ingredient-button" 
-          
-          [ngStyle]="getIngredientButtonStyle(ingredient)"
-          (click)="toggleIngredient(ingredient)">
+        <ion-button 
+              expand="block" 
+              fill="clear" 
+              class="ingredient-button" 
+              [ngClass]="{ 'selected': isIngredientSelected(ingredient.id) }" 
+              (click)="toggleIngredient(ingredient)">
           <ion-icon [src]="ingredient.icon" slot="start"></ion-icon>
-          <span>{{ ingredient.name }}</span>
+          {{ ingredient.name }}
         </ion-button>
+
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <ion-button expand="block" class="confirm-button" (click)="confirm()"
+  <ion-button expand="block" fill="clear" class="confirm-button" (click)="confirm()"
       [disabled]="selectedIngredients.size === 0">
       ONAYLA
     </ion-button>

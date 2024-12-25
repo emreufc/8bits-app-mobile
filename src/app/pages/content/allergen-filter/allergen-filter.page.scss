@@ -9,55 +9,65 @@ ion-header {
   ion-content {
     .curved-header {
       background: #FF8C00; /* Üst kısım için turuncu arka plan */
-      height: 30vh; /* 30% dikey alanı kaplar */
+      height: auto; /* Yükseklik içeriğe göre otomatik ayarlansın */
       border-bottom-left-radius: 30px; /* Sol alt köşe kıvrımlı */
       border-bottom-right-radius: 30px; /* Sağ alt köşe kıvrımlı */
-      padding: 20px; /* İçerik etrafında boşluk */
+      padding: 15px 20px; /* Daha küçük padding */
       color: white; /* Yazı rengi beyaz */
-      
+      text-align: center; /* Metinleri ortala */
+    
       h1 {
-        font-size: 28px; /* Başlık metni büyük */
-        margin-bottom: 0; /* Alt boşluk yok */
-        padding-top: 20px; /* Üstten boşluk */
+        font-size: 24px; /* Daha küçük başlık metni */
+        margin-bottom: 10px; /* Alt boşluk */
         font-weight: bold; /* Kalın yazı */
+        line-height: 1.3; /* Satır yüksekliği */
+        word-wrap: break-word; /* Kelimeler taşarsa kır */
       }
-      
+    
       h2 {
-        font-size: 20px; /* Alt başlık metni daha küçük */
+        font-size: 16px; /* Alt başlık için daha küçük metin */
         margin-top: 5px; /* Üstten küçük boşluk */
         font-weight: normal; /* Normal kalınlıkta yazı */
+        line-height: 1.3; /* Satır yüksekliği */
+        font-style: italic; /* İtalik yazı */
       }
     }
-    .ingredient-button {
-      --background-activated: var(--background);
-      --background-hover: var(--background);
-      --border-radius: 12px;
-      --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      
-      --color: #000000; /* Siyah yazı rengi */
-      height: 50px;
-      margin: 0;
-      transition: all 0.3s ease;
-  
-      &::part(native) {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+       .ingredient-button {
+      /* .diet-button stilini yansıtır */
+      background-color: #f4f5f8; /* Varsayılan arka plan rengi */
+      color: #000;              /* Varsayılan metin rengi */
+      border: 2px solid transparent;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      height: 60px;
+      --padding-start: 0px;
+      transition: all 0.3s ease-in-out; /* Yumuşak geçiş efekti */
+    
+      &.selected {
+        background-color: #FF8C00; /* Seçilen buton arka plan rengi */
+        color: #fff;              /* Seçilen buton metin rengi */
+        border: 2px solid #FF8C00;
       }
     }
-   
     
     .confirm-button {
-      --background:#FF8C00; /* Turuncu arka plan rengi */
-      --background-activated: #f97316 !important;
-      --background-focused: #f97316 !important;
-      --color: #ffffff; /* Beyaz yazı rengi */
-       --border-radius: 50px; // Köşeleri tamamen yuvarlak yapar
-        width: 80px; // Buton genişliği (ihtiyaca göre ayarlayın)
-        height: 50px; // Buton yüksekliği (ihtiyaca göre ayarlayın)
-        font-weight: bold; // Metni kalın yapar
-        margin-top: 20px;
-        float: right; // Butonu sağa yaslar
-      
-    }  
+      /* .next-button stilini yansıtır */
+      background-color: #FF8C00;
+      color: #fff;
+      border: 2px solid transparent;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 60px;
+      width: auto;
+      font-weight: bold; 
+      margin-top: 10px;
+      margin-right: 15px;
+      float: right;
+      transition: all 0.3s ease-in-out;
+    }
   }  

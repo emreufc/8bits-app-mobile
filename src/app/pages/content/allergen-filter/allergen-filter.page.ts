@@ -5,8 +5,8 @@ interface Ingredient {
   id: string;
   name: string;
   icon: string;
-  
 }
+
 @Component({
   selector: 'app-allergen-filter',
   templateUrl: './allergen-filter.page.html',
@@ -27,7 +27,6 @@ export class AllergenFilterPage implements OnInit {
     { id: 'none', name: 'Yok', icon: 'assets/icons/none.svg' },
   ];
 
-
   selectedIngredients: Set<string> = new Set();
 
   constructor(private navCtrl: NavController) {}
@@ -36,39 +35,29 @@ export class AllergenFilterPage implements OnInit {
     if (this.selectedIngredients.has(ingredient.id)) {
       this.selectedIngredients.delete(ingredient.id);
     } else {
-      if(ingredient.id === 'none'){
+      if (ingredient.id === 'none') {
         this.selectedIngredients.clear();
-      }
-      else{ 
-        this.selectedIngredients.delete('none')
+      } else {
+        this.selectedIngredients.delete('none');
       }
       this.selectedIngredients.add(ingredient.id);
     }
   }
-    isIngredientSelected(ingredientId: string): boolean {
-      return this.selectedIngredients.has(ingredientId);
-    }
 
+  isIngredientSelected(ingredientId: string): boolean {
+    return this.selectedIngredients.has(ingredientId);
+  }
 
-    getIngredientButtonStyle(ingredient: Ingredient): { [key: string]: string } {
-      return {
-        'background-color': this.isIngredientSelected(ingredient.id) ? '#fff7ed' : '#ffffff',
-        'border-color': this.isIngredientSelected(ingredient.id) ? '#f97316' : 'transparent',
-        'border-width': '2px',
-        'border-style': 'solid'
-      };
-    }
   confirm() {
     if (this.selectedIngredients.size > 0) {
-      const selectedIngredients = this.ingredients.filter(ingredient => 
+      const selectedIngredients = this.ingredients.filter(ingredient =>
         this.selectedIngredients.has(ingredient.id)
       );
-      this.navCtrl.navigateForward('/content/home', { 
-        state: { ingredients: selectedIngredients } 
+      this.navCtrl.navigateForward('/content/home', {
+        state: { ingredients: selectedIngredients },
       });
     }
   }
-  ngOnInit() {
-  }
 
+  ngOnInit() {}
 }
