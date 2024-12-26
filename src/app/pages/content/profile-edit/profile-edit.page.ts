@@ -1,4 +1,3 @@
-// profile-edit.page.ts
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -21,6 +20,12 @@ export class ProfileEditPage {
   isEditingEmail: boolean = false;
   isEditingMobileNumber: boolean = false;
   isEditingBirthday: boolean = false;
+
+  // Diet Preferences
+  dietPreferences: string[] = [];
+  dietOptions: string[] = ['Vegetarian', 'Vegan', 'Paleo', 'Keto', 'Halal', 'Kosher'];
+  selectedDietPreferences: { [key: string]: boolean } = {};
+  isDietModalOpen: boolean = false;
 
   constructor() {}
 
@@ -46,26 +51,43 @@ export class ProfileEditPage {
         break;
     }
   }
-// Tamamen random bir api isteği gönderme kodu. Değişiklikleri Kaydet'e bastıktan sonra verilerin güncellenmesi için ihityaç var.
-  saveChanges() {
-    // const userData = {
-    //   firstName: this.firstName,
-    //   lastName: this.lastName,
-    //   gender: this.gender,
-    //   email: this.email,
-    //   mobileNumber: this.mobileNumber,
-    //   birthday: this.birthday,
-    // };
 
-    // this.http.post('https://api.example.com/update-profile', userData).subscribe({
-    //   next: (response) => {
-    //     console.log('Profile updated successfully', response);
-    //     alert('Değişiklikler başarıyla kaydedildi.');
-    //   },
-    //   error: (error) => {
-    //     console.error('Error updating profile', error);
-    //     alert('Bir hata oluştu. Lütfen tekrar deneyin.');
-    //   },
-    // });
+  // Modal açma
+  openDietModal() {
+    this.isDietModalOpen = true;
+    this.dietOptions.forEach(option => {
+      this.selectedDietPreferences[option] = this.dietPreferences.includes(option);
+    });
+  }
+
+  // Modal kapama
+  closeDietModal() {
+    this.isDietModalOpen = false;
+  }
+
+  // Diet tercihlerini kaydetme
+  saveDietPreferences() {
+    this.dietPreferences = Object.keys(this.selectedDietPreferences)
+      .filter(option => this.selectedDietPreferences[option]);
+    this.closeDietModal();
+  }
+
+  // Diet tercihini kaldırma
+  removeDietPreference(preference: string) {
+    this.dietPreferences = this.dietPreferences.filter(item => item !== preference);
+  }
+
+  // Verileri API'ye göndererek kaydetme
+  saveChanges() {
+    const userData = {
+      firstName: this.firstName,
+      lastName: this.lastName,
+      gender: this.gender,
+      email: this.email,
+      mobileNumber: this.mobileNumber,
+      birthday: this.birthday,
+      dietPreferences: this.dietPreferences,
+    };
+
   }
 }
