@@ -2,7 +2,7 @@
 
 <ion-content class = "ion-padding">
     <app-searchbar></app-searchbar>
-    <app-category></app-category>
+    <app-category [chips]="['Hepsi','Kahvaltı','Öğle Yemeği','Akşam Yemeği']"></app-category>
 
     <div class="recipes-grid-horizontal" #recipesGrid>
       <ion-card class="recipe-card" *ngFor="let recipe of recipes" (click)="goToRecipeDetail(recipe.id)">
