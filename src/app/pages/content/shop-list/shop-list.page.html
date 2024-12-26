@@ -1,5 +1,8 @@
 <ion-content>
   <div class="shopping-list-container">
+    <div class="list-header">
+      <h1>Alışveriş Listesi</h1>
+    </div>
     <ion-searchbar 
       placeholder="Type ingredients..." 
       [(ngModel)]="searchTerm"
@@ -8,11 +11,8 @@
     </ion-searchbar>
           <!-- (ionChange) triggers when the input loses focus or the user presses enter. 
            (ionInput) triggers on every input change, which is more responsive for search functionality. --> 
-    <div class="list-header">
-      <h1>Alışveriş Listesi</h1>
-      <span class="items-count">{{ filteredItems.length }} items</span>
-    </div>
 
+           <div class="items-count">{{ filteredItems.length }} items</div>
     <ion-list class="shopping-list">
       <ion-item-sliding *ngFor="let item of filteredItems">
         <ion-item>
