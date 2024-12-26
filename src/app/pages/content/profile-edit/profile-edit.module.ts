@@ -14,8 +14,7 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    ProfileEditPageRoutingModule,
-    ComponentsModule
+    ProfileEditPageRoutingModule
   ],
   declarations: [ProfileEditPage]
 })
