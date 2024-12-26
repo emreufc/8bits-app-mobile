@@ -8,6 +8,8 @@ import { ProfileEditPageRoutingModule } from './profile-edit-routing.module';
 
 import { ProfileEditPage } from './profile-edit.page';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
+import { UserService } from 'src/app/core/services/user.service';
+import { HttpClient } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -16,6 +18,7 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
     IonicModule,
     ProfileEditPageRoutingModule
   ],
-  declarations: [ProfileEditPage]
+  declarations: [ProfileEditPage],
+  providers: [UserService]
 })
 export class ProfileEditPageModule {}
