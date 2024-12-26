@@ -1,12 +1,12 @@
 <ion-content>
-  <div class="shopping-list-container">
+  <div class="inventory-container">
           <!-- (ionChange) triggers when the input loses focus or the user presses enter. 
            (ionInput) triggers on every input change, which is more responsive for search functionality. --> 
     <div class="list-header">
       <h1>Benim Mutfağım</h1>
     </div>
 
-    <app-category [chips]="['Hepsi','Kahvaltı','Öğle Yemeği','Akşam Yemeği']"></app-category>
+    <app-category [chips]="['Hepsi','Sebze','Meyve','Et','Süt Ürünleri','Kuruyemiş']"></app-category>
 
     <ion-searchbar 
     placeholder="Type ingredients..." 
@@ -15,7 +15,7 @@
     class="custom-searchbar">
   </ion-searchbar>
   <span class="items-count">{{ filteredItems.length }} items</span>
-    <ion-list class="shopping-list">
+    <ion-list class="inventory-list">
       <ion-item-sliding *ngFor="let item of filteredItems">
         <ion-item>
           <ion-label>
