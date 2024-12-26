@@ -1,5 +1,5 @@
 ion-content{
-    .shopping-list-container {
+    .inventory-container {
         padding: 16px;
         padding-bottom: 0px;
       }
@@ -15,27 +15,44 @@ ion-content{
       
       .list-header {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: column; /* Dikey hizalama için */
+        align-items: center; /* Yazıyı yatayda ortala */
         margin-bottom: 16px;
       
         h1 {
-          font-size: 24px;
-          font-weight: bold;
-          color: #1f2937;
+          font-family: 'Roboto', sans-serif; /* Roboto fontu */
+          font-size: 28px; /* Daha büyük yazı boyutu */
+          font-weight: 500; /* Orta kalınlık */
+          color: #1f2937; /* Koyu gri */
           margin: 0;
+          letter-spacing: 0.5px; /* Harf aralığı */
+          text-transform: capitalize; /* Baş harfi büyük yap */
+          position: relative; /* Alt çizgi için referans oluştur */
+        }
+      
+        h1::after {
+          content: ''; /* Çizgi için boş içerik */
+          position: absolute;
+          left: 50%; /* Çizgiyi ortaya hizala */
+          transform: translateX(-50%); /* Çizgiyi tam ortalar */
+          bottom: -8px; /* Çizgi ile yazı arasındaki boşluk */
+          width: 150%; /* Yazıdan biraz daha uzun */
+          height: 2px; /* Çizginin kalınlığı */
+          background-color: #FF8C00; /* Çizginin turuncu rengi */
         }
       
         .items-count {
-          color: #6b7280;
+          color: #6b7280; /* Hafif gri renk */
           font-size: 14px;
+          font-family: 'Roboto', sans-serif; /* Aynı font */
+          margin-top: 8px; /* Yazının altına boşluk */
         }
       }
       
-      .shopping-list {
+      .inventory-list {
         background: transparent;
       
-        .shopping-item {
+        .inventory-item {
           --background: transparent;
           --padding-start: 0;
           --padding-end: 0;
