@@ -54,7 +54,7 @@ ion-header {
     }
     
  
-      .next-button {
+    .next-button {
         --background:#FF8C00; /* Turuncu arka plan rengi */
         --background-activated: #f97316 !important;
       --background-focused: #f97316 !important;
@@ -66,5 +66,5 @@ ion-header {
         margin-top: 20px;
         margin-right: 15px; // Sağdan boşluk
         float: right; // Butonu sağa yaslar
-      }
+    }
   }  
