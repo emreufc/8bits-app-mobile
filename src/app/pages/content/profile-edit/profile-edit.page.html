@@ -108,7 +108,47 @@
         </ion-button>
       </ion-buttons>
     </ion-item>
+    
+    <ion-item lines="full" class="diet-preferences-item">
+      <ion-label position="stacked">Diet Preferences</ion-label>
+      <div class="diet-list">
+        <ion-chip *ngFor="let preference of dietPreferences">
+          <ion-label>{{ preference }}</ion-label>
+          <ion-icon name="close-circle" (click)="removeDietPreference(preference)"></ion-icon>
+        </ion-chip>
+        <ion-chip (click)="openDietModal()">
+          <ion-icon name="add-circle"></ion-icon>
+        </ion-chip>
+      </div>
+    </ion-item>
+    
+    
+    
+    <ion-modal [isOpen]="isDietModalOpen" (ionModalWillDismiss)="closeDietModal()">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Select Diet Preferences</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="closeDietModal()">Close</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-list>
+            <ion-item *ngFor="let option of dietOptions">
+              <ion-label>{{ option }}</ion-label>
+              <ion-checkbox slot="end" [(ngModel)]="selectedDietPreferences[option]"></ion-checkbox>
+            </ion-item>
+          </ion-list>
+          <ion-button expand="block" (click)="saveDietPreferences()">Save</ion-button>
+        </ion-content>
+      </ng-template>
+    </ion-modal>  
   </ion-list>
+
+  
+  
 
   <!-- Save Changes Button -->
   <ion-footer>

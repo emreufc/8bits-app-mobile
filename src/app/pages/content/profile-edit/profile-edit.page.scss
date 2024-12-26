@@ -116,5 +116,47 @@ ion-content {
     padding: 0 20px; /* Kenarlardan uzaklaştırır */
   }
   
+  ion-item.diet-preferences-item {
+    display: block !important; /* Tüm içeriği yatay olarak kaplar */
+    width: 100%; /* Tam genişlikte olur */
+    margin-bottom: 20px; /* Altında boşluk bırakır */
+    clear: both !important; /* Yanına hiçbir şey gelmesini engeller */
+      ion-label {
+        display: block !important;    /* Blok düzende yerleştirir */
+        width: 100% !important;       /* Yatay doğrultuda tüm satırı kaplar */
+        margin: 0 !important;         /* Kenarlardaki olası boşlukları kaldırır */
+      }
+  }
+  
+  .diet-list {
+    display: flex;
+    flex-wrap: wrap; /* Chip'lerin satırlara taşınmasını sağlar */
+    gap: 10px; /* Chip'ler arasında boşluk bırakır */
+    margin-top: 15px; /* Label ile chip'ler arasında boşluk bırakır */
+    justify-content: flex-start; /* Chip'leri sola hizalar */
+  }
+  
+  ion-chip {
+    --background: #FF8C00 !important;
+    --color: white !important; /* Yazılar beyaz */
+    font-size: 0.9em;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+  }
+  
+  ion-chip ion-icon {
+    margin-left: 5px;
+    font-size: 1.2em;
+    color: white !important; /* İkon beyaz */
+  }
+  
+  ion-chip:last-child {
+    --background: #fff !important;
+    --color: #FF8C00;
+    border: 1px dashed #FF8C00;
+  }
+  
+  
   
 }
