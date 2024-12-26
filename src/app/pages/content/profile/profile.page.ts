@@ -21,7 +21,7 @@ export class ProfilePage implements OnInit {
       image: 'https://via.placeholder.com/400?text=Vegetable+Noodle',
       rating: 4.3,
       time: '20 min',
-      views: '2.3K',
+      servings: 2,
       isLiked: true,
     },
     {
@@ -30,7 +30,7 @@ export class ProfilePage implements OnInit {
       image: 'https://via.placeholder.com/400?text=Chicken+Curry',
       rating: 4.8,
       time: '45 min',
-      views: '5.1K',
+      servings: 4,
       isLiked: false,
     },
     {
@@ -39,7 +39,7 @@ export class ProfilePage implements OnInit {
       image: 'https://via.placeholder.com/400?text=Beef+Stroganoff',
       rating: 4.5,
       time: '30 min',
-      views: '3.8K',
+      servings: 3,
       isLiked: false,
     },
     {
@@ -48,7 +48,7 @@ export class ProfilePage implements OnInit {
       image: 'https://via.placeholder.com/400?text=Spaghetti+Bolognese',
       rating: 4.7,
       time: '40 min',
-      views: '4.2K',
+      servings: 5,
       isLiked: false,
     },
     {
@@ -57,7 +57,7 @@ export class ProfilePage implements OnInit {
       image: 'https://via.placeholder.com/400?text=Grilled+Salmon',
       rating: 4.9,
       time: '25 min',
-      views: '6.1K',
+      servings: 2,
       isLiked: false,
     },
     {
@@ -66,7 +66,7 @@ export class ProfilePage implements OnInit {
       image: 'https://via.placeholder.com/400?text=Caesar+Salad',
       rating: 4.2,
       time: '15 min',
-      views: '2.9K',
+      servings: 3,
       isLiked: true,
     }
   ];
