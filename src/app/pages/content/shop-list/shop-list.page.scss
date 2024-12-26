@@ -69,7 +69,7 @@ ion-content{
       --padding-start: 0;
       --padding-end: 0;
       --inner-padding-end: 0;
-      margin-bottom: 8px;
+      margin-bottom: 30px; /* Boşlukları arttırmak için 8px'den 16px'e çıkarıldı */
   
       .item-content {
         width: 100%;
@@ -92,22 +92,17 @@ ion-content{
           font-weight: 500;
           color: #1f2937;
         }
-  
-        .item-quantity {
-          font-size: 14px;
-          color: #6b7280;
-        }
-      }
-  
-      .remove-button {
-        --padding-start: 8px;
-        --padding-end: 8px;
-        margin: 0;
-        height: 36px;
-        
-        ion-icon {
-          font-size: 20px;
-          color: #9ca3af;
+
+        .remove-button {
+          --padding-start: 8px;
+          --padding-end: 8px;
+          margin: 0;
+          height: 36px;
+          
+          ion-icon {
+            font-size: 20px;
+            color: #9ca3af;
+          }
         }
       }
     }
