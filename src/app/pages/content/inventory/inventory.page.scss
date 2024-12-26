@@ -36,19 +36,32 @@ ion-content{
           left: 50%; /* Çizgiyi ortaya hizala */
           transform: translateX(-50%); /* Çizgiyi tam ortalar */
           bottom: -8px; /* Çizgi ile yazı arasındaki boşluk */
-          width: 150%; /* Yazıdan biraz daha uzun */
+          width: 300px; /* Yazıdan biraz daha uzun */
           height: 2px; /* Çizginin kalınlığı */
           background-color: #FF8C00; /* Çizginin turuncu rengi */
         }
-      
-        .items-count {
-          color: #6b7280; /* Hafif gri renk */
-          font-size: 14px;
-          font-family: 'Roboto', sans-serif; /* Aynı font */
-          margin-top: 8px; /* Yazının altına boşluk */
+      }
+      .items-count {
+        color: #6b7280; /* Hafif gri renk */
+        font-size: 14px;
+        font-family: 'Roboto', sans-serif; /* Aynı font */
+        margin-top: 8px; /* Yazının altına boşluk */
+        align-self: flex-end; /* Ekranın sağına hizala */
+      }
+      ion-avatar[slot="start"] {
+        /* Max boyutu 96x96 piksel olarak belirle, orijinal oranı koru */
+        max-width: 96px;
+        max-height: 96px;
+    
+        img {
+          /* En-boy oranını koruyarak maximum 96x96 piksel kullan */
+          width: auto;
+          height: auto;
+          max-width: 96px;
+          max-height: 96px;
+          object-fit: cover; 
         }
       }
-      
       .inventory-list {
         background: transparent;
       

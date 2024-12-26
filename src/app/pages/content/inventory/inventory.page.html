@@ -17,7 +17,10 @@
   <span class="items-count">{{ filteredItems.length }} items</span>
     <ion-list class="inventory-list">
       <ion-item-sliding *ngFor="let item of filteredItems">
-        <ion-item>
+        <ion-item lines="full">
+          <ion-avatar slot="start">
+            <img src="assets/images/sample.png" />
+          </ion-avatar>
           <ion-label>
             <h2>{{ item.name }}</h2>
             <p>{{ item.quantity }} {{ item.unit }}</p>
