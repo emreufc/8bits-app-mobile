@@ -13,7 +13,7 @@ export class RecipeCardComponent  implements OnInit {
     image: string;
     rating: number;
     time: string;
-    views: string;
+    servings: number;
     isLiked: boolean;
   };
   @Output() likeToggled = new EventEmitter<number>(); // Parent'a bildirim yapmak için EventEmitter
