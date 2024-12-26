@@ -15,32 +15,61 @@ ion-content{
   
   .list-header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column; /* Dikey hizalama için */
+    align-items: center; /* Yazıyı yatayda ortala */
     margin-bottom: 16px;
   
     h1 {
-      font-size: 24px;
-      font-weight: bold;
-      color: #1f2937;
+      font-family: 'Roboto', sans-serif; /* Roboto fontu */
+      font-size: 28px; /* Daha büyük yazı boyutu */
+      font-weight: 500; /* Orta kalınlık */
+      color: #1f2937; /* Koyu gri */
       margin: 0;
+      letter-spacing: 0.5px; /* Harf aralığı */
+      text-transform: capitalize; /* Baş harfi büyük yap */
+      position: relative; /* Alt çizgi için referans oluştur */
     }
   
-    .items-count {
-      color: #6b7280;
-      font-size: 14px;
+    h1::after {
+      content: ''; /* Çizgi için boş içerik */
+      position: absolute;
+      left: 50%; /* Çizgiyi ortaya hizala */
+      transform: translateX(-50%); /* Çizgiyi tam ortalar */
+      bottom: -8px; /* Çizgi ile yazı arasındaki boşluk */
+      width: 300px; /* Yazıdan biraz daha uzun */
+      height: 2px; /* Çizginin kalınlığı */
+      background-color: #FF8C00; /* Çizginin turuncu rengi */
+    }
+  
+  }
+  .items-count {
+    color: #6b7280; /* Hafif gri renk */
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif; /* Aynı font */
+    margin-top: 8px; /* Yazının altına boşluk */
+  }
+  ion-avatar[slot="start"] {
+    /* Max boyutu 96x96 piksel olarak belirle, orijinal oranı koru */
+    max-width: 96px;
+    max-height: 96px;
+
+    img {
+      /* En-boy oranını koruyarak maximum 96x96 piksel kullan */
+      width: auto;
+      height: auto;
+      max-width: 96px;
+      max-height: 96px;
+      object-fit: cover; 
     }
   }
-  
   .shopping-list {
     background: transparent;
-  
     .shopping-item {
       --background: transparent;
       --padding-start: 0;
       --padding-end: 0;
       --inner-padding-end: 0;
-      margin-bottom: 8px;
+      margin-bottom: 30px; /* Boşlukları arttırmak için 8px'den 16px'e çıkarıldı */
   
       .item-content {
         width: 100%;
@@ -63,22 +92,17 @@ ion-content{
           font-weight: 500;
           color: #1f2937;
         }
-  
-        .item-quantity {
-          font-size: 14px;
-          color: #6b7280;
-        }
-      }
-  
-      .remove-button {
-        --padding-start: 8px;
-        --padding-end: 8px;
-        margin: 0;
-        height: 36px;
-        
-        ion-icon {
-          font-size: 20px;
-          color: #9ca3af;
+
+        .remove-button {
+          --padding-start: 8px;
+          --padding-end: 8px;
+          margin: 0;
+          height: 36px;
+          
+          ion-icon {
+            font-size: 20px;
+            color: #9ca3af;
+          }
         }
       }
     }

@@ -13,7 +13,7 @@ export class AuthService {
     // return {
     //   ...user,
     //   profileImage: environment.baseUrl + user.profileImage,
-    // };
+    //  };
     return { name: 'Emre', surname: 'Aydil'};
   }
 

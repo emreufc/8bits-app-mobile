@@ -49,16 +49,21 @@ const routes: Routes = [
         loadChildren: () => import('./shop-list/shop-list.module').then( m => m.ShopListPageModule)
       },
       {
+        path: 'edit-diet-preferences',
+        loadChildren: () => import('./edit-diet-preferences/edit-diet-preferences.module').then( m => m.EditDietPreferencesPageModule)
+      },
+      {
+        path: 'inventory',
+        loadChildren: () => import('./inventory/inventory.module').then( m => m.InventoryPageModule)
+      },
+      {
         path: '',
         redirectTo: 'home',
         pathMatch: 'full'
       }
-
     ]
-  },  {
-    path: 'edit-diet-preferences',
-    loadChildren: () => import('./edit-diet-preferences/edit-diet-preferences.module').then( m => m.EditDietPreferencesPageModule)
   },
+ 
 
   
 ];

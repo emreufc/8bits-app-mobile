@@ -2,7 +2,7 @@
 
 <ion-content class = "ion-padding">
     <app-searchbar></app-searchbar>
-    <app-category></app-category>
+    <app-category [chips]="['Hepsi','Kahvaltı','Öğle Yemeği','Akşam Yemeği']"></app-category>
 
     <div class="recipes-grid-horizontal" #recipesGrid>
       <ion-card class="recipe-card" *ngFor="let recipe of recipes" (click)="goToRecipeDetail(recipe.id)">
@@ -24,9 +24,9 @@
               </div>
             </div>
             <div class="recipe-stats">
-              <div class="views">
-                <ion-icon name="eye"></ion-icon>
-                <span>{{ recipe.views }}</span>
+              <div class="servings">
+                <ion-icon name="person-add-outline"></ion-icon>
+                <span>{{ recipe.servings }}</span>
               </div>
               <ion-icon
                 [name]="recipe.isLiked ? 'heart' : 'heart-outline'"

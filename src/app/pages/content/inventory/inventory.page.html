@@ -1,26 +1,29 @@
 <ion-content>
-  <div class="shopping-list-container">
-    <div class="list-header">
-      <h1>Alışveriş Listesi</h1>
-    </div>
-    <ion-searchbar 
-      placeholder="Type ingredients..." 
-      [(ngModel)]="searchTerm"
-      (ionChange)="onSearchChange($event)" 
-      class="custom-searchbar">
-    </ion-searchbar>
+  <div class="inventory-container">
           <!-- (ionChange) triggers when the input loses focus or the user presses enter. 
            (ionInput) triggers on every input change, which is more responsive for search functionality. --> 
+    <div class="list-header">
+      <h1>Mutfağım</h1>
+    </div>
 
-           <div class="items-count">{{ filteredItems.length }} items</div>
-    <ion-list class="shopping-list">
+    <app-category [chips]="['Hepsi','Sebze','Meyve','Et','Süt Ürünleri','Kuruyemiş']"></app-category>
+
+    <ion-searchbar 
+    placeholder="Type ingredients..." 
+    [(ngModel)]="searchTerm"
+    (ionChange)="onSearchChange($event)" 
+    class="custom-searchbar">
+  </ion-searchbar>
+  <span class="items-count">{{ filteredItems.length }} items</span>
+    <ion-list class="inventory-list">
       <ion-item-sliding *ngFor="let item of filteredItems">
         <ion-item lines="full">
-            <ion-avatar slot="start">
-              <img src="assets/images/sample.png" />
-            </ion-avatar>
+          <ion-avatar slot="start">
+            <img src="assets/images/sample.png" />
+          </ion-avatar>
           <ion-label>
             <h2>{{ item.name }}</h2>
+            <p>{{ item.quantity }} {{ item.unit }}</p>
           </ion-label>
         </ion-item>
         <ion-item-options side="end">
