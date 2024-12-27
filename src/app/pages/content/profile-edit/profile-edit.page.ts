@@ -23,9 +23,15 @@ export class ProfileEditPage {
 
   // Diet Preferences
   dietPreferences: string[] = [];
-  dietOptions: string[] = ['Vegetarian', 'Vegan', 'Paleo', 'Keto', 'Halal', 'Kosher'];
+  dietOptions: string[] = ['Vejeteryan', 'Vegan', 'Paleo', 'Keto', 'Helal', 'Koşer'];
   selectedDietPreferences: { [key: string]: boolean } = {};
   isDietModalOpen: boolean = false;
+
+    // Alerjen Tercihler,
+    alergenPreferences: string[] = [];
+    alergenOptions: string[] = ['Süt Ürünleri', 'Glüten', 'Sarımsak', 'Soğan', 'Balık', 'Deniz Ürünleri', 'Mantar','Kuruyemiş'];
+    selectedAlergenPreferences: { [key: string]: boolean } = {};
+    isAlergenModalOpen: boolean = false;
 
   constructor() {}
 
@@ -59,10 +65,18 @@ export class ProfileEditPage {
       this.selectedDietPreferences[option] = this.dietPreferences.includes(option);
     });
   }
-
+  openAlergenModal() {
+    this.isAlergenModalOpen = true;
+    this.alergenOptions.forEach(option => {
+      this.selectedAlergenPreferences[option] = this.alergenPreferences.includes(option);
+    });
+  }
   // Modal kapama
   closeDietModal() {
     this.isDietModalOpen = false;
+  }
+  closeAlergenModal() {
+    this.isAlergenModalOpen = false;
   }
 
   // Diet tercihlerini kaydetme
@@ -71,12 +85,21 @@ export class ProfileEditPage {
       .filter(option => this.selectedDietPreferences[option]);
     this.closeDietModal();
   }
+  
+  saveAlergenPreferences() {
+    this.alergenPreferences = Object.keys(this.selectedAlergenPreferences)
+      .filter(option => this.selectedAlergenPreferences[option]);
+    this.closeDietModal();
+  }
+
 
   // Diet tercihini kaldırma
   removeDietPreference(preference: string) {
     this.dietPreferences = this.dietPreferences.filter(item => item !== preference);
   }
-
+  removeAlergenPreference(preference: string) {
+    this.alergenPreferences = this.alergenPreferences.filter(item => item !== preference);
+  }
   // Verileri API'ye göndererek kaydetme
   saveChanges() {
     const userData = {
@@ -87,6 +110,7 @@ export class ProfileEditPage {
       mobileNumber: this.mobileNumber,
       birthday: this.birthday,
       dietPreferences: this.dietPreferences,
+      alergenPreferences:this.alergenPreferences
     };
 
   }
