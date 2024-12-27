@@ -9,7 +9,7 @@
     <app-category [chips]="['Hepsi','Sebze','Meyve','Et','Süt Ürünleri','Kuruyemiş']"></app-category>
 
     <ion-searchbar 
-    placeholder="Type ingredients..." 
+    placeholder="Malzemeleri giriniz..." 
     [(ngModel)]="searchTerm"
     (ionChange)="onSearchChange($event)" 
     class="custom-searchbar">
@@ -36,7 +36,7 @@
 
     <!-- Yeni modal açma butonu -->
     <ion-button expand="block" class="add-button" (click)="openAddItemModal()">
-      Add New Item
+      Yeni Ürün Ekle
     </ion-button>
   </div>
 </ion-content>
