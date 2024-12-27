@@ -4,7 +4,7 @@
       <h1>Alışveriş Listesi</h1>
     </div>
     <ion-searchbar 
-      placeholder="Type ingredients..." 
+      placeholder="Malzemeleri giriniz..." 
       [(ngModel)]="searchTerm"
       (ionChange)="onSearchChange($event)" 
       class="custom-searchbar">
@@ -12,7 +12,7 @@
           <!-- (ionChange) triggers when the input loses focus or the user presses enter. 
            (ionInput) triggers on every input change, which is more responsive for search functionality. --> 
 
-           <div class="items-count">{{ filteredItems.length }} items</div>
+           <div class="items-count">{{ filteredItems.length }} ürün</div>
     <ion-list class="shopping-list">
       <ion-item-sliding *ngFor="let item of filteredItems">
         <ion-item lines="full">
@@ -33,7 +33,7 @@
 
     <!-- Yeni modal açma butonu -->
     <ion-button expand="block" class="add-button" (click)="openAddItemModal()">
-      Add New Item
+      Yeni Ürün Ekle
     </ion-button>
   </div>
 </ion-content>

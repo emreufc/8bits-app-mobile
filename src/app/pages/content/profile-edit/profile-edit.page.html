@@ -1,11 +1,5 @@
 <!-- profile-edit.page.html -->
 
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Profil Bilgileri</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
   <div class="profile-container">
     <ion-avatar class="profile-avatar">
@@ -18,7 +12,7 @@
   <ion-list>
     <!-- First Name -->
     <ion-item lines="full"> <!-- Çizgili hatlar görünür -->
-      <ion-label position="stacked">First name</ion-label>
+      <ion-label position="stacked">Ad</ion-label>
       <ion-input 
         [disabled]="!isEditingFirstName" 
         [(ngModel)]="firstName">
@@ -26,33 +20,33 @@
       <ion-buttons slot="end">
         <!-- Edit butonu turuncu -->
         <ion-button fill="clear" (click)="toggleEdit('firstName')">
-          {{ isEditingFirstName ? 'Kaydet' : 'Edit' }}
+          {{ isEditingFirstName ? 'Kaydet' : 'Güncelle' }}
         </ion-button>
       </ion-buttons>
     </ion-item>
 
     <!-- Last Name -->
     <ion-item lines="full">
-      <ion-label position="stacked">Last name</ion-label>
+      <ion-label position="stacked">Soyad</ion-label>
       <ion-input 
         [disabled]="!isEditingLastName" 
         [(ngModel)]="lastName">
       </ion-input>
       <ion-buttons slot="end">
         <ion-button fill="clear" (click)="toggleEdit('lastName')">
-          {{ isEditingLastName ? 'Kaydet' : 'Edit' }}
+          {{ isEditingLastName ? 'Kaydet' : 'Güncelle' }}
         </ion-button>
       </ion-buttons>
     </ion-item>
 
     <!-- Gender -->
     <ion-item lines="full">
-      <ion-label position="stacked">Gender</ion-label>
+      <ion-label position="stacked">Cinsiyet</ion-label>
       <ng-container *ngIf="isEditingGender; else genderText">
         <ion-select interface="action-sheet" [(ngModel)]="gender">
-          <ion-select-option value="Male">Male</ion-select-option>
-          <ion-select-option value="Female">Female</ion-select-option>
-          <ion-select-option value="Other">Other</ion-select-option>
+          <ion-select-option value="Male">Erkek</ion-select-option>
+          <ion-select-option value="Female">Kadın</ion-select-option>
+          <ion-select-option value="Other">Diğer</ion-select-option>
         </ion-select>
       </ng-container>
       <ng-template #genderText>
@@ -60,42 +54,42 @@
       </ng-template>
       <ion-buttons slot="end">
         <ion-button fill="clear" (click)="toggleEdit('gender')">
-          {{ isEditingGender ? 'Kaydet' : 'Edit' }}
+          {{ isEditingGender ? 'Kaydet' : 'Güncelle' }}
         </ion-button>
       </ion-buttons>
     </ion-item>
 
     <!-- Email -->
     <ion-item lines="full">
-      <ion-label position="stacked">Email</ion-label>
+      <ion-label position="stacked">E-posta</ion-label>
       <ion-input 
         [disabled]="!isEditingEmail" 
         [(ngModel)]="email">
       </ion-input>
       <ion-buttons slot="end">
         <ion-button fill="clear" (click)="toggleEdit('email')">
-          {{ isEditingEmail ? 'Kaydet' : 'Edit' }}
+          {{ isEditingEmail ? 'Kaydet' : 'Güncelle' }}
         </ion-button>
       </ion-buttons>
     </ion-item>
 
     <!-- Mobile Number -->
     <ion-item lines="full">
-      <ion-label position="stacked">Mobile Number</ion-label>
+      <ion-label position="stacked">Telefon Numarası</ion-label>
       <ion-input 
         [disabled]="!isEditingMobileNumber" 
         [(ngModel)]="mobileNumber">
       </ion-input>
       <ion-buttons slot="end">
         <ion-button fill="clear" (click)="toggleEdit('mobileNumber')">
-          {{ isEditingMobileNumber ? 'Kaydet' : 'Edit' }}
+          {{ isEditingMobileNumber ? 'Kaydet' : 'Güncelle' }}
         </ion-button>
       </ion-buttons>
     </ion-item>
 
     <!-- Birthday -->
     <ion-item lines="full">
-      <ion-label position="stacked">Birthday</ion-label>
+      <ion-label position="stacked">Doğum Günü</ion-label>
       <ng-container *ngIf="isEditingBirthday; else birthdayText">
         <ion-datetime display-format="DD MMM YYYY" [(ngModel)]="birthday"></ion-datetime>
       </ng-container>
@@ -104,13 +98,13 @@
       </ng-template>
       <ion-buttons slot="end">
         <ion-button fill="clear" (click)="toggleEdit('birthday')">
-          {{ isEditingBirthday ? 'Kaydet' : 'Edit' }}
+          {{ isEditingBirthday ? 'Kaydet' : 'Güncelle' }}
         </ion-button>
       </ion-buttons>
     </ion-item>
     
     <ion-item lines="full" class="diet-preferences-item">
-      <ion-label position="stacked">Diet Preferences</ion-label>
+      <ion-label position="stacked">Diyet Tercihleri</ion-label>
       <div class="diet-list">
         <ion-chip *ngFor="let preference of dietPreferences">
           <ion-label>{{ preference }}</ion-label>
@@ -122,13 +116,11 @@
       </div>
     </ion-item>
     
-    
-    
     <ion-modal [isOpen]="isDietModalOpen" (ionModalWillDismiss)="closeDietModal()">
       <ng-template>
         <ion-header>
           <ion-toolbar>
-            <ion-title>Select Diet Preferences</ion-title>
+            <ion-title>Diyet Tercihlerinizi Seçiniz.</ion-title>
             <ion-buttons slot="end">
               <ion-button (click)="closeDietModal()">Close</ion-button>
             </ion-buttons>
@@ -141,13 +133,49 @@
               <ion-checkbox slot="end" [(ngModel)]="selectedDietPreferences[option]"></ion-checkbox>
             </ion-item>
           </ion-list>
-          <ion-button expand="block" (click)="saveDietPreferences()">Save</ion-button>
+          <ion-button expand="block" (click)="saveDietPreferences()">Kaydet</ion-button>
+        </ion-content>
+      </ng-template>
+    </ion-modal>  
+    <ion-item lines="full" class="diet-preferences-item">
+      <ion-label position="stacked">Alerjen Tercihleri</ion-label>
+      <div class="diet-list">
+        <ion-chip *ngFor="let preference of alergenPreferences">
+          <ion-label>{{ preference }}</ion-label>
+          <ion-icon name="close-circle" (click)="removeAlergenPreference(preference)"></ion-icon>
+        </ion-chip>
+        <ion-chip (click)="openAlergenModal()">
+          <ion-icon name="add-circle"></ion-icon>
+        </ion-chip>
+      </div>
+    </ion-item>
+  
+    <ion-modal [isOpen]="isAlergenModalOpen" (ionModalWillDismiss)="closeAlergenModal()">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Alerjen Tercihlerinizi Seçiniz.</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="closeAlergenModal()">Kapat</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-list>
+            <ion-item *ngFor="let option of alergenOptions">
+              <ion-label>{{ option }}</ion-label>
+              <ion-checkbox slot="end" [(ngModel)]="selectedAlergenPreferences[option]"></ion-checkbox>
+            </ion-item>
+          </ion-list>
+          <ion-button expand="block" (click)="saveAlergenPreferences()">Kaydet</ion-button>
         </ion-content>
       </ng-template>
     </ion-modal>  
   </ion-list>
 
-  
+ 
+
+
   
 
   <!-- Save Changes Button -->
