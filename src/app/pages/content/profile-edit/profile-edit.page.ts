@@ -85,11 +85,11 @@ export class ProfileEditPage {
       .filter(option => this.selectedDietPreferences[option]);
     this.closeDietModal();
   }
-  
+
   saveAlergenPreferences() {
     this.alergenPreferences = Object.keys(this.selectedAlergenPreferences)
       .filter(option => this.selectedAlergenPreferences[option]);
-    this.closeDietModal();
+    this.closeAlergenModal();
   }
 
 
