@@ -18,7 +18,7 @@
   <ion-list>
     <!-- First Name -->
     <ion-item lines="full"> <!-- Çizgili hatlar görünür -->
-      <ion-label position="stacked">First name</ion-label>
+      <ion-label position="stacked">İsim</ion-label>
       <ion-input 
         [disabled]="!isEditingFirstName" 
         [(ngModel)]="firstName">
@@ -33,7 +33,7 @@
 
     <!-- Last Name -->
     <ion-item lines="full">
-      <ion-label position="stacked">Last name</ion-label>
+      <ion-label position="stacked">Soyisim</ion-label>
       <ion-input 
         [disabled]="!isEditingLastName" 
         [(ngModel)]="lastName">
@@ -47,12 +47,12 @@
 
     <!-- Gender -->
     <ion-item lines="full">
-      <ion-label position="stacked">Gender</ion-label>
+      <ion-label position="stacked">Cinsiyet</ion-label>
       <ng-container *ngIf="isEditingGender; else genderText">
         <ion-select interface="action-sheet" [(ngModel)]="gender">
-          <ion-select-option value="Male">Male</ion-select-option>
-          <ion-select-option value="Female">Female</ion-select-option>
-          <ion-select-option value="Other">Other</ion-select-option>
+          <ion-select-option value="Male">Erkek</ion-select-option>
+          <ion-select-option value="Female">Kadın</ion-select-option>
+          <ion-select-option value="Other">Diğer</ion-select-option>
         </ion-select>
       </ng-container>
       <ng-template #genderText>
@@ -67,7 +67,7 @@
 
     <!-- Email -->
     <ion-item lines="full">
-      <ion-label position="stacked">Email</ion-label>
+      <ion-label position="stacked">E-posta</ion-label>
       <ion-input 
         [disabled]="!isEditingEmail" 
         [(ngModel)]="email">
@@ -81,7 +81,7 @@
 
     <!-- Mobile Number -->
     <ion-item lines="full">
-      <ion-label position="stacked">Mobile Number</ion-label>
+      <ion-label position="stacked">Telefon Numarası</ion-label>
       <ion-input 
         [disabled]="!isEditingMobileNumber" 
         [(ngModel)]="mobileNumber">
@@ -95,7 +95,7 @@
 
     <!-- Birthday -->
     <ion-item lines="full">
-      <ion-label position="stacked">Birthday</ion-label>
+      <ion-label position="stacked">Doğum Günü</ion-label>
       <ng-container *ngIf="isEditingBirthday; else birthdayText">
         <ion-datetime display-format="DD MMM YYYY" [(ngModel)]="birthday"></ion-datetime>
       </ng-container>
@@ -110,7 +110,7 @@
     </ion-item>
     
     <ion-item lines="full" class="diet-preferences-item">
-      <ion-label position="stacked">Diet Preferences</ion-label>
+      <ion-label position="stacked">Diyet Tercihleri</ion-label>
       <div class="diet-list">
         <ion-chip *ngFor="let preference of dietPreferences">
           <ion-label>{{ preference }}</ion-label>
@@ -128,7 +128,7 @@
       <ng-template>
         <ion-header>
           <ion-toolbar>
-            <ion-title>Select Diet Preferences</ion-title>
+            <ion-title>Diyet Tercihlerinizi Seçiniz.</ion-title>
             <ion-buttons slot="end">
               <ion-button (click)="closeDietModal()">Close</ion-button>
             </ion-buttons>

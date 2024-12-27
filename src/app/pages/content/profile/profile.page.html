@@ -7,15 +7,15 @@
       <img src="https://i.pravatar.cc/300" alt="Profile Picture"> <!-- Profil fotoğrafı -->
     </ion-avatar>
     <h2 class="profile-name">Name - Surname</h2> <!-- Profil adı ve soyadı -->
-    <ion-button class="edit-profile-btn" fill="solid" (click)="editProfile()">Edit Profile</ion-button>
+    <ion-button class="edit-profile-btn" fill="solid" (click)="editProfile()">Profil Güncelle</ion-button>
   </div>
 
   <ion-segment (ionChange)="segmentChanged($event)" value="old-recipes">
     <ion-segment-button value="old-recipes">
-      <ion-label>Old Recipes</ion-label>
+      <ion-label>Eski Tarifler</ion-label>
     </ion-segment-button>
     <ion-segment-button value="favorites">
-      <ion-label>Favorites</ion-label>
+      <ion-label>Favoriler</ion-label>
     </ion-segment-button>
   </ion-segment>
 
