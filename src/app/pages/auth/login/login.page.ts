@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -7,24 +9,43 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginPage implements OnInit {
 
-  email: string = '';
-  password: string = '';
+  email: string = ''; // Kullanıcıdan alınan email
+  password: string = ''; // Kullanıcıdan alınan şifre
 
-  // This property controls whether the password is shown or hidden
-  showPassword: boolean = false;
+  showPassword: boolean = false; // Şifreyi gizleme/gösterme kontrolü
+  errorMessage: string = ''; // Login hataları için mesaj
 
-  // This method toggles the value of showPassword, which controls the input type
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit() {}
+
+  // Şifreyi görünür yapmak için toggle fonksiyonu
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
-  
-  constructor() { }
 
-  ngOnInit() {
+  // Login butonuna tıklandığında çağrılan fonksiyon
+  onLogin(): void {
+    if (!this.email || !this.password) {
+      this.errorMessage = 'Email and password are required.';
+      return;
+    }
+
+    // AuthService'in login metodunu çağırarak API'ye veri gönderiyoruz
+    this.authService.login({ email: this.email, password: this.password }).subscribe({
+      next: (response) => {
+        if (response && response.success) {
+          // Giriş başarılıysa bir sonraki sayfaya yönlendiriyoruz
+          this.router.navigate(['/content']);
+        } else {
+          // Başarısız yanıt durumunda hata mesajı
+          this.errorMessage = response.message || 'Invalid credentials. Please try again.';
+        }
+      },
+      error: (err) => {
+        // Hata durumunda hata mesajını yakalıyoruz
+        this.errorMessage = 'An error occurred during login. Please try again later.';
+      }
+    });
   }
-
-  onLogin() {
-
-  }
-
 }
