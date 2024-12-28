@@ -14,17 +14,55 @@
     <ion-list class="ion-no-padding">
       <ion-item lines="none">
         <ion-label position="stacked">Ad</ion-label>
-        <ion-input type="text" placeholder="Adınızı girin"></ion-input>
+        <ion-input 
+          type="text" 
+          placeholder="Adınızı girin" 
+          [(ngModel)]="name">
+        </ion-input>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="stacked">Soyisim</ion-label>
+        <ion-input 
+          type="text" 
+          placeholder="Soyisminizi girin" 
+          [(ngModel)]="surname">
+        </ion-input>
       </ion-item>
 
       <ion-item lines="none">
         <ion-label position="stacked">E-posta</ion-label>
-        <ion-input type="email" placeholder="E-posta adresinizi girin"></ion-input>
+        <ion-input 
+          type="email" 
+          placeholder="E-posta adresinizi girin"
+          [(ngModel)]="email">
+        </ion-input>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="stacked">Telefon Numarası</ion-label>
+        <div class="phone-field">
+          <ion-input 
+            value="+90" 
+            type="text" 
+            disabled="true" 
+            class="country-code">
+          </ion-input>
+          <ion-input 
+            type="tel" 
+            placeholder="Telefon Numarası"
+            [(ngModel)]="phoneNumber">
+          </ion-input>
+        </div>
       </ion-item>
 
       <ion-item lines="none" class="password-input-container">
         <ion-label position="stacked">Şifre</ion-label>
-        <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="Şifrenizi girin"></ion-input>
+        <ion-input 
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Şifrenizi girin" 
+          [(ngModel)]="password">
+        </ion-input>
         <ion-icon
           [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
           slot="end"
@@ -35,7 +73,11 @@
 
       <ion-item lines="none" class="password-input-container">
         <ion-label position="stacked">Şifreyi Tekrar Girin</ion-label>
-        <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="Şifrenizi tekrar girin"></ion-input>
+        <ion-input 
+          [type]="showPassword ? 'text' : 'password'" 
+          placeholder="Şifrenizi tekrar girin" 
+          [(ngModel)]="rePassword">
+        </ion-input>
         <ion-icon
           [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
           slot="end"
