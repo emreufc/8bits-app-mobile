@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { User } from 'src/app/core/interfaces/all';
+import { UserRegister } from 'src/app/core/interfaces/user';
 
 /**
  * SignupPage component handles the user signup functionality.
@@ -22,7 +22,7 @@ export class SignupPage implements OnInit {
 
 
   // Kullanıcı verileri için User interface'ini kullanıyoruz
-  userData: User = {
+  userData: UserRegister = {
     name: '',
     surname: '',
     email: '',
