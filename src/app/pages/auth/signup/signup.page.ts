@@ -16,7 +16,7 @@ export class SignupPage implements OnInit {
   name: string = ''; // Stores the user's name.
   surname: string = ''; // Stores the user's surname.
   email: string = ''; // Stores the user's email.
-  phoneNumber: string = ''; // Stores the user's phone number.
+  phoneNumber: string = '+90'; // Stores the user's phone number.
   password: string = ''; // Stores the user's password.
   rePassword: string = ''; // Stores the re-entered password for confirmation.
   termsAccepted: boolean = false; // Indicates whether the user has accepted the terms and conditions.
@@ -32,6 +32,17 @@ export class SignupPage implements OnInit {
    */
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
+  }
+  enforcePrefix(event: any) {
+    let val: string = event.target.value || '';
+    // Değer +90 ile başlamıyorsa, yeniden ekle
+    if (!val.startsWith('+90 ')) {
+      // Kullanıcının yazdığı prefixi (+90 ) temizleyip tekrar ekleyelim
+      val = '+90 ' + val.replace(/^\+90\s*/, '');
+    }
+    this.phoneNumber = val;
+    // Input alanının görünür değerini güncelle
+    event.target.value = this.phoneNumber;
   }
   
   /**

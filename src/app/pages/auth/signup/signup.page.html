@@ -41,19 +41,12 @@
 
       <ion-item lines="none">
         <ion-label position="stacked">Telefon Numarası</ion-label>
-        <div class="phone-field">
-          <ion-input 
-            value="+90" 
-            type="text" 
-            disabled="true" 
-            class="country-code">
-          </ion-input>
-          <ion-input 
-            type="tel" 
-            placeholder="Telefon Numarası"
-            [(ngModel)]="phoneNumber">
-          </ion-input>
-        </div>
+        <ion-input
+          type="tel"
+          placeholder="Telefon Numarası"
+          [value]="phoneNumber"
+          (ionInput)="enforcePrefix($event)">
+        </ion-input>
       </ion-item>
 
       <ion-item lines="none" class="password-input-container">
