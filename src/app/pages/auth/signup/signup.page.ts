@@ -1,5 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { AuthService } from 'src/app/core/services/auth.service';
+
 
 /**
  * SignupPage component handles the user signup functionality.
@@ -25,8 +28,11 @@ export class SignupPage implements OnInit {
    * Constructor for SignupPage.
    * @param alertController - Injects AlertController for displaying alerts.
    */
-  constructor(private alertController: AlertController) { }
-  
+  constructor(private alertController: AlertController,
+              private authService: AuthService ) { }
+              
+  ngOnInit() {
+  }
   /**
    * Toggles the visibility of the password field.
    */
@@ -51,7 +57,7 @@ export class SignupPage implements OnInit {
    * Displays appropriate alerts if validation fails.
    * Logs the signup data to the console.
    */
-  async onSignup() {
+    async onSignup() {
     if (!this.termsAccepted) {
       const alert = await this.alertController.create({
         header: 'Terms and Conditions',
@@ -61,7 +67,7 @@ export class SignupPage implements OnInit {
       await alert.present();
       return;
     }
-
+  
     if (this.password !== this.rePassword) {
       const alert = await this.alertController.create({
         header: 'Password Mismatch',
@@ -71,27 +77,21 @@ export class SignupPage implements OnInit {
       await alert.present();
       return;
     }
-
-    const signupData = {
+  
+    // Eğer iki if koşulu da sağlanırsa, userData nesnesini oluştur ve register fonksiyonuna gönder
+    const userData = {
       name: this.name,
+      surname: this.surname,
       email: this.email,
+      phoneNumber: this.phoneNumber,
       password: this.password
     };
-
-    // Backend API call will be made here
-    console.log('Sign up data:', signupData);
-    // For example, you can make an API call using HttpClient
-    // this.http.post('https://api.example.com/signup', signupData)
-    //   .subscribe(response => {
-    //     console.log('Sign up successful', response);
-    //   }, error => {
-    //     console.error('Sign up error', error);
-    //   });
+  
+    this.authService.register(userData).then((response) => {
+      console.log(response);
+    }).catch((error) => {
+      console.error(error);
+    });
   }
 
-  /**
-   * Lifecycle hook that is called after data-bound properties are initialized.
-   */
-  ngOnInit() {
-  }
 }
