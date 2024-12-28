@@ -14,7 +14,9 @@ import { AlertController } from '@ionic/angular';
 export class SignupPage implements OnInit {
   showPassword = false; // Indicates whether the password is visible or not.
   name: string = ''; // Stores the user's name.
+  surname: string = ''; // Stores the user's surname.
   email: string = ''; // Stores the user's email.
+  phoneNumber: string = ''; // Stores the user's phone number.
   password: string = ''; // Stores the user's password.
   rePassword: string = ''; // Stores the re-entered password for confirmation.
   termsAccepted: boolean = false; // Indicates whether the user has accepted the terms and conditions.
