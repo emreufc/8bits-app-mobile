@@ -1,13 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
-
+import { User } from 'src/app/core/interfaces/all';
 
 /**
  * SignupPage component handles the user signup functionality.
- * It includes form fields for name, email, password, and re-entered password.
- * It also includes a toggle for password visibility and a checkbox for terms acceptance.
  */
 @Component({
   selector: 'app-signup',
@@ -16,82 +13,82 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class SignupPage implements OnInit {
   showPassword = false; // Indicates whether the password is visible or not.
-  name: string = ''; // Stores the user's name.
-  surname: string = ''; // Stores the user's surname.
-  email: string = ''; // Stores the user's email.
-  phoneNumber: string = '+90'; // Stores the user's phone number.
-  password: string = ''; // Stores the user's password.
   rePassword: string = ''; // Stores the re-entered password for confirmation.
   termsAccepted: boolean = false; // Indicates whether the user has accepted the terms and conditions.
 
   /**
+   * Interface for user data structure.
+   */
+
+
+  // Kullanıcı verileri için User interface'ini kullanıyoruz
+  userData: User = {
+    name: '',
+    surname: '',
+    email: '',
+    phoneNumber: '+90',
+    password: '',
+  };
+
+  /**
    * Constructor for SignupPage.
    * @param alertController - Injects AlertController for displaying alerts.
+   * @param authService - Handles authentication-related operations.
    */
-  constructor(private alertController: AlertController,
-              private authService: AuthService ) { }
-              
-  ngOnInit() {
-  }
+  constructor(private alertController: AlertController, private authService: AuthService) {}
+
+  ngOnInit() {}
+
   /**
    * Toggles the visibility of the password field.
    */
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
-  enforcePrefix(event: any) {
+
+  /**
+   * Ensures phone number starts with +90.
+   */
+  enforcePrefix(event: any): void {
     let val: string = event.target.value || '';
-    // Değer +90 ile başlamıyorsa, yeniden ekle
     if (!val.startsWith('+90 ')) {
-      // Kullanıcının yazdığı prefixi (+90 ) temizleyip tekrar ekleyelim
       val = '+90 ' + val.replace(/^\+90\s*/, '');
     }
-    this.phoneNumber = val;
-    // Input alanının görünür değerini güncelle
-    event.target.value = this.phoneNumber;
+    this.userData.phoneNumber = val;
+    event.target.value = this.userData.phoneNumber;
   }
-  
+
   /**
    * Handles the signup process.
    * Validates the terms acceptance and password match.
    * Displays appropriate alerts if validation fails.
-   * Logs the signup data to the console.
    */
-    async onSignup() {
+  async onSignup() {
     if (!this.termsAccepted) {
       const alert = await this.alertController.create({
         header: 'Terms and Conditions',
         message: 'You must accept the terms and conditions to sign up.',
-        buttons: ['OK']
+        buttons: ['OK'],
       });
       await alert.present();
       return;
     }
-  
-    if (this.password !== this.rePassword) {
+
+    if (this.userData.password !== this.rePassword) {
       const alert = await this.alertController.create({
         header: 'Password Mismatch',
         message: 'Passwords do not match.',
-        buttons: ['OK']
+        buttons: ['OK'],
       });
       await alert.present();
       return;
     }
-  
-    // Eğer iki if koşulu da sağlanırsa, userData nesnesini oluştur ve register fonksiyonuna gönder
-    const userData = {
-      name: this.name,
-      surname: this.surname,
-      email: this.email,
-      phoneNumber: this.phoneNumber,
-      password: this.password
-    };
-  
-    this.authService.register(userData).then((response) => {
-      console.log(response);
-    }).catch((error) => {
-      console.error(error);
-    });
-  }
 
+    try {
+      const response = await this.authService.register(this.userData);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }

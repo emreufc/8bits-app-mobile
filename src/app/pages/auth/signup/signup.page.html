@@ -17,7 +17,7 @@
         <ion-input 
           type="text" 
           placeholder="Adınızı girin" 
-          [(ngModel)]="name">
+          [(ngModel)]="userData.name">
         </ion-input>
       </ion-item>
 
@@ -26,7 +26,7 @@
         <ion-input 
           type="text" 
           placeholder="Soyisminizi girin" 
-          [(ngModel)]="surname">
+          [(ngModel)]="userData.surname">
         </ion-input>
       </ion-item>
 
@@ -35,7 +35,7 @@
         <ion-input 
           type="email" 
           placeholder="E-posta adresinizi girin"
-          [(ngModel)]="email">
+          [(ngModel)]="userData.email">
         </ion-input>
       </ion-item>
 
@@ -44,7 +44,7 @@
         <ion-input
           type="tel"
           placeholder="Telefon Numarası"
-          [value]="phoneNumber"
+          [(ngModel)]="userData.phoneNumber"
           (ionInput)="enforcePrefix($event)">
         </ion-input>
       </ion-item>
@@ -54,7 +54,7 @@
         <ion-input 
           [type]="showPassword ? 'text' : 'password'"
           placeholder="Şifrenizi girin" 
-          [(ngModel)]="password">
+          [(ngModel)]="userData.password">
         </ion-input>
         <ion-icon
           [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
@@ -81,11 +81,11 @@
     </ion-list>
 
     <ion-item lines="none">
-      <ion-checkbox slot="start"></ion-checkbox>
+      <ion-checkbox slot="start" [(ngModel)]="termsAccepted"></ion-checkbox>
       <ion-label>Tüm şartları ve koşulları kabul ediyorum</ion-label>
     </ion-item>
 
-    <ion-button expand="block" class="signup-button">
+    <ion-button expand="block" class="signup-button" (click)="onSignup()">
       Şimdi Kayıt Ol
     </ion-button>
 
