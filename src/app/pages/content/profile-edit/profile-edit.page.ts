@@ -13,7 +13,7 @@ export class ProfileEditPage implements OnInit{
   gender: string = 'Male';
   email: string = 'jhanvi@mymail.com';
   mobileNumber: string = '9182198657';
-  birthday: string = '1993-04-08'; // Format: YYYY-MM-DD
+  birthday: Date = new Date('1993-04-08');
 
   isEditingFirstName: boolean = false;
   isEditingLastName: boolean = false;
