@@ -11,15 +11,17 @@
   </div>
 
   <div class="login-container">
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
     <ion-list class="ion-no-padding">
+      
       <ion-item lines="none">
         <ion-label position="stacked">E-posta</ion-label>
-        <ion-input type="email" placeholder="E-posta adresinizi girin"></ion-input>
+        <ion-input  formControlName="email" type="email" placeholder="E-posta adresinizi girin"></ion-input>
       </ion-item>
 
       <ion-item lines="none" class="password-input-container">
         <ion-label position="stacked">Şifre</ion-label>
-        <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="Şifrenizi girin"></ion-input>
+        <ion-input formControlName="password" [type]="showPassword ? 'text' : 'password'" placeholder="Şifrenizi girin"></ion-input>
         <ion-icon
           [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
           slot="end"
@@ -33,10 +35,13 @@
       <ion-button fill="clear" size="small" routerLink="/auth/forgot-password">Şifrenizi mi unuttunuz?</ion-button>
     </div>
 
-    <ion-button expand="block" class="login-button">
-      Şimdi Giriş Yap
+    <ion-button type="submit" expand="block" class="login-button">
+      <span *ngIf="!loading; else spin">Giriş Yap</span>
+      <ng-template #spin>
+        <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+      </ng-template>
     </ion-button>
-
+    </form>
     <div class="divider">
       <span>Veya</span>
     </div>

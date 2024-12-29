@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/core/services/auth.service';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { NavController } from '@ionic/angular';
+import { AuthService } from 'src/app/core/services/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -9,43 +10,83 @@ import { Router } from '@angular/router';
 })
 export class LoginPage implements OnInit {
 
-  email: string = ''; // Kullanıcıdan alınan email
-  password: string = ''; // Kullanıcıdan alınan şifre
+  public loginForm = new FormGroup({
+    email: new FormControl<string>(''),
+    password: new FormControl<string>(''),
+  });
 
-  showPassword: boolean = false; // Şifreyi gizleme/gösterme kontrolü
-  errorMessage: string = ''; // Login hataları için mesaj
+  public showpassword = false;
+  public remember = false;
+  public loading = false;
+  public loginError = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  // This property controls whether the password is shown or hidden
+  showPassword: boolean = false;
 
-  ngOnInit() {}
-
-  // Şifreyi görünür yapmak için toggle fonksiyonu
+  // This method toggles the value of showPassword, which controls the input type
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
+  
+  constructor(
+    private authService: AuthService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private navCtrl: NavController,
+  ) { }
 
-  // Login butonuna tıklandığında çağrılan fonksiyon
-  onLogin(): void {
-    if (!this.email || !this.password) {
-      this.errorMessage = 'Email and password are required.';
-      return;
-    }
-
-    // AuthService'in login metodunu çağırarak API'ye veri gönderiyoruz
-    this.authService.login({ email: this.email, password: this.password }).subscribe({
-      next: (response) => {
-        if (response && response.success) {
-          // Giriş başarılıysa bir sonraki sayfaya yönlendiriyoruz
-          this.router.navigate(['/content']);
-        } else {
-          // Başarısız yanıt durumunda hata mesajı
-          this.errorMessage = response.message || 'Invalid credentials. Please try again.';
-        }
-      },
-      error: (err) => {
-        // Hata durumunda hata mesajını yakalıyoruz
-        this.errorMessage = 'An error occurred during login. Please try again later.';
-      }
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      email: ['', Validators.compose([Validators.email, Validators.required])],
+      password: ['', Validators.required],
     });
+  }
+
+  login() {
+    console.log('loginForm', this.loginForm.value);
+    // if (this.loading || this.loginForm.invalid) {
+    //   return;
+    // }
+
+    this.loading = true;
+    this.loginError = false;
+
+    this.authService.login({
+      email: this.loginForm.value.email as string,
+      password: this.loginForm.value.password as string,
+    }).subscribe(() => {
+      this.navCtrl.navigateRoot('/content/home');
+      this.loading = false;
+    }, (error) => {
+      console.log('error', error);
+      this.loginError = true;
+      this.loading = false;
+    });
+  }
+
+  loginWith(type: string) {
+    this.loading = true;
+
+    if (type === 'google') {
+      this.authService.loginWithGoogle().then((value: any) => {
+        if (value.status) {
+          if (value.isNewUser) {
+            this.navCtrl.navigateRoot('/content/health-form');
+          } else {
+            this.navCtrl.navigateRoot('/content/home');
+          }
+        }
+      });
+    } else if (type === 'facebook') {
+      this.authService.loginWithFacebook().then((value: any) => {
+        if (value.status) {
+          if (value.isNewUser) {
+            this.navCtrl.navigateRoot('/content/health-form');
+          } else {
+            this.navCtrl.navigateRoot('/content/home');
+          }
+        }
+      });
+    }
   }
 }
