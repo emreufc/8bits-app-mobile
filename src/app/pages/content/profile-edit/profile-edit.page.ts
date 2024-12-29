@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from 'src/app/core/services/user.service';
+import { identity } from 'rxjs';
 
 @Component({
   selector: 'app-profile-edit',
@@ -32,9 +33,9 @@ export class ProfileEditPage implements OnInit{
   
 
   ngOnInit(): void {
-    // this.userService.getCurrentUser().subscribe((user) => {
-    //   console.log(user);
-    // });
+    this.userService.getCurrentUser().subscribe((user) => {
+      console.log(user);
+    });
   }
 
   toggleEdit(field: string) {
