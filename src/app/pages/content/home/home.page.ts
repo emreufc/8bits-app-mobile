@@ -81,6 +81,19 @@ export class HomePage implements OnInit {
     console.log('Tarife git');  
   }
 
+  handleLikeToggled(recipeId: number) {
+    const index = this.recipes.findIndex((r) => r.id === recipeId);
+    if (index !== -1) {
+      const recipe = this.recipes[index];
+      this.recipes[index] = { ...recipe, isLiked: !recipe.isLiked }; // Yeni referans oluştur
+      console.log(
+        `${this.recipes[index].title} ${
+          this.recipes[index].isLiked ? 'favorilere eklendi' : 'favorilerden çıkarıldı'
+        }`
+      );
+    }
+  }
+
   ngOnInit() {console.log();
   }
 

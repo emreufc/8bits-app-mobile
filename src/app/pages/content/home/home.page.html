@@ -43,6 +43,7 @@
     *ngFor="let recipe of recipes"
     [recipe]="recipe"
     (click)="goToRecipeDetail(recipe.id)"
+    (likeToggled)="handleLikeToggled($event)"
   ></app-recipe-card>
 </div>
 
