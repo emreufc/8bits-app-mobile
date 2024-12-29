@@ -1,6 +1,7 @@
 // Angular ve Router modüllerini içe aktarıyoruz
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './core/guards/auth.guard';
 
 // Uygulama içi yönlendirme rotalarını belirliyoruz
 const routes: Routes = [
@@ -20,7 +21,8 @@ const routes: Routes = [
   // 'content' rotası için, 'ContentPageModule' modülünü yüklemeye ayarlıyoruz
   {
     path: 'content',
-    loadChildren: () => import('./pages/content/content.module').then(m => m.ContentPageModule)
+    loadChildren: () => import('./pages/content/content.module').then(m => m.ContentPageModule),
+    // canActivate: [AuthGuard],
   },
   
 ];

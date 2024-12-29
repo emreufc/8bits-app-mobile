@@ -183,7 +183,7 @@ ion-content {
 
     ion-segment {
         ion-segment-button::part(indicator-background) {
-            background: var(--ion-color-dark);
+            --background: var(--ion-color-dark);
         }
 
         margin-bottom: 25px;
