@@ -9,7 +9,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getCurrentUser(id: number) {
+  getCurrentUser() {
     const endpoint = `${environment.apiUrl}Users/`;
     return this.http.get<any>(endpoint);
   }
