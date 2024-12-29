@@ -32,9 +32,9 @@ export class ProfileEditPage implements OnInit{
   
 
   ngOnInit(): void {
-    this.userService.getCurrentUser(10).subscribe((user) => {
-      console.log(user);
-    });
+    // this.userService.getCurrentUser().subscribe((user) => {
+    //   console.log(user);
+    // });
   }
 
   toggleEdit(field: string) {

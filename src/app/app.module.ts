@@ -18,7 +18,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     HttpClientModule
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'tr-TR' },
+    // { provide: LOCALE_ID, useValue: 'tr-TR' },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
 
