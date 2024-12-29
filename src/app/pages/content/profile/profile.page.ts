@@ -93,7 +93,7 @@ export class ProfilePage implements OnInit {
   
 
   goToRecipeDetail(recipeId: number) {
-    this.router.navigate(['/content/recipes', recipeId]);
+    this.router.navigate(['/content/recipe-detail', recipeId]);
     console.log('Tarife git');
   }
   // Geri dönülmesi gerekilen sayfalarda bu tarz bir navigasyon öneriyorlardı o yüzden denedim. 

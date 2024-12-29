@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-
+  private UID_KEY = 'uid';
   constructor(private http: HttpClient) { }
 
   public async getUser() {
@@ -19,6 +19,10 @@ export class AuthService {
     //   profileImage: environment.baseUrl + user.profileImage,
     //  };
     return { name: 'Emre', surname: 'Aydil'};
+  }
+
+  getUid(): number | null {
+    return Number(localStorage.getItem(this.UID_KEY));
   }
 
   public async register(userData: any) {
