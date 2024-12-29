@@ -47,7 +47,7 @@ export class AuthService {
     return localStorage.getItem(this.EXPIRATION_KEY);
   }
 
-  register(credentials: { email: string, password: string, name: string, phoneNumber: string}): Observable<any> {
+  register(credentials: { email: string, password: string, name: string, surname: string, phoneNumber: string}): Observable<any> {
     return this.httpClient.post(`${environment.apiUrl}auth/register`, credentials)
       .pipe(
         tap((response: any) => {
