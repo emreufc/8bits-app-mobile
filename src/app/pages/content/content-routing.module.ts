@@ -49,6 +49,10 @@ const routes: Routes = [
         loadChildren: () => import('./edit-diet-preferences/edit-diet-preferences.module').then( m => m.EditDietPreferencesPageModule)
       },
       {
+        path: 'game',
+        loadChildren: () => import('./matching-cards-game/matching-cards-game.module').then( m => m.MatchingCardsGamePageModule)
+      },
+      {
         path: 'inventory',
         loadChildren: () => import('./inventory/inventory.module').then( m => m.InventoryPageModule)
       },
@@ -59,6 +63,7 @@ const routes: Routes = [
       }
     ]
   },
+  
  
 
   

@@ -41,25 +41,24 @@
         <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
       </ng-template>
     </ion-button>
-    </form>
+    
     <div class="divider">
       <span>Veya</span>
     </div>
 
     <div class="social-buttons">
-      <ion-button expand="block" class="google-button">
-        <ion-icon slot="start" name="logo-google"></ion-icon>
-        Google ile Devam Et
-      </ion-button>
-      <ion-button expand="block" class="facebook-button">
-        <ion-icon slot="start" name="logo-facebook"></ion-icon>
-        Facebook ile Devam Et
-      </ion-button>
+      <div class="social-btn" (click)="loginWith('google')">
+        <ion-icon name="logo-google"></ion-icon>
+      </div>
+      <div class="social-btn" (click)="loginWith('facebook')">
+        <ion-icon name="logo-facebook"></ion-icon>
+      </div>
     </div>
 
     <div class="signup-prompt">
       <span>Hesabınız yok mu? </span>
       <ion-button fill="clear" size="small" routerLink="/auth/signup">Şimdi Kayıt Ol</ion-button>
     </div>
+    </form>
   </div>
 </ion-content>
