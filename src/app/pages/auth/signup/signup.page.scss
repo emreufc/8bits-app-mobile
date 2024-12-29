@@ -153,4 +153,16 @@ ion-header {
         line-height: normal; /* Satır yüksekliği normal */
       }
     }
+    /* filepath: /Users/mbanzaroglu/Desktop/ITU/Software Engineering/8bits-app-mobile/src/app/pages/auth/signup/signup.page.scss */
+    .phone-field {
+      display: flex;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .country-code {
+      width: 60px;
+      text-align: center;
+      margin-right: 8px;
+    }
   }

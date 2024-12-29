@@ -77,7 +77,7 @@ export class HomePage implements OnInit {
   constructor(private router: Router) { }
 
   goToRecipeDetail(recipeId: number) {
-    this.router.navigate(['/content/recipes', recipeId]);
+    this.router.navigate(['/content/recipe-detail', recipeId]);
     console.log('Tarife git');  
   }
 

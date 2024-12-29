@@ -33,16 +33,12 @@ const routes: Routes = [
         loadChildren: () => import('./profile-edit/profile-edit.module').then( m => m.ProfileEditPageModule)
       },
       {
-        path: 'recipes/:id',
-        loadChildren: () => import('./recipes/recipes.module').then( m => m.RecipesPageModule)
+        path: 'recipe-detail/:id',
+        loadChildren: () => import('./recipe-detail/recipe-detail.module').then( m => m.RecipeDetailModule)
       },
       {
         path: 'search',
         loadChildren: () => import('./search/search.module').then( m => m.SearchPageModule)
-      },
-      {
-        path: 'settings',
-        loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
       },
       {
         path: 'shop-list',

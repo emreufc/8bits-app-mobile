@@ -1,18 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-profile-edit',
   templateUrl: './profile-edit.page.html',
   styleUrls: ['./profile-edit.page.scss'],
 })
-export class ProfileEditPage {
+export class ProfileEditPage implements OnInit{
   firstName: string = 'Jhanvi';
   lastName: string = 'Dixit';
   gender: string = 'Male';
   email: string = 'jhanvi@mymail.com';
   mobileNumber: string = '9182198657';
-  birthday: string = '1993-04-08'; // Format: YYYY-MM-DD
+  birthday: Date = new Date('1993-04-08');
 
   isEditingFirstName: boolean = false;
   isEditingLastName: boolean = false;
@@ -27,7 +28,14 @@ export class ProfileEditPage {
   selectedDietPreferences: { [key: string]: boolean } = {};
   isDietModalOpen: boolean = false;
 
-  constructor() {}
+  constructor(private userService: UserService) {}
+  
+
+  ngOnInit(): void {
+    this.userService.getCurrentUser(10).subscribe((user) => {
+      console.log(user);
+    });
+  }
 
   toggleEdit(field: string) {
     switch (field) {
