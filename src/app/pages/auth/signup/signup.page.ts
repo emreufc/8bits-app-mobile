@@ -27,7 +27,6 @@ export class SignupPage implements OnInit {
     surname: '',
     email: '',
     phoneNumber: '+90',
-    dateOfBirth: new Date('2001-09-16'),
     password: '',
   };
 
@@ -60,45 +59,56 @@ export class SignupPage implements OnInit {
   }
 
   /**
-   * Handles the signup process.
-   * Validates the terms acceptance and password match.
-   * Displays appropriate alerts if validation fails.
+   * Kayıt olma işlemini gerçekleştirir.
+   * Kullanıcının şartları kabul edip etmediğini ve şifrelerin eşleşip eşleşmediğini kontrol eder.
+   * Doğrulama başarısız olursa uygun uyarılar gösterir.
    */
   async onSignup() {
+    // Kullanıcı şartları kabul etmemişse uyarı göster
     if (!this.termsAccepted) {
       const alert = await this.alertController.create({
-        header: 'Terms and Conditions',
-        message: 'You must accept the terms and conditions to sign up.',
-        buttons: ['OK'],
+        header: 'Şartlar ve Koşullar',
+        message: 'Kayıt olmak için şartlar ve koşulları kabul etmelisiniz.',
+        buttons: ['Tamam'],
       });
       await alert.present();
       return;
     }
 
+    // Şifreler eşleşmiyorsa uyarı göster
     if (this.userData.password !== this.rePassword) {
       const alert = await this.alertController.create({
-        header: 'Password Mismatch',
-        message: 'Passwords do not match.',
-        buttons: ['OK'],
+        header: 'Şifre Uyuşmazlığı',
+        message: 'Şifreler uyuşmuyor.',
+        buttons: ['Tamam'],
       });
       await alert.present();
       return;
     }
 
-    try {
-      const response = await this.authService.register(this.userData);
-      const alert = await this.alertController.create({
-        header: 'Signup Successful',
-        message: 'Your account has been created successfully.',
-        buttons: ['OK'],
+    // Kayıt olma işlemini gerçekleştir
+    this.authService.register(this.userData).toPromise()
+      .then(async (response: any) => {
+        // Kayıt başarılıysa uyarı göster
+        const alert = await this.alertController.create({
+          header: 'Kayıt Başarılı',
+          message: 'Hesabınız başarıyla oluşturuldu.',
+          buttons: ['Tamam'],
+        });
+        await alert.present();
+        console.log(response);
+        // Başarılı kayıt sonrası giriş sayfasına yönlendir
+        this.navController.navigateRoot('auth/login');
+      })
+      .catch(async (error: any) => {
+        console.error(error);
+        // Kayıt başarısızsa uyarı göster
+        const alert = await this.alertController.create({
+          header: 'Kayıt Başarısız',
+          message: 'Hesabınız oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.',
+          buttons: ['Tamam'],
+        });
+        await alert.present();
       });
-      await alert.present();
-      console.log(response);
-      // Navigate to login page on successful signup
-      // Assuming you have a router or navController to handle navigation
-      this.navController.navigateRoot('/login');
-        } catch (error) {
-      console.error(error);
-    }
   }
 }
