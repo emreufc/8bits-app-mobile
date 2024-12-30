@@ -27,7 +27,7 @@ export class AuthService {
   constructor(private httpClient: HttpClient) { }
 
   public async getUser(): Promise<User> {
-    const user = await lastValueFrom(this.httpClient.get(`${environment.apiUrl}Profile/GetCurrentUser`)) as any;
+    const user = await lastValueFrom(this.httpClient.get(`${environment.apiUrl}Users/current`)) as any;
 
     return {
       ...user,
