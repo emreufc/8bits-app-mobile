@@ -5,5 +5,6 @@ export interface RecipeSummary {
   recipeRate: number | any;
   personCount: number | any;
   preparationTime: number | any;
+  cookingTime: number | any;
   favouriteRecipes: boolean | any;
 }
