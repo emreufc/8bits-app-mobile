@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { User } from 'src/app/core/models/user';
+import { lastValueFrom } from 'rxjs';
 
 /**
  * SignupPage component handles the user signup functionality.
@@ -87,28 +88,27 @@ export class SignupPage implements OnInit {
     }
 
     // Kayıt olma işlemini gerçekleştir
-    this.authService.register(this.userData).toPromise()
-      .then(async (response: any) => {
-        // Kayıt başarılıysa uyarı göster
-        const alert = await this.alertController.create({
-          header: 'Kayıt Başarılı',
-          message: 'Hesabınız başarıyla oluşturuldu.',
-          buttons: ['Tamam'],
-        });
-        await alert.present();
-        console.log(response);
-        // Başarılı kayıt sonrası giriş sayfasına yönlendir
-        this.navController.navigateRoot('auth/login');
-      })
-      .catch(async (error: any) => {
-        console.error(error);
-        // Kayıt başarısızsa uyarı göster
-        const alert = await this.alertController.create({
-          header: 'Kayıt Başarısız',
-          message: 'Hesabınız oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.',
-          buttons: ['Tamam'],
-        });
-        await alert.present();
+    try {
+      const response: any = await lastValueFrom(this.authService.register(this.userData));
+      // Kayıt başarılıysa uyarı göster
+      const alert = await this.alertController.create({
+      header: 'Kayıt Başarılı',
+      message: 'Hesabınız başarıyla oluşturuldu.',
+      buttons: ['Tamam'],
       });
+      await alert.present();
+      console.log(response);
+      // Başarılı kayıt sonrası giriş sayfasına yönlendir
+      this.navController.navigateRoot('auth/login');
+    } catch (error: any) {
+      console.error(error);
+      // Kayıt başarısızsa uyarı göster
+      const alert = await this.alertController.create({
+      header: 'Kayıt Başarısız',
+      message: 'Hesabınız oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.',
+      buttons: ['Tamam'],
+      });
+      await alert.present();
+    }
   }
 }
