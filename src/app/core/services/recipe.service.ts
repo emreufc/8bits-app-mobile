@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { environment } from 'src/environments/environment';
 
@@ -31,4 +31,13 @@ export class RecipeService {
       );
     }
   }
+
+  getRecipes(pageNumber: number = 1, pageSize: number = 10): Observable<any> {
+    const params = new HttpParams()
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString());
+
+    return this.httpClient.get(`${environment.apiUrl}Recipes`, { params });
+  }
+
 }
