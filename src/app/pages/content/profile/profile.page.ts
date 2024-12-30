@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { RecipeService } from 'src/app/core/services/recipe.service';
+import { RecipeSummary } from 'src/app/core/models/recipe';
 
 
 @Component({
@@ -13,63 +15,64 @@ export class ProfilePage implements OnInit {
   public userLocation: string = 'New York, USA';
   public selectedSegment: string = 'old-recipes'; // Başlangıçta 'Old Recipes' seçili
   public favoriteRecipes: any = []; // Favoriler listesi
+  recipes: RecipeSummary[] = []; // Tarif verileri
 
-  recipes = [
-    {
-      id: 1,
-      title: 'Vegetable Noodle',
-      image: 'https://via.placeholder.com/400?text=Vegetable+Noodle',
-      rating: 4.3,
-      time: '20 min',
-      servings: 2,
-      isLiked: true,
-    },
-    {
-      id: 2,
-      title: 'Chicken Curry',
-      image: 'https://via.placeholder.com/400?text=Chicken+Curry',
-      rating: 4.8,
-      time: '45 min',
-      servings: 4,
-      isLiked: false,
-    },
-    {
-      id: 3,
-      title: 'Beef Stroganoff',
-      image: 'https://via.placeholder.com/400?text=Beef+Stroganoff',
-      rating: 4.5,
-      time: '30 min',
-      servings: 3,
-      isLiked: false,
-    },
-    {
-      id: 4,
-      title: 'Spaghetti Bolognese',
-      image: 'https://via.placeholder.com/400?text=Spaghetti+Bolognese',
-      rating: 4.7,
-      time: '40 min',
-      servings: 5,
-      isLiked: false,
-    },
-    {
-      id: 5,
-      title: 'Grilled Salmon',
-      image: 'https://via.placeholder.com/400?text=Grilled+Salmon',
-      rating: 4.9,
-      time: '25 min',
-      servings: 2,
-      isLiked: false,
-    },
-    {
-      id: 6,
-      title: 'Caesar Salad',
-      image: 'https://via.placeholder.com/400?text=Caesar+Salad',
-      rating: 4.2,
-      time: '15 min',
-      servings: 3,
-      isLiked: true,
-    }
-  ];
+  // recipes = [
+  //   {
+  //     id: 1,
+  //     title: 'Vegetable Noodle',
+  //     image: 'https://via.placeholder.com/400?text=Vegetable+Noodle',
+  //     rating: 4.3,
+  //     time: '20 min',
+  //     servings: 2,
+  //     isLiked: true,
+  //   },
+  //   {
+  //     id: 2,
+  //     title: 'Chicken Curry',
+  //     image: 'https://via.placeholder.com/400?text=Chicken+Curry',
+  //     rating: 4.8,
+  //     time: '45 min',
+  //     servings: 4,
+  //     isLiked: false,
+  //   },
+  //   {
+  //     id: 3,
+  //     title: 'Beef Stroganoff',
+  //     image: 'https://via.placeholder.com/400?text=Beef+Stroganoff',
+  //     rating: 4.5,
+  //     time: '30 min',
+  //     servings: 3,
+  //     isLiked: false,
+  //   },
+  //   {
+  //     id: 4,
+  //     title: 'Spaghetti Bolognese',
+  //     image: 'https://via.placeholder.com/400?text=Spaghetti+Bolognese',
+  //     rating: 4.7,
+  //     time: '40 min',
+  //     servings: 5,
+  //     isLiked: false,
+  //   },
+  //   {
+  //     id: 5,
+  //     title: 'Grilled Salmon',
+  //     image: 'https://via.placeholder.com/400?text=Grilled+Salmon',
+  //     rating: 4.9,
+  //     time: '25 min',
+  //     servings: 2,
+  //     isLiked: false,
+  //   },
+  //   {
+  //     id: 6,
+  //     title: 'Caesar Salad',
+  //     image: 'https://via.placeholder.com/400?text=Caesar+Salad',
+  //     rating: 4.2,
+  //     time: '15 min',
+  //     servings: 3,
+  //     isLiked: true,
+  //   }
+  // ];
 
   constructor(private router: Router, private navCtrl: NavController) {}
 
@@ -87,7 +90,7 @@ export class ProfilePage implements OnInit {
   }
   
   updateFavoriteRecipes() {
-    this.favoriteRecipes = this.recipes.filter((recipe) => recipe.isLiked);
+    this.favoriteRecipes = this.recipes.filter((recipe) => recipe.favouriteRecipes);
     console.log('Favori tarifler:', this.favoriteRecipes);
   }
   
@@ -107,13 +110,13 @@ export class ProfilePage implements OnInit {
   
 
   handleLikeToggled(recipeId: number) {
-    const index = this.recipes.findIndex((r) => r.id === recipeId);
+    const index = this.recipes.findIndex((r) => r.recipeId === recipeId);
     if (index !== -1) {
       const recipe = this.recipes[index];
-      this.recipes[index] = { ...recipe, isLiked: !recipe.isLiked }; // Yeni referans oluştur
+      this.recipes[index] = { ...recipe, favouriteRecipes: !recipe.favouriteRecipes }; // Yeni referans oluştur
       console.log(
-        `${this.recipes[index].title} ${
-          this.recipes[index].isLiked ? 'favorilere eklendi' : 'favorilerden çıkarıldı'
+        `${this.recipes[index].recipeName} ${
+          this.recipes[index].favouriteRecipes ? 'favorilere eklendi' : 'favorilerden çıkarıldı'
         }`
       );
       this.updateFavoriteRecipes(); // Favoriler listesini güncelle

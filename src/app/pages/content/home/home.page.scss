@@ -3,7 +3,7 @@ ion-content {
     .recipes-grid {
         display: grid; /* Izgara düzeni */
         gap: 16px; /* Elemanlar arası boşluk */
-        grid-template-columns: repeat(2, 1fr); /* Her zaman iki sütun */
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Kartların ekranı taşmasını engelle */
     }
     .recipes-grid-horizontal {
         display: flex; /* Yatay düzen */
@@ -15,6 +15,7 @@ ion-content {
       
       .recipe-card {
         flex: 0 0 100%; /* Kart genişliği: Görüntü alanının %100'ü */
+        max-width: 100%; /* Maksimum genişlik %100 */
         border-radius: 12px; /* Kenar yuvarlaklığı */
         overflow: hidden; /* Taşmaları gizle */
         scroll-snap-align: center; /* Kaydırma hizalaması */
