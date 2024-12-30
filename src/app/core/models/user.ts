@@ -3,7 +3,8 @@ export interface User {
     name?: string | any;
     surname?: string | any;
     email?: string | any;
-    birthDate?: string | any;
+    password?: string | any;
+    dateOfBirth?: string | any;
     phoneNumber?: string | any;
     createDate?: string | any;
     role?: string | any;

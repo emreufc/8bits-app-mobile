@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { UserRegister } from 'src/app/core/interfaces/user';
+import { User } from 'src/app/core/models/user';
 
 /**
  * SignupPage component handles the user signup functionality.
@@ -22,11 +22,12 @@ export class SignupPage implements OnInit {
 
 
   // Kullanıcı verileri için User interface'ini kullanıyoruz
-  userData: UserRegister = {
+  userData: User = {
     name: '',
     surname: '',
     email: '',
     phoneNumber: '+90',
+    dateOfBirth: new Date('2001-09-16'),
     password: '',
   };
 
@@ -35,7 +36,7 @@ export class SignupPage implements OnInit {
    * @param alertController - Injects AlertController for displaying alerts.
    * @param authService - Handles authentication-related operations.
    */
-  constructor(private alertController: AlertController, private authService: AuthService) {}
+  constructor(private alertController: AlertController, private authService: AuthService, private navController: NavController) {}
 
   ngOnInit() {}
 
@@ -86,8 +87,17 @@ export class SignupPage implements OnInit {
 
     try {
       const response = await this.authService.register(this.userData);
+      const alert = await this.alertController.create({
+        header: 'Signup Successful',
+        message: 'Your account has been created successfully.',
+        buttons: ['OK'],
+      });
+      await alert.present();
       console.log(response);
-    } catch (error) {
+      // Navigate to login page on successful signup
+      // Assuming you have a router or navController to handle navigation
+      this.navController.navigateRoot('/login');
+        } catch (error) {
       console.error(error);
     }
   }
