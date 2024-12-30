@@ -14,7 +14,7 @@ export class ProfilePage implements OnInit {
   public userName: string = 'Name - Surname';
   public userLocation: string = 'New York, USA';
   public selectedSegment: string = 'old-recipes'; // Başlangıçta 'Old Recipes' seçili
-  public favoriteRecipes: any = []; // Favoriler listesi
+  favoriteRecipes: RecipeSummary[] = []; // Favoriler listesi
   recipes: RecipeSummary[] = []; // Tarif verileri
 
   // recipes = [
@@ -74,11 +74,25 @@ export class ProfilePage implements OnInit {
   //   }
   // ];
 
-  constructor(private router: Router, private navCtrl: NavController) {}
+  constructor(private router: Router, 
+              private navCtrl: NavController, 
+              private recipeService: RecipeService) {}
 
   ngOnInit() {
     console.log('Profile Page');
+    this.loadFavoriteRecipes(); // Tarifleri yükle
     this.updateFavoriteRecipes(); // Favori tarifleri hesapla
+  }
+
+  async loadFavoriteRecipes() {
+    try {
+      // Favori tarifleri API'den çek
+      const response = await this.recipeService.getFavRecipes();
+      this.favoriteRecipes = response.data || []; // Gelen veriyi listeye ata
+      console.log('Favori tarifler yüklendi:', this.favoriteRecipes);
+    } catch (error) {
+      console.error('Favori tarifler yüklenirken hata oluştu:', error);
+    }
   }
 
   segmentChanged(event: any) {
@@ -109,19 +123,24 @@ export class ProfilePage implements OnInit {
   }
   
 
-  handleLikeToggled(recipeId: number) {
-    const index = this.recipes.findIndex((r) => r.recipeId === recipeId);
-    if (index !== -1) {
-      const recipe = this.recipes[index];
-      this.recipes[index] = { ...recipe, favouriteRecipes: !recipe.favouriteRecipes }; // Yeni referans oluştur
-      console.log(
-        `${this.recipes[index].recipeName} ${
-          this.recipes[index].favouriteRecipes ? 'favorilere eklendi' : 'favorilerden çıkarıldı'
-        }`
-      );
-      this.updateFavoriteRecipes(); // Favoriler listesini güncelle
+  async handleLikeToggled(recipeId: number) {
+    const recipeIndex = this.recipes.findIndex((recipe) => recipe.recipeId === recipeId);
+
+    if (recipeIndex !== -1) {
+      const recipe = this.recipes[recipeIndex];
+      const newStatus = !recipe.favouriteRecipes;
+
+      // API'ye isteği gönder
+      try {
+        await this.recipeService.favRecipe(newStatus, recipeId);
+        this.recipes[recipeIndex].favouriteRecipes = newStatus; // UI güncellemesi
+        console.log(`${recipe.recipeName} favori durumu güncellendi.`);
+      } catch (error) {
+        console.error(`Hata: ${recipe.recipeName} favori durumu güncellenemedi`, error);
+      }
     }
   }
+
   
 
   
