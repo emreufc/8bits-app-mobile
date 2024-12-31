@@ -9,22 +9,19 @@
       (ionChange)="onSearchChange($event)" 
       class="custom-searchbar">
     </ion-searchbar>
-          <!-- (ionChange) triggers when the input loses focus or the user presses enter. 
-           (ionInput) triggers on every input change, which is more responsive for search functionality. --> 
-
-           <div class="items-count">{{ filteredItems.length }} items</div>
+    <div class="items-count">{{ filteredItems.length }} items</div>
     <ion-list class="shopping-list">
       <ion-item-sliding *ngFor="let item of filteredItems">
         <ion-item lines="full">
             <ion-avatar slot="start">
-              <img src="assets/images/sample.png" />
+              <img [src]="item.ingImgUrl" />
             </ion-avatar>
           <ion-label>
-            <h2>{{ item.name }}</h2>
+            <h2>{{ item.ingredientName }}</h2>
           </ion-label>
         </ion-item>
         <ion-item-options side="end">
-          <ion-item-option color="danger" (click)="removeItem(item.id)" class="small-trash">
+          <ion-item-option color="danger" (click)="removeItem(item.ingredientId)" class="small-trash">
             <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
           </ion-item-option>
         </ion-item-options>

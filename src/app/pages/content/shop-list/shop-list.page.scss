@@ -57,9 +57,8 @@ ion-content{
       /* En-boy oranını koruyarak maximum 96x96 piksel kullan */
       width: auto;
       height: auto;
-      max-width: 96px;
-      max-height: 96px;
       object-fit: cover; 
+      border-radius: 8px;
     }
   }
   .shopping-list {
@@ -118,6 +117,8 @@ ion-content{
     height: 56px;
     font-weight: 600;
   }
+
+ 
   
   .small-trash {
     --min-width: 50px; /* Çöp kutusu genişliği */

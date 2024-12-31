@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ShopListPageRoutingModule } from './shop-list-routing.module';
 
 import { ShopListPage } from './shop-list.page';
+import { IngredientService } from 'src/app/core/services/ingredient.service';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { ShopListPage } from './shop-list.page';
     IonicModule,
     ShopListPageRoutingModule
   ],
-  declarations: [ShopListPage]
+  declarations: [ShopListPage],
+  providers: [IngredientService]
 })
 export class ShopListPageModule {}
