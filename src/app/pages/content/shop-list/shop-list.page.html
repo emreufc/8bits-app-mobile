@@ -1,3 +1,9 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Alışveriş Listesi</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
   <div class="shopping-list-container">
     <div class="list-header">
@@ -9,18 +15,29 @@
       (ionChange)="onSearchChange($event)" 
       class="custom-searchbar">
     </ion-searchbar>
-    <div class="items-count">{{ filteredItems.length }} items</div>
+    <div class="items-count-container">
+      <span class="items-count">{{ filteredItems.length }} items</span>
+      <ion-buttons class="selection-buttons">
+        <ion-button (click)="toggleSelectMode()">
+          {{ isSelectMode ? 'Seçimi Kapat' : 'Seç' }}
+        </ion-button>
+        <ion-button *ngIf="isSelectMode" (click)="selectAllItems()">
+          Hepsini Seç
+        </ion-button>
+      </ion-buttons>
+    </div>
     <ion-list class="shopping-list">
       <ion-item-sliding *ngFor="let item of filteredItems">
-        <ion-item lines="full">
-            <ion-avatar slot="start">
-              <img [src]="item.ingImgUrl" />
-            </ion-avatar>
+        <ion-item lines="full" [class.selected]="selectedItems.includes(item)" (click)="isSelectMode && toggleItemSelection(item)">
+          <ion-avatar slot="start">
+            <img [src]="item.ingImgUrl" />
+          </ion-avatar>
           <ion-label>
             <h2>{{ item.ingredientName }}</h2>
           </ion-label>
+          <ion-checkbox slot="end" *ngIf="isSelectMode" [checked]="selectedItems.includes(item)"></ion-checkbox>
         </ion-item>
-        <ion-item-options side="end">
+        <ion-item-options side="end" *ngIf="!isSelectMode">
           <ion-item-option color="danger" (click)="removeItem(item.ingredientId)" class="small-trash">
             <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
           </ion-item-option>
@@ -28,9 +45,18 @@
       </ion-item-sliding>
     </ion-list>
 
-    <!-- Yeni modal açma butonu -->
-    <ion-button expand="block" class="add-button" (click)="openAddItemModal()">
-      Add New Item
-    </ion-button>
+    <div *ngIf="!isSelectMode">
+      <ion-button expand="block" class="add-button" (click)="openAddItemModal()">
+        Add New Item
+      </ion-button>
+    </div>
+    <div *ngIf="isSelectMode" class="action-buttons">
+      <ion-button class="add-button" color="danger" (click)="removeSelectedItems()">
+        Sil
+      </ion-button>
+      <ion-button class="add-button" (click)="addToKitchen()">
+        Mutfağa Ekle
+      </ion-button>
+    </div>
   </div>
 </ion-content>

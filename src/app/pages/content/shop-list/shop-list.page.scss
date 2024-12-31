@@ -1,5 +1,5 @@
-ion-content{
-.shopping-list-container {
+ion-content {
+  .shopping-list-container {
     padding: 16px;
     padding-bottom: 0px;
   }
@@ -15,119 +15,115 @@ ion-content{
   
   .list-header {
     display: flex;
-    flex-direction: column; /* Dikey hizalama için */
-    align-items: center; /* Yazıyı yatayda ortala */
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 16px;
   
     h1 {
-      font-family: 'Roboto', sans-serif; /* Roboto fontu */
-      font-size: 28px; /* Daha büyük yazı boyutu */
-      font-weight: 500; /* Orta kalınlık */
-      color: #1f2937; /* Koyu gri */
+      font-family: 'Roboto', sans-serif;
+      font-size: 28px;
+      font-weight: 500;
+      color: #1f2937;
       margin: 0;
-      letter-spacing: 0.5px; /* Harf aralığı */
-      text-transform: capitalize; /* Baş harfi büyük yap */
-      position: relative; /* Alt çizgi için referans oluştur */
+      letter-spacing: 0.5px;
+      text-transform: capitalize;
+      position: relative;
     }
   
     h1::after {
-      content: ''; /* Çizgi için boş içerik */
+      content: '';
       position: absolute;
-      left: 50%; /* Çizgiyi ortaya hizala */
-      transform: translateX(-50%); /* Çizgiyi tam ortalar */
-      bottom: -8px; /* Çizgi ile yazı arasındaki boşluk */
-      width: 300px; /* Yazıdan biraz daha uzun */
-      height: 2px; /* Çizginin kalınlığı */
-      background-color: #FF8C00; /* Çizginin turuncu rengi */
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -8px;
+      width: 300px;
+      height: 2px;
+      background-color: #FF8C00;
+    }
+  }
+  
+  .items-count-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Sağda butonlar */
+    margin-bottom: 16px;
+  
+    .items-count {
+      color: #6b7280;
+      font-size: 14px;
+      font-family: 'Roboto', sans-serif;
     }
   
-  }
-  .items-count {
-    color: #6b7280; /* Hafif gri renk */
-    font-size: 14px;
-    font-family: 'Roboto', sans-serif; /* Aynı font */
-    margin-top: 8px; /* Yazının altına boşluk */
-  }
-  ion-avatar[slot="start"] {
-    /* Max boyutu 96x96 piksel olarak belirle, orijinal oranı koru */
-    max-width: 96px;
-    max-height: 96px;
-
-    img {
-      /* En-boy oranını koruyarak maximum 96x96 piksel kullan */
-      width: auto;
-      height: auto;
-      object-fit: cover; 
-      border-radius: 8px;
+    .selection-buttons {
+      display: flex;
+      gap: 8px;
+  
+      ion-button {
+        --background: transparent; /* Şeffaf arka plan */
+        --color: #FF8C00; /* Turuncu yazı */
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: underline; /* Tıklanabilir olduğunu belirtmek için */
+        padding: 0;
+        height: auto; /* Boyutu küçült */
+      }
     }
   }
+  
   .shopping-list {
     background: transparent;
-    .shopping-item {
-      --background: transparent;
-      --padding-start: 0;
-      --padding-end: 0;
-      --inner-padding-end: 0;
-      margin-bottom: 30px; /* Boşlukları arttırmak için 8px'den 16px'e çıkarıldı */
   
-      .item-content {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        background: white;
-        border-radius: 12px;
-        padding: 12px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    ion-item {
+      --background: #ffffff;
+      --border-radius: 8px;
+      --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 8px;
+  
+      ion-avatar img {
+        width: auto;
+        height: auto;
+        object-fit: cover;
+        border-radius: 8px;
       }
+    }
   
-      .item-details {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-  
-        .item-name {
-          font-size: 16px;
-          font-weight: 500;
-          color: #1f2937;
-        }
-
-        .remove-button {
-          --padding-start: 8px;
-          --padding-end: 8px;
-          margin: 0;
-          height: 36px;
-          
-          ion-icon {
-            font-size: 20px;
-            color: #9ca3af;
-          }
-        }
-      }
+    ion-item.selected {
+      background-color: #f0f9ff;
     }
   }
   
-  .add-button {
-    --background: #FF8C00;
-    --background-activated: #FF8C00;
-    --background-hover: #ea580c;
-    --border-radius: 50px;
-    --color: #ffffff;
+  .action-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
     margin-top: 16px;
-    height: 56px;
-    font-weight: 600;
-  }
-
- 
   
+    ion-button {
+      flex: 1;
+      --border-radius: 12px;
+    }
+  
+    ion-button.add-button {
+      --background: #FF8C00;
+      --background-hover: #ea580c;
+      --color: #ffffff;
+      border-radius: 50px;
+      margin-top: 15px;
+    }
+  
+    ion-button.color-danger {
+      --background: #e74c3c;
+      --background-hover: #c0392b;
+      --color: #ffffff;
+    }
+  }
   .small-trash {
-    --min-width: 50px; /* Çöp kutusu genişliği */
-    --min-height: 50px; /* Çöp kutusu yüksekliği */
-    --ion-color-danger: #e74c3c; /* Renk (isteğe bağlı) */
+    --min-width: 50px;
+    --min-height: 50px;
+    --ion-color-danger: #e74c3c;
   }
-  
-  .small-trash ion-icon {
-    font-size: 20px; /* Çöp kutusu simgesinin boyutu */
-  }  
 
-} 
+  .small-trash ion-icon {
+    font-size: 20px;
+  }
+}
