@@ -10,7 +10,11 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getCurrentUser() {
-    const endpoint = `${environment.apiUrl}Users/`;
-    return this.http.get<any>(endpoint);
+    const response = `${environment.apiUrl}Users/current`;
+    return this.http.get<any>(response);
+  }
+  editProfile() {
+    const response = `${environment.apiUrl}Users/Update`;
+    return this.http.put<any>(response, {});
   }
 }
