@@ -97,14 +97,13 @@ export class ProfileEditPage implements OnInit {
     this.dietPreferences = this.dietPreferences.filter(item => item !== preference);
   }
 
-  // Verileri API'ye göndererek kaydetme
   saveChanges() {
     const updatedUserData = {
-      ...this.user,
-      dietPreferences: this.dietPreferences,
+      ...this.user, // Kullanıcıdan gelen güncel bilgiler
+      dietPreferences: this.dietPreferences, // Diet tercihlerini de ekle
     };
-
-    this.userService.editProfile().subscribe(
+  
+    this.userService.editProfile(updatedUserData).subscribe(
       (response) => {
         console.log('Kullanıcı bilgileri başarıyla güncellendi:', response);
       },
@@ -113,4 +112,5 @@ export class ProfileEditPage implements OnInit {
       }
     );
   }
+  
 }
