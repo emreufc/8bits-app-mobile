@@ -9,6 +9,7 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 import { ProfilePage } from './profile.page';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { RecipeService } from 'src/app/core/services/recipe.service';
+import { UserService } from 'src/app/core/services/user.service';
 
 @NgModule({
   imports: [
@@ -19,6 +20,6 @@ import { RecipeService } from 'src/app/core/services/recipe.service';
     ComponentsModule
   ],
   declarations: [ProfilePage],
-  providers: [RecipeService]
+  providers: [RecipeService, UserService]
 })
 export class ProfilePageModule {}
