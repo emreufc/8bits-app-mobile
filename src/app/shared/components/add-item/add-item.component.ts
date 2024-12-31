@@ -1,13 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-
-// Mevcut ShoppingItem interface
-interface ShoppingItem {
-  id: number;
-  name: string;
-  quantity: number;
-  unit: string;
-}
+import { IngredientService } from 'src/app/core/services/ingredient.service';
+import { Ingredient } from 'src/app/core/models/ingredient';
 
 @Component({
   selector: 'app-add-item',
@@ -16,89 +10,77 @@ interface ShoppingItem {
 })
 export class AddItemComponent implements OnInit {
 
-  allAvailableItems: ShoppingItem[] = [
-    { id: 100, name: 'Milk', quantity: 1, unit: 'L' },
-    { id: 101, name: 'Butter', quantity: 1, unit: 'pcs' },
-    { id: 102, name: 'Eggs', quantity: 12, unit: 'pcs' },
-    { id: 103, name: 'Flour', quantity: 500, unit: 'g' },
-  ];
+  ingredients: Ingredient[] = []; // API'den gelen malzemeler
+  filteredItems: Ingredient[] = []; // Filtrelenmiş malzemeler
+  searchTerm: string = ''; // Arama terimi
+  currentPage: number = 1; // İlk sayfa
+  pageSize: number = 10; // Sayfa başına öğe sayısı
+  hasMore: boolean = true; // Daha fazla veri var mı
+  selectedItem: Ingredient | null = null; // Seçilen malzeme
 
-  filteredItems: ShoppingItem[] = [];
-  selectedItem: ShoppingItem | null = null;
-
-  unitOptions: string[] = ['tbsp','cup','pcs','g','ml','pinch'];
-  activeUnit: string = 'tbsp'; 
-  searchTerm: string = '';
-  quantity: number = 1;
-
-  constructor(private modalCtrl: ModalController) {}
+  constructor(
+    private modalCtrl: ModalController,
+    private ingredientService: IngredientService
+  ) {}
 
   ngOnInit() {
-    this.filteredItems = [...this.allAvailableItems];
+    this.loadIngredients(); // İlk sayfayı yükle
   }
 
-  fetchItemsFromAPI() {
-    // API'den veri çekip allAvailableItems'e aktarabilirsiniz
+  // Malzemeleri yükler
+  async loadIngredients(event?: any) {
+    try {
+      const response = await this.ingredientService
+        .getIngredients(this.currentPage, this.pageSize)
+        .toPromise();
+
+      this.ingredients = [...this.ingredients, ...response.data]; // Mevcut listeye ekle
+      this.filteredItems = [...this.ingredients]; // Filtreleme için güncelle
+      this.hasMore = response.pagination.currentPage < response.pagination.totalPages;
+
+      if (event) {
+        event.target.complete(); // Sonsuz kaydırmayı tamamla
+      }
+
+      this.currentPage++;
+    } catch (error) {
+      console.error('Malzemeler yüklenirken hata oluştu:', error);
+      if (event) {
+        event.target.complete();
+      }
+    }
   }
 
-    // Arama çubuğunda değişiklik olduğunda + enter tuşuna basıldığında çalışır
   onSearchChange(event: any) {
-      // Arama terimini günceller
-      this.searchTerm = event.detail.value;
-  
-      // Eğer arama terimi boşsa, tüm öğeleri göster
-      if (!this.searchTerm) {
-        this.filteredItems = [...this.allAvailableItems];
-        return;
-      }
-  
-      // Arama terimini küçük harflere dönüştürür
-      const lowerTerm = this.searchTerm.toLowerCase();
-  
-      // Arama terimini içeren öğeleri filtreler
-      this.filteredItems = this.allAvailableItems.filter(item =>
-        item.name.toLowerCase().includes(lowerTerm)
-      );
+    this.searchTerm = event.detail.value;
+
+    if (!this.searchTerm) {
+      this.filteredItems = [...this.ingredients];
+      return;
     }
 
-  selectItem(item: ShoppingItem) {
+    const lowerTerm = this.searchTerm.toLowerCase();
+    this.filteredItems = this.ingredients.filter(item =>
+      item.ingredientName.toLowerCase().includes(lowerTerm)
+    );
+  }
+
+  loadMoreIngredients(event: any) {
+    if (this.hasMore) {
+      this.loadIngredients(event);
+    } else {
+      event.target.complete();
+    }
+  }
+
+  selectItem(item: Ingredient) {
     this.selectedItem = { ...item };
-    this.activeUnit = item.unit;
-    this.quantity = item.quantity;
   }
 
-  changeUnit(value: string | number | undefined) {
-    if (value == null) return;
-    // Eğer value numeric gelse bile string'e dönüştürürüz
-    this.activeUnit = value.toString();
-  }
-  
-
-  increment() {
-    this.quantity++;
-  }
-
-  decrement() {
-    if (this.quantity > 1) {
-      this.quantity--;
-    }
-  }
-
-    // Seçilen öğeyi onaylar ve modalı kapatır
   confirmItem() {
-      // Eğer bir öğe seçilmemişse işlemi durdurur
-      if (!this.selectedItem) return;
-  
-      // Yeni bir ShoppingItem nesnesi oluşturur
-      const newItem: ShoppingItem = {
-        id: 0, // ID değeri (gerekirse daha sonra atanabilir)
-        name: this.selectedItem.name, // Seçilen öğenin adı
-        quantity: this.quantity, // Girilen miktar
-        unit: this.activeUnit // Seçilen birim
-      }
-      // Modalı yeni öğe ile birlikte kapatır
-      this.modalCtrl.dismiss(newItem);
-    }
+    if (!this.selectedItem) return;
+    this.modalCtrl.dismiss(this.selectedItem);
+  }
 
   cancel() {
     this.modalCtrl.dismiss(null);
