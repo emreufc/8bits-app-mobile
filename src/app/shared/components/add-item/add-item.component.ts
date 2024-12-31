@@ -79,25 +79,30 @@ export class AddItemComponent implements OnInit {
     this.selectedItem = { ...item };
   }
 
-  async confirmItem() {
+  // async confirmItem() {
+  //   if (!this.selectedItem) return;
+  
+  //   console.log('ShoppingList\'e ekleme işlemi başlıyor...');
+  //   try {
+  //     const apiPayload = {
+  //       ingredientId: this.selectedItem.ingredientId || 0, // ingredientId mutlaka olmalı
+  //       quantityTypeId: this.selectedItem.quantityTypeID || 0, // quantityTypeId eksikse varsayılan ver
+  //       quantity: this.selectedItem.quanity || 1 // quantity eksikse varsayılan ver
+  //     };
+  
+  //     console.log('API\'ye gönderilen veri:', apiPayload);
+  
+  //     const response = await this.shopListService.addToList(apiPayload).toPromise();
+  //     console.log('ShoppingList\'e başarıyla eklendi:', response);
+  //     this.modalCtrl.dismiss(this.selectedItem); // Modalı kapat ve sonucu döndür
+  //   } catch (error) {
+  //     console.error('ShoppingList\'e eklenirken hata oluştu:', error);
+  //   }
+  // }
+
+  confirmItem() {
     if (!this.selectedItem) return;
-  
-    console.log('ShoppingList\'e ekleme işlemi başlıyor...');
-    try {
-      const apiPayload = {
-        ingredientId: this.selectedItem.ingredientId || 0, // ingredientId mutlaka olmalı
-        quantityTypeId: this.selectedItem.quantityTypeID || 0, // quantityTypeId eksikse varsayılan ver
-        quantity: this.selectedItem.quanity || 1 // quantity eksikse varsayılan ver
-      };
-  
-      console.log('API\'ye gönderilen veri:', apiPayload);
-  
-      const response = await this.shopListService.addToList(apiPayload).toPromise();
-      console.log('ShoppingList\'e başarıyla eklendi:', response);
-      this.modalCtrl.dismiss(this.selectedItem); // Modalı kapat ve sonucu döndür
-    } catch (error) {
-      console.error('ShoppingList\'e eklenirken hata oluştu:', error);
-    }
+    this.modalCtrl.dismiss(this.selectedItem);
   }
   
 
