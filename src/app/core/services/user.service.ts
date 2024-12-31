@@ -13,8 +13,8 @@ export class UserService {
     const response = `${environment.apiUrl}Users/current`;
     return this.http.get<any>(response);
   }
-  editProfile() {
-    const response = `${environment.apiUrl}Users/Update`;
-    return this.http.put<any>(response, {});
+  editProfile(updatedUserData: any) {
+    const apiUrl = `${environment.apiUrl}Users/Update`;
+    return this.http.put<any>(apiUrl, updatedUserData); // Body içinde veriyi gönderiyoruz
   }
 }
