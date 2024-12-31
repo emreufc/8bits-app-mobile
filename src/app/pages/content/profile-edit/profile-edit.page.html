@@ -11,20 +11,19 @@
     <ion-avatar class="profile-avatar">
       <img src="https://i.pravatar.cc/150?img=3" />
     </ion-avatar>
-    <h2>{{ firstName }} {{ lastName }}</h2>
+    <h2>{{ user.name }} {{ user.surname }}</h2>
     <p>Of, Trabzon</p>
   </div>
 
   <ion-list>
     <!-- First Name -->
-    <ion-item lines="full"> <!-- Çizgili hatlar görünür -->
+    <ion-item lines="full">
       <ion-label position="stacked">First name</ion-label>
       <ion-input 
         [disabled]="!isEditingFirstName" 
-        [(ngModel)]="firstName">
+        [(ngModel)]="user.name">
       </ion-input>
       <ion-buttons slot="end">
-        <!-- Edit butonu turuncu -->
         <ion-button fill="clear" (click)="toggleEdit('firstName')">
           {{ isEditingFirstName ? 'Kaydet' : 'Edit' }}
         </ion-button>
@@ -36,7 +35,7 @@
       <ion-label position="stacked">Last name</ion-label>
       <ion-input 
         [disabled]="!isEditingLastName" 
-        [(ngModel)]="lastName">
+        [(ngModel)]="user.surname">
       </ion-input>
       <ion-buttons slot="end">
         <ion-button fill="clear" (click)="toggleEdit('lastName')">
@@ -49,14 +48,14 @@
     <ion-item lines="full">
       <ion-label position="stacked">Gender</ion-label>
       <ng-container *ngIf="isEditingGender; else genderText">
-        <ion-select interface="action-sheet" [(ngModel)]="gender">
+        <ion-select interface="action-sheet" [(ngModel)]="user.gender">
           <ion-select-option value="Male">Male</ion-select-option>
           <ion-select-option value="Female">Female</ion-select-option>
           <ion-select-option value="Other">Other</ion-select-option>
         </ion-select>
       </ng-container>
       <ng-template #genderText>
-        <div class="static-text">{{ gender }}</div>
+        <div class="static-text">{{ user.gender }}</div>
       </ng-template>
       <ion-buttons slot="end">
         <ion-button fill="clear" (click)="toggleEdit('gender')">
@@ -70,7 +69,7 @@
       <ion-label position="stacked">Email</ion-label>
       <ion-input 
         [disabled]="!isEditingEmail" 
-        [(ngModel)]="email">
+        [(ngModel)]="user.email">
       </ion-input>
       <ion-buttons slot="end">
         <ion-button fill="clear" (click)="toggleEdit('email')">
@@ -84,7 +83,7 @@
       <ion-label position="stacked">Mobile Number</ion-label>
       <ion-input 
         [disabled]="!isEditingMobileNumber" 
-        [(ngModel)]="mobileNumber">
+        [(ngModel)]="user.phoneNumber">
       </ion-input>
       <ion-buttons slot="end">
         <ion-button fill="clear" (click)="toggleEdit('mobileNumber')">
@@ -97,10 +96,10 @@
     <ion-item lines="full">
       <ion-label position="stacked">Birthday</ion-label>
       <ng-container *ngIf="isEditingBirthday; else birthdayText">
-        <ion-datetime display-format="DD MMM YYYY" [(ngModel)]="birthday"></ion-datetime>
+        <ion-datetime display-format="DD MMM YYYY" [(ngModel)]="user.dateOfBirth"></ion-datetime>
       </ng-container>
       <ng-template #birthdayText>
-        <div class="static-text">{{ birthday | date:'dd MMM yyyy' }}</div>
+        <div class="static-text">{{ user.dateOfBirth | date:'dd MMM yyyy' }}</div>
       </ng-template>
       <ion-buttons slot="end">
         <ion-button fill="clear" (click)="toggleEdit('birthday')">
@@ -121,8 +120,6 @@
         </ion-chip>
       </div>
     </ion-item>
-    
-    
     
     <ion-modal [isOpen]="isDietModalOpen" (ionModalWillDismiss)="closeDietModal()">
       <ng-template>
@@ -147,13 +144,10 @@
     </ion-modal>  
   </ion-list>
 
-  
-  
-
   <!-- Save Changes Button -->
   <ion-footer>
     <ion-toolbar>
-      <ion-button class ="saveButton" expand="block" color="primary" (click)="saveChanges()">
+      <ion-button class="saveButton" expand="block" color="primary" (click)="saveChanges()">
         Değişiklikleri Kaydet
       </ion-button>
     </ion-toolbar>
