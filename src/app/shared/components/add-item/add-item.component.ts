@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { IngredientService } from 'src/app/core/services/ingredient.service';
 import { Ingredient } from 'src/app/core/models/ingredient';
+import { ShopListService } from 'src/app/core/services/shop-list.service';
 
 @Component({
   selector: 'app-add-item',
@@ -20,7 +21,8 @@ export class AddItemComponent implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-    private ingredientService: IngredientService
+    private ingredientService: IngredientService,
+    private shopListService: ShopListService
   ) {}
 
   ngOnInit() {
@@ -77,10 +79,27 @@ export class AddItemComponent implements OnInit {
     this.selectedItem = { ...item };
   }
 
-  confirmItem() {
+  async confirmItem() {
     if (!this.selectedItem) return;
-    this.modalCtrl.dismiss(this.selectedItem);
+  
+    console.log('ShoppingList\'e ekleme işlemi başlıyor...');
+    try {
+      const apiPayload = {
+        ingredientId: this.selectedItem.ingredientId || 0, // ingredientId mutlaka olmalı
+        quantityTypeId: this.selectedItem.quantityTypeID || 0, // quantityTypeId eksikse varsayılan ver
+        quantity: this.selectedItem.quanity || 1 // quantity eksikse varsayılan ver
+      };
+  
+      console.log('API\'ye gönderilen veri:', apiPayload);
+  
+      const response = await this.shopListService.addToList(apiPayload).toPromise();
+      console.log('ShoppingList\'e başarıyla eklendi:', response);
+      this.modalCtrl.dismiss(this.selectedItem); // Modalı kapat ve sonucu döndür
+    } catch (error) {
+      console.error('ShoppingList\'e eklenirken hata oluştu:', error);
+    }
   }
+  
 
   cancel() {
     this.modalCtrl.dismiss(null);
