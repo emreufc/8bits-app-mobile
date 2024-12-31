@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { RecipeService } from 'src/app/core/services/recipe.service';
 import { RecipeSummary } from 'src/app/core/models/recipe';
+import { UserService } from 'src/app/core/services/user.service';
+import { User } from 'src/app/core/models/user';
 
 
 @Component({
@@ -11,12 +13,20 @@ import { RecipeSummary } from 'src/app/core/models/recipe';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-  public userName: string = 'Name - Surname';
   public userLocation: string = 'New York, USA';
   public selectedSegment: string = 'old-recipes'; // Başlangıçta 'Old Recipes' seçili
   favoriteRecipes: RecipeSummary[] = []; // Favoriler listesi
   recipes: RecipeSummary[] = []; // Tarif verileri
 
+  user: User = {
+      name: '',
+      surname: '',
+      // gender: '',
+      email: '',
+      phoneNumber: '',
+      dateOfBirth: '',
+    };
+    
   // recipes = [
   //   {
   //     id: 1,
@@ -76,12 +86,21 @@ export class ProfilePage implements OnInit {
 
   constructor(private router: Router, 
               private navCtrl: NavController, 
-              private recipeService: RecipeService) {}
+              private recipeService: RecipeService,
+              private userService: UserService) {}
 
-  ngOnInit() {
-    console.log('Profile Page');
-    this.loadFavoriteRecipes(); // Tarifleri yükle
-    // this.updateFavoriteRecipes(); // Favori tarifleri hesapla
+  ngOnInit(): void {
+    this.userService.getCurrentUser().subscribe(
+      (response: any) => {
+        console.log('API Response:', response);
+        // Yanıttaki data katmanından kullanıcı bilgilerini çek
+        this.user = response.data;
+        console.log('Current Form Data:', this.user);
+      },
+      (error) => {
+        console.error('Kullanıcı bilgileri alınamadı:', error);
+      }
+    );
   }
 
   async loadFavoriteRecipes() {
