@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { RecipeService } from 'src/app/core/services/recipe.service';
 import { RecipeSummary } from 'src/app/core/models/recipe';
 import { UserService } from 'src/app/core/services/user.service';
@@ -87,7 +87,9 @@ export class ProfilePage implements OnInit {
   constructor(private router: Router, 
               private navCtrl: NavController, 
               private recipeService: RecipeService,
-              private userService: UserService) {}
+              private userService: UserService,
+              private alertController: AlertController,
+              private toastController: ToastController) {}
 
   ngOnInit(): void {
     this.userService.getCurrentUser().subscribe(
@@ -160,17 +162,38 @@ export class ProfilePage implements OnInit {
           // Eğer tarif favorilerden çıkarıldıysa, favori listesinden kaldır
           this.favoriteRecipes.splice(recipeIndex, 1); // Listeyi güncelle
           console.log(`${recipe.recipeName} favorilerden çıkarıldı ve listeden kaldırıldı.`);
+  
+          // Başarılı toast mesajı
+          const toast = await this.toastController.create({
+            message: `${recipe.recipeName} favorilerden çıkarıldı.`,
+            duration: 1000, // Mesajın görünme süresi
+            position: 'bottom',
+            color: 'warning',
+          });
+          await toast.present();
         } else {
           console.log(`${recipe.recipeName} favorilere eklendi.`);
+  
+          // Başarılı toast mesajı
+          const toast = await this.toastController.create({
+            message: `${recipe.recipeName} favorilere eklendi.`,
+            duration: 1000,
+            position: 'bottom',
+            color: 'success',
+          });
+          await toast.present();
         }
       } catch (error) {
         console.error(`Hata: ${recipe.recipeName} favori durumu değiştirilemedi`, error);
+  
+        // Hata alert mesajı
+        const alert = await this.alertController.create({
+          header: 'Hata',
+          message: `${recipe.recipeName} favori durumu değiştirilemedi. Lütfen tekrar deneyin.`,
+          buttons: ['Tamam'],
+        });
+        await alert.present();
       }
     }
   }
-  
-
-  
-
-  
 }

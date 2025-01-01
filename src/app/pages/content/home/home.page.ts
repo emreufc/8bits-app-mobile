@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RecipeService } from 'src/app/core/services/recipe.service';
 import { RecipeSummary } from 'src/app/core/models/recipe';
+import { AlertController, ToastController } from '@ionic/angular';
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -73,7 +74,9 @@ export class HomePage implements OnInit {
   // ];
 
   constructor(private router: Router,
-              private recipeService: RecipeService
+              private recipeService: RecipeService,
+              private toastController: ToastController,
+              private alertController: AlertController
   ) { }
 
   async ngOnInit() {
@@ -150,31 +153,50 @@ export class HomePage implements OnInit {
 
 
 
-    // Bu horizantal scroll cardları için
-    async toggleLike(recipe: any, event: Event) {
-      event.stopPropagation(); // Event'in parent elementlere yayılmasını durdur
-    
-      const previousStatus = recipe.favouriteRecipes; // Mevcut favori durumu
-      recipe.favouriteRecipes = !previousStatus; // Durumu değiştir
-    
-      try {
-        await this.recipeService.favRecipe(recipe.favouriteRecipes, recipe.recipeId);
-        console.log(
-          `${recipe.recipeName} ${
-            recipe.favouriteRecipes ? 'favorilere eklendi' : 'favorilerden çıkarıldı'
-          }`
-        );
-    
-        if (recipe.favouriteRecipes) {
-          this.favRecipeIds.push(recipe.recipeId); // Favorilere ekle
-        } else {
-          this.favRecipeIds = this.favRecipeIds.filter((id) => id !== recipe.recipeId); // Favorilerden çıkar
-        }
-      } catch (error) {
-        recipe.favouriteRecipes = previousStatus; // Hata durumunda durumu geri al
-        console.error(`Hata: ${recipe.recipeName} favori durumu değiştirilemedi`, error);
+  async toggleLike(recipe: any, event: Event) {
+    event.stopPropagation(); // Event'in parent elementlere yayılmasını durdur
+  
+    const previousStatus = recipe.favouriteRecipes; // Mevcut favori durumu
+    recipe.favouriteRecipes = !previousStatus; // Durumu değiştir
+  
+    try {
+      await this.recipeService.favRecipe(recipe.favouriteRecipes, recipe.recipeId);
+      console.log(
+        `${recipe.recipeName} ${
+          recipe.favouriteRecipes ? 'favorilere eklendi' : 'favorilerden çıkarıldı'
+        }`
+      );
+  
+      // Toast mesajı göster
+      const toast = await this.toastController.create({
+        message: `${recipe.recipeName} ${
+          recipe.favouriteRecipes ? 'favorilere eklendi' : 'favorilerden çıkarıldı'
+        }.`,
+        duration: 1000,
+        position: 'bottom',
+        color: recipe.favouriteRecipes ? 'success' : 'warning',
+      });
+      await toast.present();
+  
+      if (recipe.favouriteRecipes) {
+        this.favRecipeIds.push(recipe.recipeId); // Favorilere ekle
+      } else {
+        this.favRecipeIds = this.favRecipeIds.filter((id) => id !== recipe.recipeId); // Favorilerden çıkar
       }
+    } catch (error) {
+      recipe.favouriteRecipes = previousStatus; // Hata durumunda durumu geri al
+      console.error(`Hata: ${recipe.recipeName} favori durumu değiştirilemedi`, error);
+  
+      // Alert mesajı göster
+      const alert = await this.alertController.create({
+        header: 'Hata',
+        message: `${recipe.recipeName} favori durumu değiştirilemedi. Lütfen tekrar deneyin.`,
+        buttons: ['Tamam'],
+      });
+      await alert.present();
     }
+  }
+  
     
 
   
@@ -183,24 +205,41 @@ export class HomePage implements OnInit {
     console.log('Tarife git');  
   }
 
-  // Bu recipe-card component için
   async handleLikeToggled(recipeId: number) {
     const recipeIndex = this.recipes.findIndex((recipe) => recipe.recipeId === recipeId);
-
+  
     if (recipeIndex !== -1) {
       const recipe = this.recipes[recipeIndex];
       const newStatus = !recipe.favouriteRecipes;
-
+  
       // API'ye isteği gönder
       try {
         await this.recipeService.favRecipe(newStatus, recipeId);
         this.recipes[recipeIndex].favouriteRecipes = newStatus; // UI güncellemesi
         console.log(`${recipe.recipeName} favori durumu güncellendi.`);
+  
+        // Başarı durumu için Toast mesajı
+        const toast = await this.toastController.create({
+          message: `${recipe.recipeName} favorilere ${newStatus ? 'eklendi' : 'çıkarıldı'}.`,
+          duration: 1000,
+          position: 'bottom',
+          color: newStatus ? 'success' : 'warning',
+        });
+        await toast.present();
       } catch (error) {
         console.error(`Hata: ${recipe.recipeName} favori durumu güncellenemedi`, error);
+  
+        // Hata durumu için Alert mesajı
+        const alert = await this.alertController.create({
+          header: 'Hata',
+          message: `${recipe.recipeName} favori durumu güncellenirken bir hata oluştu. Lütfen tekrar deneyin.`,
+          buttons: ['Tamam'],
+        });
+        await alert.present();
       }
     }
   }
+  
 
 
 
