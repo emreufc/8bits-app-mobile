@@ -19,10 +19,8 @@ export class RecipeService {
   }
 
   async favRecipe(status: boolean, recipeId: number) {
-    const uid = this.authService.getUid();
     if (status) {
       return lastValueFrom(this.httpClient.post(`${environment.apiUrl}FavoriteRecipes/add`, {
-        // userId: uid,
         recipeId: recipeId,
       }));
     } else {
