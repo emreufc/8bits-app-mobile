@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/core/services/user.service';
 import { User } from 'src/app/core/models/user';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-profile-edit',
@@ -36,7 +36,8 @@ export class ProfileEditPage implements OnInit {
   isDietModalOpen: boolean = false;
 
   constructor(private userService: UserService,
-              private alertController: AlertController
+              private alertController: AlertController,
+              private toastController: ToastController
   ) {}
 
   ngOnInit(): void {
@@ -113,13 +114,14 @@ export class ProfileEditPage implements OnInit {
       async (response) => {
         console.log('Kullanıcı bilgileri başarıyla güncellendi:', response);
         this.loading = false;
-  
-        const alert = await this.alertController.create({
-          header: 'Başarılı',
+
+        const toast = await this.toastController.create({
           message: 'Kullanıcı bilgileriniz başarıyla güncellendi.',
-          buttons: ['Tamam'],
+          duration: 1000,
+          position: 'bottom',
+          color: 'warning',
         });
-        await alert.present();
+        await toast.present();
       },
       async (error) => {
         console.error('Kullanıcı bilgileri güncellenirken hata oluştu:', error);
