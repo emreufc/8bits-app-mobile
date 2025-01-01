@@ -27,11 +27,13 @@ export class AuthService {
   constructor(private httpClient: HttpClient) { }
 
   public async getUser(): Promise<User> {
-    const user = await lastValueFrom(this.httpClient.get(`${environment.apiUrl}Users/current`)) as any;
+    const response = await lastValueFrom(this.httpClient.get(`${environment.apiUrl}Users/current`)) as any;
 
+    // Dönen user'da profileImage olup olmadığını kontrol et
+    console.log('Servisten dönen user:', response);
     return {
-      ...user,
-      profileImage: environment.apiUrl + user.profileImage,
+      ...response.data,
+      profileImage: environment.apiUrl + response.profileImage,
     };
   }
 
