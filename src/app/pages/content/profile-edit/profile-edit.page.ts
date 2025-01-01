@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/core/services/user.service';
 import { User } from 'src/app/core/models/user';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-profile-edit',
@@ -34,7 +35,9 @@ export class ProfileEditPage implements OnInit {
   selectedDietPreferences: { [key: string]: boolean } = {};
   isDietModalOpen: boolean = false;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService,
+              private alertController: AlertController
+  ) {}
 
   ngOnInit(): void {
     this.userService.getCurrentUser().subscribe(
@@ -99,7 +102,7 @@ export class ProfileEditPage implements OnInit {
     this.dietPreferences = this.dietPreferences.filter(item => item !== preference);
   }
 
-  saveChanges() {
+  async saveChanges() {
     this.loading = true;
     const updatedUserData = {
       ...this.user, // Kullanıcıdan gelen güncel bilgiler
@@ -107,15 +110,30 @@ export class ProfileEditPage implements OnInit {
     };
   
     this.userService.editProfile(updatedUserData).subscribe(
-      (response) => {
+      async (response) => {
         console.log('Kullanıcı bilgileri başarıyla güncellendi:', response);
         this.loading = false;
+  
+        const alert = await this.alertController.create({
+          header: 'Başarılı',
+          message: 'Kullanıcı bilgileriniz başarıyla güncellendi.',
+          buttons: ['Tamam'],
+        });
+        await alert.present();
       },
-      (error) => {
+      async (error) => {
         console.error('Kullanıcı bilgileri güncellenirken hata oluştu:', error);
         this.loading = false;
+  
+        const alert = await this.alertController.create({
+          header: 'Hata',
+          message: 'Kullanıcı bilgileriniz güncellenirken bir hata oluştu. Lütfen tekrar deneyin.',
+          buttons: ['Tamam'],
+        });
+        await alert.present();
       }
     );
   }
+  
   
 }
