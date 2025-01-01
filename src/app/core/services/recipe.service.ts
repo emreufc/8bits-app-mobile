@@ -11,7 +11,19 @@ export class RecipeService {
   }
 
   getRecipeDetail(id: number) {
-    return lastValueFrom(this.httpClient.get(`${environment.apiUrl}Recipe/GetRecipeById/${id}`));
+    return lastValueFrom(this.httpClient.get(`${environment.apiUrl}Recipes/${id}`));
+  }
+
+  getRecipeIngredients(id: number) {
+    return lastValueFrom(this.httpClient.get(`${environment.apiUrl}RecipeIngredient/recipe/${id}`));
+  }
+
+  getRecipeSteps(id: number) {
+    return lastValueFrom(this.httpClient.get(`${environment.apiUrl}RecipeStep/steps/recipe/${id}`));
+  }
+
+  toggleOldRecipeStatus(recipeId: number) {
+    return lastValueFrom(this.httpClient.post(`${environment.apiUrl}OldRecipe/ToggleOldRecipe`, recipeId));
   }
 
   getFavRecipes() {
