@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { AddItemComponent } from 'src/app/shared/components/add-item/add-item.component';
 import { Router } from '@angular/router';
@@ -30,7 +30,8 @@ export class InventoryPage implements OnInit {
     private route: ActivatedRoute,
     private modalCtrl: ModalController,
     private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private toastController: ToastController
   ) {}
 
   ngOnInit() {
@@ -82,11 +83,24 @@ export class InventoryPage implements OnInit {
   }
 
 
-  removeItem(id: number) {
-    this.shoppingItems = this.shoppingItems.filter(
-      (item) => item.ingredientId !== id
-    );
-    this.filterItems();
+  async removeItem(id: number) {
+    const removedItem = this.shoppingItems.find((item) => item.ingredientId === id);
+
+    if (removedItem) {
+      this.shoppingItems = this.shoppingItems.filter(
+        (item) => item.ingredientId !== id
+      );
+      this.filterItems();
+
+      // Başarılı toast mesajı
+      const toast = await this.toastController.create({
+        message: `${removedItem.ingredientName} başarıyla kaldırıldı.`,
+        duration: 1000,
+        position: 'bottom',
+        color: 'warning',
+      });
+      await toast.present();
+    }
   }
 
   async openAddItemModal() {
@@ -97,6 +111,9 @@ export class InventoryPage implements OnInit {
     modal.onDidDismiss().then((res) => {
       if (res.data) {
         this.addItemToShoppingList(res.data);
+
+        // Başarılı toast mesajı
+        this.showToast(`${res.data.ingredientName} başarıyla eklendi.`);
       }
     });
 
@@ -110,6 +127,9 @@ export class InventoryPage implements OnInit {
 
     if (!existingItem) {
       this.shoppingItems.push(newItem);
+
+      // Başarılı toast mesajı
+      this.showToast(`${newItem.ingredientName} alışveriş listesine eklendi.`);
     }
 
     this.filterItems();
@@ -136,12 +156,36 @@ export class InventoryPage implements OnInit {
     this.selectedItems = [...this.filteredItems];
   }
 
-  removeSelectedItems() {
+  async removeSelectedItems() {
+    console.log('Selected items:', this.selectedItems);
+    const removedItemNames = this.selectedItems.map((item) => item.ingredientName);
+
     this.shoppingItems = this.shoppingItems.filter(
       (item) => !this.selectedItems.includes(item)
     );
     this.filterItems();
-    this.toggleSelectMode(); // Seçim modundan çık
+    this.toggleSelectMode();
     this.selectedItems = [];
+
+    // Başarılı toast mesajı
+    const toast = await this.toastController.create({
+      message: `${removedItemNames.join(', ')} başarıyla kaldırıldı.`,
+      duration: 1000,
+      position: 'bottom',
+      color: 'warning',
+    });
+    await toast.present();
+  }
+
+
+
+  private async showToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 1000,
+      position: 'bottom',
+      color: 'success',
+    });
+    await toast.present();
   }
 }
