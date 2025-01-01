@@ -11,12 +11,14 @@ export class ProfileEditPage implements OnInit {
   // Kullanıcı bilgileri
   user: User = {
     name: '',
-    // surname: '',
-    // gender: '',
+    surname: '',
+    gender: '',
     email: '',
     phoneNumber: '',
     dateOfBirth: '',
   };
+
+  public loading = false;
 
   // Düzenleme modları
   isEditingFirstName: boolean = false;
@@ -98,6 +100,7 @@ export class ProfileEditPage implements OnInit {
   }
 
   saveChanges() {
+    this.loading = true;
     const updatedUserData = {
       ...this.user, // Kullanıcıdan gelen güncel bilgiler
       dietPreferences: this.dietPreferences, // Diet tercihlerini de ekle
@@ -106,9 +109,11 @@ export class ProfileEditPage implements OnInit {
     this.userService.editProfile(updatedUserData).subscribe(
       (response) => {
         console.log('Kullanıcı bilgileri başarıyla güncellendi:', response);
+        this.loading = false;
       },
       (error) => {
         console.error('Kullanıcı bilgileri güncellenirken hata oluştu:', error);
+        this.loading = false;
       }
     );
   }
