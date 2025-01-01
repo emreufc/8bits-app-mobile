@@ -3,6 +3,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { User } from 'src/app/core/models/user';
 import { AlertController, ToastController } from '@ionic/angular';
 
+
 @Component({
   selector: 'app-profile-edit',
   templateUrl: './profile-edit.page.html',
@@ -39,6 +40,7 @@ export class ProfileEditPage implements OnInit {
               private alertController: AlertController,
               private toastController: ToastController
   ) {}
+
 
   ngOnInit(): void {
     this.userService.getCurrentUser().subscribe(
@@ -136,6 +138,4 @@ export class ProfileEditPage implements OnInit {
       }
     );
   }
-  
-  
 }
