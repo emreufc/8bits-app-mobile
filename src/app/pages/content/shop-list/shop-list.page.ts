@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, ModalController } from '@ionic/angular'; // ModalController eklendi
-import { ActivatedRoute } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { AddItemComponent } from 'src/app/shared/components/add-item/add-item.component';
 import { Ingredient } from 'src/app/core/models/ingredient';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-shop-list',
@@ -13,16 +13,11 @@ export class ShopListPage implements OnInit {
   shoppingItems: Ingredient[] = [];
   filteredItems: Ingredient[] = [];
   searchTerm: string = '';
-  shoppingItems: ShoppingItem[] = [];
-  filteredItems: ShoppingItem[] = [];
-  nextId: number = 9; // Yeni item ID'si için başlangıç
+  isSelectMode: boolean = false; // Seçim modunda olup olmadığını kontrol eder
+  selectedItems: Ingredient[] = []; // Seçilen öğeleri tutar
 
-  // ModalController'ı constructor'a ekle
-  constructor(
-    private route: ActivatedRoute,
-    private modalCtrl: ModalController
-  ) {}
-
+  constructor(private modalController: ModalController,
+    private  alertController: AlertController) {}
   ngOnInit() {
     this.filterItems();
   }
@@ -39,15 +34,17 @@ export class ShopListPage implements OnInit {
    * Eğer `searchTerm` boş ise, `shoppingItems` listesinin tamamını `filteredItems` listesine kopyalar.
    * Eğer `searchTerm` dolu ise, `shoppingItems` listesindeki öğelerin isimlerini küçük harfe çevirir ve
    * `searchTerm` ile eşleşenleri `filteredItems` listesine ekler.
+   * Eğer eşleşen öğe yoksa kullanıcıya bir mesaj gösterir.
    *
    * @returns {void}
    */
+  
   filterItems(): void {
     if (!this.searchTerm) {
       this.filteredItems = [...this.shoppingItems];
     } else {
       const searchTermLower = this.searchTerm.toLowerCase();
-      this.filteredItems = this.shoppingItems.filter((item) =>
+      this.filteredItems = this.shoppingItems.filter(item =>
         item.ingredientName.toLowerCase().includes(searchTermLower)
       );
 

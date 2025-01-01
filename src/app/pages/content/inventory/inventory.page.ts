@@ -49,20 +49,6 @@ export class InventoryPage implements OnInit {
     this.filterItems();
   }
 
-<<<<<<< HEAD
-  /**
-   * @function filterItems
-   * @description
-   * Bu fonksiyon, `searchTerm` değişkenine göre `shoppingItems` listesini filtreler.
-   * Eğer `searchTerm` boş ise, `shoppingItems` listesinin tamamını `filteredItems` listesine kopyalar.
-   * Eğer `searchTerm` dolu ise, `shoppingItems` listesindeki öğelerin isimlerini küçük harfe çevirir ve
-   * `searchTerm` ile eşleşenleri `filteredItems` listesine ekler.
-   * Eğer eşleşen öğe yoksa kullanıcıya bir mesaj gösterir.
-   *
-   * @returns {void}
-   */
-=======
->>>>>>> 49eae7d37ef5eaf2d6813698dff54ee1974b8c8e
   filterItems(): void {
     if (!this.searchTerm) {
       this.filteredItems = [...this.shoppingItems];
