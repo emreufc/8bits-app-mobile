@@ -10,7 +10,7 @@ import { ShopListService } from 'src/app/core/services/shop-list.service';
   styleUrls: ['./add-item.component.scss'],
 })
 export class AddItemComponent implements OnInit {
-
+  allIngredients: Ingredient[] = []; // Tüm malzemeler (arama için)
   ingredients: Ingredient[] = []; // API'den gelen malzemeler
   filteredItems: Ingredient[] = []; // Filtrelenmiş malzemeler
   searchTerm: string = ''; // Arama terimi
@@ -27,6 +27,7 @@ export class AddItemComponent implements OnInit {
 
   ngOnInit() {
     this.loadIngredients(); // İlk sayfayı yükle
+    this.loadAllIngredients(); // Tüm verileri yükle (arama için)
   }
 
   // Malzemeleri yükler
@@ -52,19 +53,34 @@ export class AddItemComponent implements OnInit {
       }
     }
   }
+  
+  // Tüm malzemeleri yükler (arama için)
+  async loadAllIngredients() {
+    try {
+      const response = await this.ingredientService
+        .getIngredients(1, 750) // Sayfa boyutunu büyük tutarak tüm verileri çek
+        .toPromise();
 
+      this.allIngredients = response.data; // Tüm malzemeleri kaydet
+      console.log('Tüm malzemeler yüklendi:', this.allIngredients);
+    } catch (error) {
+      console.error('Tüm malzemeler yüklenirken hata oluştu:', error);
+    }
+  }
+
+  // Arama terimini işler
   onSearchChange(event: any) {
     this.searchTerm = event.detail.value;
 
     if (!this.searchTerm) {
-      this.filteredItems = [...this.ingredients];
+      this.filteredItems = [...this.ingredients]; // Sayfalı listeyi göster
       return;
     }
 
     const lowerTerm = this.searchTerm.toLowerCase();
-    this.filteredItems = this.ingredients.filter(item =>
+    this.filteredItems = this.allIngredients.filter(item =>
       item.ingredientName.toLowerCase().includes(lowerTerm)
-    );
+    ); // Tüm verilerde arama yap
   }
 
   loadMoreIngredients(event: any) {
