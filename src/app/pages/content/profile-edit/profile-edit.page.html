@@ -139,7 +139,11 @@
   <ion-footer>
     <ion-toolbar>
       <ion-button class="saveButton" expand="block" color="primary" (click)="saveChanges()">
-        Değişiklikleri Kaydet
+        
+        <span *ngIf="!loading; else spin">Değişiklikleri Kaydet</span>
+        <ng-template #spin>
+          <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+        </ng-template>
       </ion-button>
     </ion-toolbar>
   </ion-footer>
