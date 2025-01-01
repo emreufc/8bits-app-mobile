@@ -2,8 +2,10 @@ export interface User {
     id?: number | any;
     name?: string | any;
     surname?: string | any;
+    gender?: string | any;
     email?: string | any;
-    birthDate?: string | any;
+    password?: string | any;
+    dateOfBirth?: string | any;
     phoneNumber?: string | any;
     createDate?: string | any;
     role?: string | any;

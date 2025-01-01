@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { UserRegister } from 'src/app/core/interfaces/user';
+import { User } from 'src/app/core/models/user';
+import { lastValueFrom } from 'rxjs';
 
 /**
  * SignupPage component handles the user signup functionality.
@@ -22,7 +23,7 @@ export class SignupPage implements OnInit {
 
 
   // Kullanıcı verileri için User interface'ini kullanıyoruz
-  userData: UserRegister = {
+  userData: User = {
     name: '',
     surname: '',
     email: '',
@@ -35,7 +36,7 @@ export class SignupPage implements OnInit {
    * @param alertController - Injects AlertController for displaying alerts.
    * @param authService - Handles authentication-related operations.
    */
-  constructor(private alertController: AlertController, private authService: AuthService) {}
+  constructor(private alertController: AlertController, private authService: AuthService, private navController: NavController) {}
 
   ngOnInit() {}
 
@@ -59,36 +60,55 @@ export class SignupPage implements OnInit {
   }
 
   /**
-   * Handles the signup process.
-   * Validates the terms acceptance and password match.
-   * Displays appropriate alerts if validation fails.
+   * Kayıt olma işlemini gerçekleştirir.
+   * Kullanıcının şartları kabul edip etmediğini ve şifrelerin eşleşip eşleşmediğini kontrol eder.
+   * Doğrulama başarısız olursa uygun uyarılar gösterir.
    */
   async onSignup() {
+    // Kullanıcı şartları kabul etmemişse uyarı göster
     if (!this.termsAccepted) {
       const alert = await this.alertController.create({
-        header: 'Terms and Conditions',
-        message: 'You must accept the terms and conditions to sign up.',
-        buttons: ['OK'],
+        header: 'Şartlar ve Koşullar',
+        message: 'Kayıt olmak için şartlar ve koşulları kabul etmelisiniz.',
+        buttons: ['Tamam'],
       });
       await alert.present();
       return;
     }
 
+    // Şifreler eşleşmiyorsa uyarı göster
     if (this.userData.password !== this.rePassword) {
       const alert = await this.alertController.create({
-        header: 'Password Mismatch',
-        message: 'Passwords do not match.',
-        buttons: ['OK'],
+        header: 'Şifre Uyuşmazlığı',
+        message: 'Şifreler uyuşmuyor.',
+        buttons: ['Tamam'],
       });
       await alert.present();
       return;
     }
 
+    // Kayıt olma işlemini gerçekleştir
     try {
-      const response = await this.authService.register(this.userData);
+      const response: any = await lastValueFrom(this.authService.register(this.userData));
+      // Kayıt başarılıysa uyarı göster
+      const alert = await this.alertController.create({
+      header: 'Kayıt Başarılı',
+      message: 'Hesabınız başarıyla oluşturuldu.',
+      buttons: ['Tamam'],
+      });
+      await alert.present();
       console.log(response);
-    } catch (error) {
+      // Başarılı kayıt sonrası giriş sayfasına yönlendir
+      this.navController.navigateRoot('auth/login');
+    } catch (error: any) {
       console.error(error);
+      // Kayıt başarısızsa uyarı göster
+      const alert = await this.alertController.create({
+      header: 'Kayıt Başarısız',
+      message: 'Hesabınız oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.',
+      buttons: ['Tamam'],
+      });
+      await alert.present();
     }
   }
 }

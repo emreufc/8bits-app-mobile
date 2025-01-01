@@ -27,11 +27,13 @@ export class AuthService {
   constructor(private httpClient: HttpClient) { }
 
   public async getUser(): Promise<User> {
-    const user = await lastValueFrom(this.httpClient.get(`${environment.apiUrl}Profile/GetCurrentUser`)) as any;
+    const response = await lastValueFrom(this.httpClient.get(`${environment.apiUrl}Users/current`)) as any;
 
+    // Dönen user'da profileImage olup olmadığını kontrol et
+    console.log('Servisten dönen user:', response);
     return {
-      ...user,
-      profileImage: environment.apiUrl + user.profileImage,
+      ...response.data,
+      profileImage: environment.apiUrl + response.profileImage,
     };
   }
 
@@ -47,8 +49,8 @@ export class AuthService {
     return localStorage.getItem(this.EXPIRATION_KEY);
   }
 
-  register(credentials: { email: string, password: string, name: string, phoneNumber: string}): Observable<any> {
-    return this.httpClient.post(`${environment.apiUrl}auth/register`, credentials)
+  register(credentials: User): Observable<any> {
+    return this.httpClient.post(`${environment.apiUrl}Auth/register`, credentials)
       .pipe(
         tap((response: any) => {
           if (response.accessToken) {

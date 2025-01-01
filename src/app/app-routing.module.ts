@@ -22,7 +22,7 @@ const routes: Routes = [
   {
     path: 'content',
     loadChildren: () => import('./pages/content/content.module').then(m => m.ContentPageModule),
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
   
 ];

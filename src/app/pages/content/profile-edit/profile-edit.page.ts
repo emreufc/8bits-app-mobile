@@ -1,20 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { UserService } from 'src/app/core/services/user.service';
+import { User } from 'src/app/core/models/user';
 
 @Component({
   selector: 'app-profile-edit',
   templateUrl: './profile-edit.page.html',
   styleUrls: ['./profile-edit.page.scss'],
 })
-export class ProfileEditPage implements OnInit{
-  firstName: string = 'Jhanvi';
-  lastName: string = 'Dixit';
-  gender: string = 'Male';
-  email: string = 'jhanvi@mymail.com';
-  mobileNumber: string = '9182198657';
-  birthday: Date = new Date('1993-04-08');
+export class ProfileEditPage implements OnInit {
+  // Kullanıcı bilgileri
+  user: User = {
+    name: '',
+    // surname: '',
+    // gender: '',
+    email: '',
+    phoneNumber: '',
+    dateOfBirth: '',
+  };
 
+  // Düzenleme modları
   isEditingFirstName: boolean = false;
   isEditingLastName: boolean = false;
   isEditingGender: boolean = false;
@@ -29,13 +33,21 @@ export class ProfileEditPage implements OnInit{
   isDietModalOpen: boolean = false;
 
   constructor(private userService: UserService) {}
-  
 
   ngOnInit(): void {
-    // this.userService.getCurrentUser().subscribe((user) => {
-    //   console.log(user);
-    // });
+    this.userService.getCurrentUser().subscribe(
+      (response: any) => {
+        console.log('API Response:', response);
+        // Yanıttaki data katmanından kullanıcı bilgilerini çek
+        this.user = response.data;
+        console.log('Current Form Data:', this.user);
+      },
+      (error) => {
+        console.error('Kullanıcı bilgileri alınamadı:', error);
+      }
+    );
   }
+  
 
   toggleEdit(field: string) {
     switch (field) {
@@ -85,17 +97,20 @@ export class ProfileEditPage implements OnInit{
     this.dietPreferences = this.dietPreferences.filter(item => item !== preference);
   }
 
-  // Verileri API'ye göndererek kaydetme
   saveChanges() {
-    const userData = {
-      firstName: this.firstName,
-      lastName: this.lastName,
-      gender: this.gender,
-      email: this.email,
-      mobileNumber: this.mobileNumber,
-      birthday: this.birthday,
-      dietPreferences: this.dietPreferences,
+    const updatedUserData = {
+      ...this.user, // Kullanıcıdan gelen güncel bilgiler
+      dietPreferences: this.dietPreferences, // Diet tercihlerini de ekle
     };
-
+  
+    this.userService.editProfile(updatedUserData).subscribe(
+      (response) => {
+        console.log('Kullanıcı bilgileri başarıyla güncellendi:', response);
+      },
+      (error) => {
+        console.error('Kullanıcı bilgileri güncellenirken hata oluştu:', error);
+      }
+    );
   }
+  
 }

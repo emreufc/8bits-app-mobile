@@ -1,15 +1,10 @@
-<ion-header class="light-header">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button src="/assets/icon/chevron-back-outline" defaultHref="/content/home"></ion-back-button>
-    </ion-buttons>
-    <ion-title class="sub-page">Kart Eşleştirme Oyunu</ion-title>
-  </ion-toolbar>
 
-</ion-header>
 
 
 <ion-content>
+  <div class="list-header">
+    <h1>Kart Eşleştirme Oyunu</h1>
+  </div>
   <div *ngIf="!gameStarted" class="start-screen">
     <ion-button (click)="startGame()">Başlamak İçin Tıkla</ion-button>
   </div>
@@ -17,10 +12,10 @@
   <div *ngIf="gameStarted" class="game-container">
     <div class="game-info-container">
       <div class="game-info">
-        Kalan Süre <span id="time-remaining">{{ (timeRemaining / 1000).toFixed(0) }}</span>
+        Kalan Süre: <span id="time-remaining">{{ (timeRemaining / 1000).toFixed(0) }}</span>
       </div>
       <div class="game-info">
-        Başarılı Eşleştirme <span>{{ flips }}</span>
+        Toplam Eşleştirme: <span>{{ flips }}</span>
       </div>
     </div>
 
