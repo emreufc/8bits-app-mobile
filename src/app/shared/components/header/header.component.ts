@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/core/models/user';
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
@@ -7,14 +8,23 @@ import { AuthService } from 'src/app/core/services/auth.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent  implements OnInit {
-  user: any;
-
+  user: User = {
+    name: '',
+    surname: ''
+  };
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    this.authService.getUser().then((res: any) => {
-      this.user = res;
-    })
+    this.loadUser();
   }
+
+  async loadUser() {
+    try {
+        this.user= await this.authService.getUser(); // API çağrısı
+        console.log('Kullanıcı başarıyla yüklendi:', this.user);
+    } catch (error) {
+        console.error('Kullanıcı yüklenirken hata oluştu:', error);
+    }
+}
 
 }
