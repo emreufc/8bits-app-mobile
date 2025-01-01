@@ -1,72 +1,62 @@
+/* Genel Ayarlar */
 ion-header {
-    --background: #FF8C00; 
-    --color: #fff;
-  }
-  
-  ion-searchbar {
-    --background: #f4f4f5;
-    --border-radius: 12px;
-    --placeholder-color: #9ca3af;
-    --icon-color: #9ca3af;
-    margin: 12px;
-  }
-  
-  ion-list {
-    margin: 0 12px;
-  }
-  
-  ion-segment-button {
-    text-transform: none; // Büyük/küçük harf ayarı
-  }
-  
-  ion-segment {
-    margin-top: 16px;
-    ion-segment-button {
-      --background: transparent; /* Varsayılan arka plan */
-      --color: black; /* Varsayılan yazı rengi */
-      --indicator-color: #FF8C00; /* Alt çizgi rengini kaldırmak için */
-  
-      /* Seçili buton stilleri */
-      &.ion-activated {
-        --color: white; /* Seçili yazı beyaz */
-      }
-    }
-  }
-  
-  div[style*="padding: 16px;"] {
-    border-top: 1px solid #ccc;
-    margin-top: 8px;
-  }
-  .selected-item-container {
-    padding: 16px;
-  }
+  --background: #FF8C00; 
+  --color: #fff;
+}
 
-  ion-segment {
-       white-space: nowrap;
-       overflow-x: auto; 
-    
-  }
+ion-searchbar {
+  --background: #f4f4f5;
+  --border-radius: 12px;
+  --placeholder-color: #9ca3af;
+  --icon-color: #9ca3af;
+  margin: 12px;
+}
+
+ion-list {
+  margin: 0 12px;
+}
+
+/* Seçilen Malzeme ve Buton İçin */
+.selected-item-row {
+  display: flex;             /* Flexbox düzeni kullanılır */
+  justify-content: space-between; /* Elemanlar arasında boşluk bırak */
+  align-items: center;       /* Dikeyde ortala */
+  position: fixed;           /* Ekranın altına sabitler */
+  bottom: 16px;              /* Ekranın altından 16px yukarıda */
+  left: 16px;                /* Sol boşluk */
+  right: 16px;               /* Sağ boşluk */
+  background: #f4f4f5;       /* Arka plan rengi */
+  padding: 8px 16px;         /* İçerik boşluğu */
+  border-radius: 8px;        /* Köşeleri yuvarla */
+  z-index: 1000;             /* Üstte görünmesini sağlar */
+}
+
+.selected-item {
+  font-size: 16px;
+  font-weight: 500;          /* Yazı kalınlığı */
+  color: #333;               /* Yazı rengi */
+}
+
+/* Ekle Butonu */
+.fixed-button {
+  margin: 0;                 /* Flex düzeni ile hizalama için boşlukları kaldır */
+  --background: #FF8C00;     /* Buton arka plan rengi */
+  --color: #fff;             /* Buton yazı rengi */
+}
+
+
+   // .quantity-container {
+  //   /* Miktar kısmını ortalamak için flex layout kullanıyoruz */
+  //   display: flex;
+  //   justify-content: center;    /* Yatayda ortala */
+  //   align-items: center;        /* Dikeyde ortala */
+  //   gap: 16px;                  /* Butonlar arası boşluk */
+  //   margin-top: 16px;
+  // }
   
-  .quantity-container {
-    /* Miktar kısmını ortalamak için flex layout kullanıyoruz */
-    display: flex;
-    justify-content: center;    /* Yatayda ortala */
-    align-items: center;        /* Dikeyde ortala */
-    gap: 16px;                  /* Butonlar arası boşluk */
-    margin-top: 16px;
-  }
-  
-  .quantity-number {
-    font-size: 18px;
-    font-weight: bold;
-    width: 36px;
-    text-align: center;         /* Sayıyı ortalamak için */
-  }
-  
-  /* Renk ayarları vs. */
-  .add-button {
-    --background: #FF8C00;
-    --color: #fff;
-    margin-top: 16px;
-    border-radius: 50px;
-  }
+  // .quantity-number {
+  //   font-size: 18px;
+  //   font-weight: bold;
+  //   width: 36px;
+  //   text-align: center;         /* Sayıyı ortalamak için */
+  // }

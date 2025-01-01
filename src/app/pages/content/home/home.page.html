@@ -1,49 +1,57 @@
 <app-header></app-header>
 
-<ion-content class = "ion-padding">
-    <app-searchbar></app-searchbar>
-    <app-category [chips]="['Hepsi','Kahvaltı','Öğle Yemeği','Akşam Yemeği']"></app-category>
-
-    <div class="recipes-grid-horizontal" #recipesGrid>
-      <ion-card class="recipe-card" *ngFor="let recipe of recipes" (click)="goToRecipeDetail(recipe.id)">
-          <img
-            [alt]="recipe.title"
-            [src]="recipe.image"
-            class="recipe-image"
-          />
-          <ion-card-content>
-            <h3>{{ recipe.title }}</h3>
-            <div class="recipe-meta">
-              <div class="rating">
-                <ion-icon name="star" color="warning"></ion-icon>
-                <span>{{ recipe.rating }}</span>
-              </div>
-              <div class="time">
-                <ion-icon name="time"></ion-icon>
-                <span>{{ recipe.time }}</span>
-              </div>
-            </div>
-            <div class="recipe-stats">
-              <div class="servings">
-                <ion-icon name="person-add-outline"></ion-icon>
-                <span>{{ recipe.servings }}</span>
-              </div>
-              <ion-icon
-                [name]="recipe.isLiked ? 'heart' : 'heart-outline'"
-                class="heart-icon"
-                [style.color]="recipe.isLiked ? '#FF8C00' : '#666'"
-                (click)="toggleLike(recipe, $event)"
-              ></ion-icon>
-            </div>
-          </ion-card-content>
-      </ion-card>
+<ion-content class="ion-padding">
+  <app-searchbar></app-searchbar>
+  <!-- <app-category [chips]="['Hepsi','Kahvaltı','Öğle Yemeği','Akşam Yemeği']"></app-category> -->
+  
+  <div class="recipes-grid-horizontal" #recipesGrid>
+    <ion-card class="recipe-card" *ngFor="let recipe of recipes" (click)="goToRecipeDetail(recipe.recipeId)">
+      <img
+      [alt]="recipe.recipeName"
+      [src]="recipe.imageUrl"
+      class="recipe-image"
+      />
+      <ion-card-content>
+      <h3>{{ recipe.recipeName }}</h3>
+      <div class="recipe-meta">
+        <div class="rating">
+        <ion-icon name="star" color="warning"></ion-icon>
+        <span>{{ recipe.recipeRate | number:'1.1-1' }}</span>
+        </div>
+        <div class="time">
+        <ion-icon name="time"></ion-icon>
+        <span>{{ recipe.preparationTime + recipe.cookingTime }} dk</span>
+        </div>
+      </div>
+      <div class="recipe-stats">
+        <div class="servings">
+        <ion-icon name="person-add-outline"></ion-icon>
+        <span>{{ recipe.personCount }}</span>
+        </div>
+        <ion-icon
+        [name]="recipe.favouriteRecipes ? 'heart' : 'heart-outline'"
+        class="heart-icon"
+        [style.color]="recipe.favouriteRecipes ? '#FF8C00' : '#666'"
+        (click)="toggleLike(recipe, $event)"
+        ></ion-icon>
+      </div>
+      </ion-card-content>
+    </ion-card>
   </div>
 <div class="recipes-grid">
   <app-recipe-card
-    *ngFor="let recipe of recipes"
-    [recipe]="recipe"
-    (click)="goToRecipeDetail(recipe.id)"
+  *ngFor="let recipe of recipes"
+  [recipe]="recipe"
+  (click)="goToRecipeDetail(recipe.recipeId)"
+  (likeToggled)="handleLikeToggled($event)"
   ></app-recipe-card>
 </div>
+
+<ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreRecipes($event)">
+  <ion-infinite-scroll-content
+    loadingSpinner="bubbles"
+    loadingText="Loading more recipes...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
 
 </ion-content>

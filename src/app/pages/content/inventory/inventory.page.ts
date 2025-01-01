@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, ModalController } from '@ionic/angular'; // ModalController eklendi
+import { ModalController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { AddItemComponent } from 'src/app/shared/components/add-item/add-item.component';
+import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
-interface ShoppingItem {
-  id: number;
-  name: string;
-  quantity: number;
-  unit: string;
+export interface Ingredient {
+  ingredientId: number;         // Malzeme ID'si
+  ingredientName: string;       // Malzeme adı
+  ingImgUrl: string;            // Malzeme görsel URL'si
+  allergenId: number;           // Alerjen ID'si
+  isDeleted: boolean;           // Silinme durumu
+  allergen: any | null;         // Alerjen bilgisi (nullable)
 }
 
 @Component({
@@ -17,31 +21,24 @@ interface ShoppingItem {
 })
 export class InventoryPage implements OnInit {
   searchTerm: string = '';
-  shoppingItems: ShoppingItem[] = [];
-  filteredItems: ShoppingItem[] = [];
-  nextId: number = 9; // Yeni item ID'si için başlangıç
+  shoppingItems: Ingredient[] = [];
+  filteredItems: Ingredient[] = [];
+  selectedItems: Ingredient[] = [];
+  isSelectMode: boolean = false;
 
-  // ModalController'ı constructor'a ekle
   constructor(
     private route: ActivatedRoute,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private router: Router,
+    private alertController: AlertController
   ) {}
 
   ngOnInit() {
-    this.shoppingItems = [
-      { id: 1, name: 'Extra-virgin olive oil', quantity: 1, unit: 'tbsp' },
-      { id: 2, name: 'Extra-virgin olive oil', quantity: 1, unit: 'tbsp' },
-      { id: 3, name: 'Walnuts', quantity: 1, unit: 'cup' },
-      { id: 4, name: 'Mushrooms', quantity: 150, unit: 'g' },
-      { id: 5, name: 'Garlic clove', quantity: 1, unit: 'pcs' },
-      { id: 6, name: 'Tomato paste', quantity: 0.5, unit: 'tbsp' },
-      { id: 8, name: 'Red pepper flakes', quantity: 1, unit: 'pinch' },
-    ];
     this.filteredItems = [...this.shoppingItems];
 
     this.route.queryParams.subscribe((params) => {
       if (params['newItem']) {
-        const newItem: ShoppingItem = JSON.parse(params['newItem']);
+        const newItem: Ingredient = JSON.parse(params['newItem']);
         this.addItemToShoppingList(newItem);
       }
     });
@@ -52,6 +49,7 @@ export class InventoryPage implements OnInit {
     this.filterItems();
   }
 
+<<<<<<< HEAD
   /**
    * @function filterItems
    * @description
@@ -59,43 +57,59 @@ export class InventoryPage implements OnInit {
    * Eğer `searchTerm` boş ise, `shoppingItems` listesinin tamamını `filteredItems` listesine kopyalar.
    * Eğer `searchTerm` dolu ise, `shoppingItems` listesindeki öğelerin isimlerini küçük harfe çevirir ve
    * `searchTerm` ile eşleşenleri `filteredItems` listesine ekler.
+   * Eğer eşleşen öğe yoksa kullanıcıya bir mesaj gösterir.
    *
    * @returns {void}
    */
+=======
+>>>>>>> 49eae7d37ef5eaf2d6813698dff54ee1974b8c8e
   filterItems(): void {
     if (!this.searchTerm) {
       this.filteredItems = [...this.shoppingItems];
     } else {
       const searchTermLower = this.searchTerm.toLowerCase();
-      this.filteredItems = this.shoppingItems.filter(item =>
-        item.name.toLowerCase().includes(searchTermLower)
+      this.filteredItems = this.shoppingItems.filter((item) =>
+        item.ingredientName.toLowerCase().includes(searchTermLower)
       );
+
+      if (this.filteredItems.length === 0) {
+        this.showNoResultsMessage();
+      }
     }
   }
 
+  /**
+   * @function showNoResultsMessage
+   * @description
+   * Kullanıcıya hiçbir eşleşme bulunamadığına dair bir mesaj gösterir.
+   *
+   * @returns {void}
+   */
+  async showNoResultsMessage(): Promise<void> {
+    const alert = await this.alertController.create({
+      header: 'Sonuç Bulunamadı',
+      message: 'Aramanıza uygun bir ürün bulunamadı.',
+      buttons: ['Tamam'],
+    });
+
+    await alert.present();
+  }
+
+
   removeItem(id: number) {
-    this.shoppingItems = this.shoppingItems.filter(item => item.id !== id);
+    this.shoppingItems = this.shoppingItems.filter(
+      (item) => item.ingredientId !== id
+    );
     this.filterItems();
   }
 
-  // Modal açma fonksiyonu: yeni öğe eklemek için bir modal sayfa açıyoruz
-  /**
-   * AddItemComponent bileşenini açan bir modal oluşturur.
-   * 
-   * Kullanıcı modal içinde yeni bir öğe eklerse, bu öğeyi alışveriş listesine ekler.
-   * 
-   * @returns {Promise<void>} Modal işlemi tamamlandığında bir Promise döner.
-   */
   async openAddItemModal() {
-    // ModalController ile oluşturacağımız AddItemModalPage componentini açıyoruz
     const modal = await this.modalCtrl.create({
-      component: AddItemComponent, 
+      component: AddItemComponent,
     });
 
-    // Modal kapandıktan sonra geri dönen item verisini yakalıyoruz
     modal.onDidDismiss().then((res) => {
       if (res.data) {
-        // Kullanıcının modal içinde girdiği newItem objesini alıyor
         this.addItemToShoppingList(res.data);
       }
     });
@@ -103,25 +117,45 @@ export class InventoryPage implements OnInit {
     await modal.present();
   }
 
-  // Yeni öğeyi alışveriş listesine ekle
-  addItemToShoppingList(newItem: ShoppingItem) {
-    // Liste içinde aynı item var mı kontrol et
+  addItemToShoppingList(newItem: Ingredient) {
     const existingItem = this.shoppingItems.find(
-      item => item.name === newItem.name && item.unit === newItem.unit
+      (item) => item.ingredientName === newItem.ingredientName
     );
-  
-    if (existingItem) {
-      // Aynı item varsa quantity'yi artır
-      existingItem.quantity += newItem.quantity;
-    } else {
-      // Aynı item yoksa yeni bir item olarak ekle
-      newItem.id = this.nextId++; // Yeni ID ata
+
+    if (!existingItem) {
       this.shoppingItems.push(newItem);
     }
-  
-    // Filtreleme işlemini güncelle
+
     this.filterItems();
   }
 
-}
+  // ** Seçme ve Silme İşlevleri **
 
+  toggleSelectMode() {
+    this.isSelectMode = !this.isSelectMode;
+    if (!this.isSelectMode) {
+      this.selectedItems = [];
+    }
+  }
+
+  toggleItemSelection(item: Ingredient) {
+    if (this.selectedItems.includes(item)) {
+      this.selectedItems = this.selectedItems.filter((i) => i !== item);
+    } else {
+      this.selectedItems.push(item);
+    }
+  }
+
+  selectAllItems() {
+    this.selectedItems = [...this.filteredItems];
+  }
+
+  removeSelectedItems() {
+    this.shoppingItems = this.shoppingItems.filter(
+      (item) => !this.selectedItems.includes(item)
+    );
+    this.filterItems();
+    this.toggleSelectMode(); // Seçim modundan çık
+    this.selectedItems = [];
+  }
+}

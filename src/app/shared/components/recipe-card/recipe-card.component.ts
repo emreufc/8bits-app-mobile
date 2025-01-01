@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
+import { RecipeService } from 'src/app/core/services/recipe.service';
+import { RecipeSummary } from 'src/app/core/models/recipe';
 @Component({
   selector: 'app-recipe-card',
   templateUrl: './recipe-card.component.html',
@@ -7,15 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class RecipeCardComponent  implements OnInit {
   // Input: Dışarıdan veri almak için kullanılıyor
-  @Input() recipe!: {
-    id: number;
-    title: string;
-    image: string;
-    rating: number;
-    time: string;
-    servings: number;
-    isLiked: boolean;
-  };
+  @Input() recipe!: RecipeSummary;
   @Output() likeToggled = new EventEmitter<number>(); // Parent'a bildirim yapmak için EventEmitter
 
   constructor() { }
@@ -26,8 +19,8 @@ export class RecipeCardComponent  implements OnInit {
 
   toggleLike(event : Event) {
     event.stopPropagation();
-    this.likeToggled.emit(this.recipe.id); // Parent'a tarifin ID'sini bildir
-    console.log(`${this.recipe.title} beğenme durumu güncellendi.`);
+    this.likeToggled.emit(this.recipe.recipeId); // Parent'a tarifin ID'sini bildir
+    console.log(`${this.recipe.recipeName} beğenme durumu güncellendi.`);
   }
 
 

@@ -9,8 +9,12 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getCurrentUser(id: number) {
-    const endpoint = `${environment.apiUrl}Users/`;
-    return this.http.get<any>(endpoint);
+  getCurrentUser() {
+    const response = `${environment.apiUrl}Users/current`;
+    return this.http.get<any>(response);
+  }
+  editProfile(updatedUserData: any) {
+    const apiUrl = `${environment.apiUrl}Users/Update`;
+    return this.http.put<any>(apiUrl, updatedUserData); // Body içinde veriyi gönderiyoruz
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
 @Component({
   selector: 'app-login',
@@ -33,6 +33,7 @@ export class LoginPage implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private navCtrl: NavController,
+    private alertController: AlertController,
   ) { }
 
   ngOnInit() {
@@ -64,10 +65,11 @@ export class LoginPage implements OnInit {
     });
   }
 
-  loginWith(type: string) {
+  async loginWith(type: string) {
     this.loading = true;
 
     if (type === 'google') {
+      this.showAlert('Google ile giriş yap seçildi.', 'Bilgilendirme');
       this.authService.loginWithGoogle().then((value: any) => {
         if (value.status) {
           if (value.isNewUser) {
@@ -78,6 +80,7 @@ export class LoginPage implements OnInit {
         }
       });
     } else if (type === 'facebook') {
+      this.showAlert('Facebook ile giriş yap seçildi.', 'Bilgilendirme');
       this.authService.loginWithFacebook().then((value: any) => {
         if (value.status) {
           if (value.isNewUser) {
@@ -89,4 +92,16 @@ export class LoginPage implements OnInit {
       });
     }
   }
+
+  // This method creates and displays an alert
+  async showAlert(message: string, header: string) {
+    const alert = await this.alertController.create({
+      header: header,
+      message: message,
+      buttons: ['Tamam'],
+    });
+
+    await alert.present();
+  }
 }
+
