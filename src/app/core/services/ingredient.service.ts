@@ -21,4 +21,8 @@ export class IngredientService {
     // API endpoint: Örnek "/Ingredients"
     return this.http.get(`${environment.apiUrl}Ingredients`, { params });
   }
+  
+  getIngredientById(ingredientId: number): Observable<any> {
+    return this.http.get(`${environment.apiUrl}Ingredients/${ingredientId}`);
+  }
 }
