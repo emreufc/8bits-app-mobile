@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { ShopListService } from 'src/app/core/services/shop-list.service';
 import { Ingredient } from 'src/app/core/models/ingredient';
+import { KitchenService } from 'src/app/core/services/kitchen.service';
 
 
 @Component({
@@ -15,9 +16,9 @@ import { Ingredient } from 'src/app/core/models/ingredient';
 })
 export class InventoryPage implements OnInit {
   searchTerm: string = '';
-  shoppingItems: Ingredient[] = [];
-  filteredItems: Ingredient[] = [];
-  selectedItems: Ingredient[] = [];
+  shoppingItems: any[] = [];
+  filteredItems: any[] = [];
+  selectedItems: any[] = [];
   isSelectMode: boolean = false;
 
   constructor(
@@ -26,19 +27,12 @@ export class InventoryPage implements OnInit {
     private router: Router,
     private alertController: AlertController,
     private toastController: ToastController,
-    private shopListService: ShopListService
+    private shopListService: ShopListService,
+    private kitchenService: KitchenService
   ) {}
 
   ngOnInit() {
-    this.filteredItems = [...this.shoppingItems];
-
-    this.route.queryParams.subscribe((params) => {
-      if (params['newItem']) {
-        const newItem: Ingredient = JSON.parse(params['newItem']);
-        this.addItemToShoppingList(newItem);
-      }
-    });
-    // this.loadShoppingList();
+    this.getMyInventory();
   }
 
   onSearchChange(event: any) {
@@ -51,8 +45,8 @@ export class InventoryPage implements OnInit {
       this.filteredItems = [...this.shoppingItems];
     } else {
       const searchTermLower = this.searchTerm.toLowerCase();
-      this.filteredItems = this.shoppingItems.filter((item) =>
-        item.ingredientName.toLowerCase().includes(searchTermLower)
+      this.filteredItems = this.shoppingItems.filter((item:any) =>
+        item.ingredient.ingredientName.toLowerCase().includes(searchTermLower)
       );
 
       if (this.filteredItems.length === 0) {
@@ -60,7 +54,6 @@ export class InventoryPage implements OnInit {
       }
     }
   }
-
   /**
    * @function showNoResultsMessage
    * @description
@@ -78,55 +71,40 @@ export class InventoryPage implements OnInit {
     await alert.present();
   }
 
-
-  async removeItem(id: number) {
-    const removedItem = this.shoppingItems.find((item) => item.ingredientId === id);
-
-    if (removedItem) {
-      this.shoppingItems = this.shoppingItems.filter(
-        (item) => item.ingredientId !== id
-      );
-      this.filterItems();
-
-      // Başarılı toast mesajı
-      const toast = await this.toastController.create({
-        message: `${removedItem.ingredientName} başarıyla kaldırıldı.`,
-        duration: 1000,
-        position: 'bottom',
-        color: 'warning',
-      });
-      await toast.present();
-    }
-  }
-
   async openAddItemModal() {
     const modal = await this.modalCtrl.create({
       component: AddItemComponent,
+      componentProps: { origin: 'kitchen' }, // Kitchen'dan açıldığını belirtiyoruz
     });
 
     modal.onDidDismiss().then((res) => {
       if (res.data) {
-        this.addItemToShoppingList(res.data);
-
-        // Başarılı toast mesajı
-        this.showToast(`${res.data.ingredientName} başarıyla eklendi.`);
+        this.getMyInventory()     // Başarılı toast mesajı
+        console.log('Kitchen geri döndürüldü', this.shoppingItems)
+        this.showToast(`${res.data.ingredient.ingredientName} mutfağa başarıyla eklendi.`);
+        console.log('Modal kapatıldı ve veri döndü:', res.data.ingredient.ingredientName);
       }
     });
 
     await modal.present();
   }
 
-  addItemToShoppingList(newItem: Ingredient) {
-    const existingItem = this.shoppingItems.find(
-      (item) => item.ingredientName === newItem.ingredientName
-    );
-
-    if (!existingItem) {
-      this.shoppingItems.push(newItem);
-
-      // Başarılı toast mesajı
-      this.showToast(`${newItem.ingredientName} alışveriş listesine eklendi.`);
-    }
+  getMyInventory() {
+    // modal dan döndüğünde çalışan kod -> burada api ye get isteği atılacak response shopping items a eşitlenecek
+    this.kitchenService.getKitchenList().subscribe({
+      next: (response) => {
+        if (response.code === 200 && response.data) {
+          this.shoppingItems = response.data;
+          this.filterItems();
+          console.log("Alışveriş listesi başarıyla yüklendi:", this.shoppingItems);
+        } else {
+          console.error("API'den geçersiz veri alındı:", response);
+        }
+      },
+      error: (error) => {
+        console.error("Alışveriş listesi yüklenirken hata oluştu:", error);
+      },
+    });
 
     this.filterItems();
   }
@@ -136,63 +114,97 @@ export class InventoryPage implements OnInit {
   toggleSelectMode() {
     this.isSelectMode = !this.isSelectMode;
     if (!this.isSelectMode) {
-      this.selectedItems = [];
+      this.selectedItems = []; // Seçim modundan çıkıldığında seçimleri temizle
     }
   }
 
-  toggleItemSelection(item: Ingredient) {
+  toggleItemSelection(item: any) {
     if (this.selectedItems.includes(item)) {
       this.selectedItems = this.selectedItems.filter((i) => i !== item);
+
+      // Toast mesajı
+      this.showToast(`${item.ingredient.ingredientName} seçimi kaldırıldı.`);
     } else {
       this.selectedItems.push(item);
-    }
-  }
 
+      // Toast mesajı
+      this.showToast(`${item.ingredient.ingredientName} seçildi.`);
+    }
+
+  }
   selectAllItems() {
-    this.selectedItems = [...this.filteredItems];
+    if (this.selectedItems.length === this.shoppingItems.length) {
+      this.selectedItems = []; // Tüm seçimleri kaldır
+
+      // Toast mesajı
+      this.showToast('Tüm seçimler kaldırıldı.');
+    } else {
+      this.selectedItems = [...this.shoppingItems]; // Tüm itemleri seç
+
+      // Toast mesajı
+      this.showToast('Tüm ürünler seçildi.');
+    }
   }
 
   async removeSelectedItems() {
-    console.log('Selected items:', this.selectedItems);
-    const removedItemNames = this.selectedItems.map((item) => item.ingredientName);
+    const removedItemNames = this.selectedItems.map((item) => item.ingredient?.ingredientName);
+    const removedItemIds = this.selectedItems.map((item) => item.inventoryId);
 
-    this.shoppingItems = this.shoppingItems.filter(
-      (item) => !this.selectedItems.includes(item)
-    );
-    this.filterItems();
-    this.toggleSelectMode();
-    this.selectedItems = [];
+    try {
+      // Seçilen her öğe için API çağrısı yap
+      await Promise.all(
+        removedItemIds.map((id) => this.kitchenService.deleteKitchenItem(id).toPromise())
+      );
 
-    // Başarılı toast mesajı
-    const toast = await this.toastController.create({
-      message: `${removedItemNames.join(', ')} başarıyla kaldırıldı.`,
-      duration: 1000,
-      position: 'bottom',
-      color: 'warning',
-    });
-    await toast.present();
+      // Başarılı API çağrılarından sonra öğeleri listeden kaldır
+      this.shoppingItems = this.shoppingItems.filter(
+        (item) => !this.selectedItems.includes(item)
+      );
+      this.filterItems();
+      this.toggleSelectMode(); // Seçim modundan çık
+      this.selectedItems = [];
+
+      // Başarılı toast mesajı
+      const toast = await this.toastController.create({
+        message: `${removedItemNames.join(', ')} başarıyla kaldırıldı.`,
+        duration: 1000,
+        position: 'bottom',
+        color: 'warning',
+      });
+      await toast.present();
+    } catch (error) {
+      console.error('Öğeler kaldırılırken hata oluştu:', error);
+      // Hata durumunda toast mesajı
+      const toast = await this.toastController.create({
+        message: 'Öğeler kaldırılırken bir hata oluştu. Lütfen tekrar deneyin.',
+        duration: 2000,
+        position: 'bottom',
+        color: 'danger',
+      });
+      await toast.present();
+    }
   }
 
 
-  // loadShoppingList() {
-  //   this.shopListService.getShoppingList().subscribe({
-  //     next: (response) => {
-  //       if (response.code === 200 && response.data) {
-  //         this.shoppingItems = response.data.map((item: any) => ({
-  //           ingredientId: item.ingredientId,
-  //           quantity: item.quantity,
-  //           quantityTypeId: item.quantityTypeId,
-  //         }));
-  //         console.log("Alışveriş listesi başarıyla yüklendi:", this.shoppingItems);
-  //       } else {
-  //         console.error("API'den geçersiz veri alındı:", response);
-  //       }
-  //     },
-  //     error: (error) => {
-  //       console.error("Alışveriş listesi yüklenirken hata oluştu:", error);
-  //     },
-  //   });
-  // }
+  async removeItem(id: number) {
+    const removedItem = this.shoppingItems.find((item: any) => item.ingredientId === id);
+
+    if (removedItem) {
+      this.shoppingItems = this.shoppingItems.filter(
+        (item) => item.ingredientId !== id
+      );
+      this.filterItems();
+
+      // Başarılı toast mesajı
+      const toast = await this.toastController.create({
+        message: `${removedItem.ingredient.ingredientName} başarıyla kaldırıldı.`,
+        duration: 1000,
+        position: 'bottom',
+        color: 'warning',
+      });
+      await toast.present();
+    }
+  }
 
 
   private async showToast(message: string) {
