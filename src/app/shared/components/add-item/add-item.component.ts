@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { IngredientService } from 'src/app/core/services/ingredient.service';
 import { Ingredient } from 'src/app/core/models/ingredient';
 import { ShopListService } from 'src/app/core/services/shop-list.service';
@@ -18,12 +18,15 @@ export class AddItemComponent implements OnInit {
   pageSize: number = 10; // Sayfa başına öğe sayısı
   hasMore: boolean = true; // Daha fazla veri var mı
   selectedItem: Ingredient | null = null; // Seçilen malzeme
+  selectedQuantityTypeId: number | null = null; // Seçilen quantityTypeId
+  quantity: number | null = null; // Kullanıcıdan alınan miktar
 
   constructor(
     private modalCtrl: ModalController,
     private ingredientService: IngredientService,
     private shopListService: ShopListService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private toastController: ToastController,
   ) {}
 
   ngOnInit() {
@@ -31,21 +34,90 @@ export class AddItemComponent implements OnInit {
     this.loadAllIngredients(); // Tüm verileri yükle (arama için)
   }
 
+  // Quantity Type değişimi
+  onQuantityTypeChange(event: any) {
+    this.selectedQuantityTypeId = event.detail.value ? +event.detail.value : null; // Gelen değeri sayıya çevir
+  }
+
+  // Malzeme gönderme işlemi
+  onAddToList() {
+    if (this.selectedItem && this.selectedQuantityTypeId && this.quantity) {
+      const ingredientId = this.selectedItem.ingredientId;
+
+      // API'den malzeme bilgilerini al
+      this.ingredientService.getIngredientById(ingredientId).subscribe(
+        async (response) => {
+          if (response?.code === 200 && response?.data) {
+            // Gelen veriyi işle
+            const ingredientData = response.data.ingredient;
+            const quantityTypeIds = response.data.quantityTypeIds;
+            const quantityTypes = response.data.quantityTypes;
+
+            // UI için selectedItem güncellemesi
+            this.selectedItem = {
+              ...ingredientData,
+              quantityTypeIds,
+              quantityTypes,
+            };
+
+            this.showToast('Malzeme başarıyla yüklendi ve eklendi!', 'success');
+          } else {
+            this.showToast('Malzeme bilgileri alınırken bir hata oluştu!', 'danger');
+          }
+        },
+        async () => {
+          this.showToast('Malzeme eklenirken bir hata oluştu!', 'danger');
+        }
+      );
+    } else {
+      this.showToast('Lütfen tüm alanları doldurun!', 'warning');
+    }
+  }
+
+  // Toast mesajı
+  private async showToast(message: string, color: 'success' | 'warning' | 'danger') {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 1000,
+      color: color,
+      position: 'bottom',
+    });
+    await toast.present();
+  }
+
+  
+
   // Malzemeleri yükler
   async loadIngredients(event?: any) {
     try {
       const response = await this.ingredientService
         .getIngredients(this.currentPage, this.pageSize)
         .toPromise();
-
-      this.ingredients = [...this.ingredients, ...response.data]; // Mevcut listeye ekle
-      this.filteredItems = [...this.ingredients]; // Filtreleme için güncelle
+  
+      // Gelen veriyi işleme
+      const ingredients = response.data.map((item: any) => ({
+        ingredientId: item.ingredient.ingredientId,
+        ingredientName: item.ingredient.ingredientName,
+        ingImgUrl: item.ingredient.ingImgUrl,
+        quantityTypeIds: item.quantityTypeIds,
+        quantityTypes: item.quantityTypes,
+      }));
+  
+      // Mevcut listeye yeni gelenleri ekle
+      this.ingredients = [...this.ingredients, ...ingredients];
+  
+      // Filtreleme için güncelle
+      this.filteredItems = [...this.ingredients];
+  
+      // Sayfalama kontrolü
       this.hasMore = response.pagination.currentPage < response.pagination.totalPages;
-
+  
+      // Sonsuz kaydırma kontrolü
       if (event) {
-        event.target.complete(); // Sonsuz kaydırmayı tamamla
+        event.target.complete();
       }
-
+  
+      // Sayfa numarasını artır
       this.currentPage++;
     } catch (error) {
       console.error('Malzemeler yüklenirken hata oluştu:', error);
@@ -54,6 +126,7 @@ export class AddItemComponent implements OnInit {
       }
     }
   }
+  
   
   // Tüm malzemeleri yükler (arama için)
   async loadAllIngredients() {
@@ -140,11 +213,44 @@ export class AddItemComponent implements OnInit {
   //   }
   // }
 
-  confirmItem() {
-    if (!this.selectedItem) return;
-    this.modalCtrl.dismiss(this.selectedItem);
+ confirmItem() {
+  if (!this.selectedItem || !this.quantity || !this.selectedQuantityTypeId) {
+    console.error("Eksik bilgiler var. Lütfen tüm alanları doldurun.");
+    this.showToast('Lütfen tüm alanları doldurun!', 'warning');
+    return;
   }
-  
+
+  const payload = {
+    ingredientId: this.selectedItem.ingredientId,
+    quantityTypeId: this.selectedQuantityTypeId,
+    quantity: this.quantity,
+  };
+
+  console.log("Payload:", payload);
+
+  this.shopListService.addToList(payload).subscribe({
+    next: (response) => {
+      console.log("Malzeme başarıyla eklendi:", response);
+
+      this.modalCtrl.dismiss(this.selectedItem);
+    },
+    error: (error) => {
+      console.error("Malzeme eklenirken hata oluştu:", error);
+
+      this.modalCtrl.dismiss({
+        success: false,
+        message: "Malzeme eklenirken bir hata oluştu.",
+      });
+    },
+  });
+}
+
+// confirmItem() {
+//   if (!this.selectedItem) return;
+//   console.log('Selected Item:', this.selectedItem);
+//   this.modalCtrl.dismiss(this.selectedItem);
+// }
+
 
   cancel() {
     this.modalCtrl.dismiss(null);
