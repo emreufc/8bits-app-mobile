@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, ToastController, AlertController } from '@ionic/angular';
 import { AddItemComponent } from 'src/app/shared/components/add-item/add-item.component';
 import { Ingredient } from 'src/app/core/models/ingredient';
+import { ShopListService } from 'src/app/core/services/shop-list.service';
+import { forkJoin } from 'rxjs';
+import { IngredientService } from 'src/app/core/services/ingredient.service';
 
 @Component({
   selector: 'app-shop-list',
@@ -18,10 +21,13 @@ export class ShopListPage implements OnInit {
   constructor(
     private modalController: ModalController,
     private alertController: AlertController,
-    private toastController: ToastController // ToastController eklendi
+    private toastController: ToastController, // ToastController eklendi
+    private shopListService: ShopListService, // ShopListService eklendi
+    private ingredientService: IngredientService
   ) {}
 
   ngOnInit() {
+    this.loadShoppingList();
     this.filterItems();
   }
 
@@ -122,12 +128,34 @@ export class ShopListPage implements OnInit {
     });
 
     modal.onDidDismiss().then((res) => {
+      console.log('Modal dismissed with data:', res);
       if (res.data) {
-        this.addItemToShoppingList(res.data);
+      console.log('Data received:', res.data);
+      this.addItemToShoppingList(res.data);
       }
     });
 
     await modal.present();
+  }
+
+  loadShoppingList() {
+    this.shopListService.getShoppingList().subscribe({
+      next: (response) => {
+        if (response.code === 200 && response.data) {
+          this.shoppingItems = response.data.map((item: any) => ({
+            ingredientId: item.ingredientId,
+            quantity: item.quantity,
+            quantityTypeId: item.quantityTypeId,
+          }));
+          console.log("Alışveriş listesi başarıyla yüklendi:", this.shoppingItems);
+        } else {
+          console.error("API'den geçersiz veri alındı:", response);
+        }
+      },
+      error: (error) => {
+        console.error("Alışveriş listesi yüklenirken hata oluştu:", error);
+      },
+    });
   }
 
   addItemToShoppingList(newItem: Ingredient) {
