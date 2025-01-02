@@ -27,13 +27,13 @@
   </div>
     <ion-list class="inventory-list">
       <ion-item-sliding *ngFor="let item of filteredItems">
-        <ion-item lines="full">
+        <ion-item lines="full" [class.selected]="selectedItems.includes(item)" (click)="isSelectMode && toggleItemSelection(item)">
           <ion-avatar slot="start">
-            <img [src]="item.ingImgUrl" />
-          </ion-avatar>
+            <img [src]="item.ingredient.ingImgUrl" />
+          </ion-avatar>
           <ion-label>
-            <h2>{{ item.ingredientName }}</h2>
-            <!-- <p>{{ item.quantity }} {{ item.unit }}</p> -->
+            <h2>{{ item.ingredient.ingredientName }}</h2>
+            <p>{{ item.quantity }} {{ item.quantityType.quantityTypeDesc }}</p>
           </ion-label>
           <ion-checkbox slot="end" *ngIf="isSelectMode" [checked]="selectedItems.includes(item)"></ion-checkbox>
         </ion-item>
