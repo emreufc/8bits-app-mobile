@@ -36,21 +36,21 @@
         <ion-row>
           <ion-col size="6">
             <ion-icon src="/assets/icon/carbs.svg"></ion-icon>
-            <p>{{ recipeDetail?.carb }}g karb</p>
+            <p>{{ recipeDetail?.carbohydrate| number:'1.1-1' }}g karb</p>
           </ion-col>
           <ion-col size="6">
             <ion-icon src="/assets/icon/proteins.svg"></ion-icon>
-            <p>{{ recipeDetail?.protein }}g protein</p>
+            <p>{{ recipeDetail?.protein| number:'1.1-1' }}g protein</p>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col size="6">
             <ion-icon src="/assets/icon/calories.svg"></ion-icon>
-            <p>{{ recipeDetail?.kcal }} kcal</p>
+            <p>{{ recipeDetail?.kcalPerServing| number:'1.1-1' }} kcal</p>
           </ion-col>
           <ion-col size="6">
             <ion-icon src="/assets/icon/fats.svg"></ion-icon>
-            <p>{{ recipeDetail?.fat }}g yağ</p>
+            <p>{{ recipeDetail?.fat| number:'1.1-1' }}g yağ</p>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -72,8 +72,8 @@
           <ion-card-content class="ingredient-content">
             <ion-item lines="none" class="ingredient-item">
               <ion-label class="ingredient-label">
-                <h2>{{ ingredient.ingredient }}</h2>
-                <p>{{ ingredient.piece }} {{ ingredient.unit }}</p>
+                <h3>{{ ingredient.ingredientName }}</h3>
+                <p>{{ ingredient.quantity | number }} {{ ingredient.unit }}</p>
               </ion-label>
             </ion-item>
           </ion-card-content>
@@ -83,11 +83,11 @@
       <ng-template #preparation>
         <!-- <ion-list> -->
         <div *ngFor="let step of steps" class="preparation-steps">
-          <ion-card-content class="ingredient-content" *ngIf="step.description != ''">
+          <ion-card-content class="ingredient-content" *ngIf="step.step != ''">
             <ion-item lines="none" class="ingredient-item">
+              <div class="step-number-circle">{{ step.stepNum }}</div>
               <ion-label class="ingredient-label">
-                <h2>{{ step.title }}</h2>
-                <p>{{ step.description }}</p>
+                <p>{{ step.step }}</p>
               </ion-label>
             </ion-item>
           </ion-card-content>
@@ -100,6 +100,11 @@
       <ion-item lines="full">
         <ion-label></ion-label>
       </ion-item>
+      <div class="button-container">
+        <ion-button expand="full" (click)="toggleRecipeStatus()">
+          {{ recipeDetail?.isOldRecipe ? 'Yaptığım tariflerden çıkar' : 'Yaptığım tariflere ekle' }}
+        </ion-button>
+      </div>
     </ion-card-content>
   </div>
 </ion-content>
