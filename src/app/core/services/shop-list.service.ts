@@ -21,6 +21,13 @@ export class ShopListService {
     const apiUrl = `${environment.apiUrl}ShoppingList/mylist`;
     return this.http.get(apiUrl);
   }
+
+  deleteItemFromList(ingredientId: number): Observable<any> {
+    const apiUrl = `${environment.apiUrl}ShoppingList/${ingredientId}`;
+    return this.http.delete(apiUrl);
+  }
+
   
   
 }
+

@@ -28,6 +28,8 @@
           </ion-avatar>
           <ion-label>
             <h2>{{ item.ingredientName }}</h2>
+             <p>{{ item.quantity }} {{ item.quantityTypeDesc }}</p>
+
           </ion-label>
           <ion-checkbox slot="end" *ngIf="isSelectMode" [checked]="selectedItems.includes(item)"></ion-checkbox>
         </ion-item>
@@ -54,3 +56,4 @@
     </div>
   </div>
 </ion-content>
+

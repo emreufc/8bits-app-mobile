@@ -19,7 +19,7 @@
     <ion-item 
       *ngFor="let item of filteredItems"
       (click)="selectItem(item)">
-      <ion-label>{{ item.ingredientName }}</ion-label>
+      <ion-label>{{ item.ingredient.ingredientName }}</ion-label>
     </ion-item>
   </ion-list>
 
@@ -36,7 +36,7 @@
     <div class="selected-item-row">
       <!-- Seçilen Malzeme -->
       <div class="selected-item">
-        Seçilen: <strong>{{ selectedItem.ingredientName }}</strong>
+        Seçilen: <strong>{{ selectedItem.ingredient.ingredientName }}</strong>
         <ion-segment
           class="scrollable-segment"
           (ionChange)="onQuantityTypeChange($event)"
@@ -68,3 +68,4 @@
   </div>
   
 </ion-content>
+
