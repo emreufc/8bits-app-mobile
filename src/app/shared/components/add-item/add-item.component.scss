@@ -16,33 +16,91 @@ ion-list {
   margin: 0 12px;
 }
 
-/* Seçilen Malzeme ve Buton İçin */
+.selected-item-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4f4f4;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  padding: 8px 16px; /* Daha az yer kaplaması için azaltıldı */
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
 .selected-item-row {
-  display: flex;             /* Flexbox düzeni kullanılır */
-  justify-content: space-between; /* Elemanlar arasında boşluk bırak */
-  align-items: center;       /* Dikeyde ortala */
-  position: fixed;           /* Ekranın altına sabitler */
-  bottom: 16px;              /* Ekranın altından 16px yukarıda */
-  left: 16px;                /* Sol boşluk */
-  right: 16px;               /* Sağ boşluk */
-  background: #f4f4f5;       /* Arka plan rengi */
-  padding: 8px 16px;         /* İçerik boşluğu */
-  border-radius: 8px;        /* Köşeleri yuvarla */
-  z-index: 1000;             /* Üstte görünmesini sağlar */
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Satırlar arasında daha az boşluk */
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .selected-item {
-  font-size: 16px;
-  font-weight: 500;          /* Yazı kalınlığı */
-  color: #333;               /* Yazı rengi */
+  margin-bottom: 12px; /* Seçilen: yazısının altına boşluk eklendi */
 }
 
-/* Ekle Butonu */
-.fixed-button {
-  margin: 0;                 /* Flex düzeni ile hizalama için boşlukları kaldır */
-  --background: #FF8C00;     /* Buton arka plan rengi */
-  --color: #fff;             /* Buton yazı rengi */
+.scrollable-segment {
+  display: flex;
+  overflow-x: auto;
+  gap: 8px;
+  padding: 4px 8px;
+  max-width: 100%;
+  margin-top: 10px;
+  scroll-padding-left: 16px !important; /* Sol tarafta padding ekleyerek ilk butonu görünür yapar */
+  -webkit-overflow-scrolling: touch; /* Mobil cihazlar için düzgün scroll davranışı */
+  ion-segment-button {
+    scroll-snap-align: start; /* Butonların hizalanmasını sağlar */
+  }
 }
+.scrollable-segment::-webkit-scrollbar {
+  display: none; /* Scrollbar görünümünü gizler */
+}
+
+.scrollable-segment ion-segment-button {
+  min-width: auto;
+  flex-shrink: 0;
+  padding: 0 12px;
+  --indicator-color: #FF8C00;
+  --background-activated: #FF8C00;
+  --color-activated: #fff;
+}
+
+.scrollable-segment ion-segment-button:first-child {
+  margin-left: 0px; /* İlk butonun sol tarafına boşluk eklenir */
+}
+
+.quantity-add-row {
+  display: flex;
+  align-items: center; /* Satırdaki öğeleri dikeyde ortalar */
+  gap: 8px; /* Miktar ve buton arasındaki boşluk */
+}
+
+.quantity-label {
+  font-size: 14px; /* Daha küçük yazı boyutu */
+  font-weight: 500;
+  color: #333;
+}
+
+.compact-input {
+  width: 100px; /* Miktar kutusu daha ince hale getirildi */
+  height: 10px; /* Yükseklik biraz küçültüldü */
+  text-align: center;
+  font-size: 14px; /* Yazı boyutunu küçült */
+}
+
+.add-button {
+  margin-left: auto; /* Sağ tarafa hizala */
+  --background: #FF8C00;
+  --color: #fff;
+  padding: 6px 20px; /* Buton boyutu artırıldı */
+  font-size: 14px; /* Yazı boyutunu küçültmeden korundu */
+  border-radius: 6px; /* Daha az yuvarlatılmış köşeler */
+  width: 120px; /* Buton genişliği artırıldı */
+}
+
+
+
 
 
    // .quantity-container {

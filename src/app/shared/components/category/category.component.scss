@@ -19,33 +19,37 @@
   flex-wrap: nowrap; /* Satır taşmasını engeller */
   overflow-x: auto; /* Yatay taşma */
   gap: 12px; /* Elemanlar arası boşluk */
-  padding-bottom: 8px 0; /* Alt iç boşluk */
+  padding-bottom: 8px; /* Alt iç boşluk */
   -webkit-overflow-scrolling: auto; /* Dokunmatik kaydırma */
   scroll-behavior: smooth; /* Yumuşak kaydırma */
+  -ms-overflow-style: none;  /* IE ve Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 ion-chip {
   --background: #f4f5f8; /* Varsayılan arka plan rengi */
   --color: #000; /* Varsayılan yazı rengi */
-  --padding-start: 12px; /* Sol iç boşluk */
-  --padding-end: 12px; /* Sağ iç boşluk */
-  --height: 44px; /* Chip'in yüksekliği */
   font-size: 16px; /* Yazı boyutu */
   white-space: nowrap; /* Tek satırda kalmasını sağlar */
   cursor: pointer; /* Fare imlecini tık */
-  max-width: 150px; /* Maksimum genişlik */
-  min-width: 90px; /* Minimum genişlik */
-  display: flex; /* Flexbox kullanımı */
+  display: inline-flex; /* Satır içi esneklik sağlar */
   align-items: center; /* Dikey ortalama */
   justify-content: center; /* Yatay ortalama */
+  padding: 0 12px; /* Eşit sol ve sağ padding */
+  height: 35px; /* Chip'in yüksekliği */
+  box-sizing: border-box; /* Padding'in toplam genişliği etkilemesini engeller */
+  flex: none; /* Esnek büyüme ve küçülmeyi engeller */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Yumuşak geçişler */
+  border-radius: 50px;
 }
 
 .selected-chip {
   --background: #FF8C00; /* Seçili chip'in arka plan rengi */
   --color: #fff; /* Seçili chip'in yazı rengi */
-}
-.scroll-container::-webkit-scrollbar {
-  height: 6px;
 }
 
 .scroll-container::-webkit-scrollbar-thumb {

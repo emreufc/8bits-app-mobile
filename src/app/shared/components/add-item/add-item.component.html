@@ -37,12 +37,34 @@
       <!-- Seçilen Malzeme -->
       <div class="selected-item">
         Seçilen: <strong>{{ selectedItem.ingredientName }}</strong>
+        <ion-segment
+          class="scrollable-segment"
+          (ionChange)="onQuantityTypeChange($event)"
+          [value]="selectedQuantityTypeId"
+        >
+          <ion-segment-button
+            *ngFor="let typeId of selectedItem?.quantityTypeIds ?? []; let i = index"
+            [value]="typeId"
+          >
+            {{ selectedItem?.quantityTypes?.[i] ?? '' }}
+          </ion-segment-button>
+        </ion-segment>
       </div>
-
-      <!-- Ekle Butonu -->
-      <ion-button expand="block" class="add-button fixed-button" (click)="confirmItem()">
-        Ekle
-      </ion-button>
+  
+      <!-- Miktar ve Ekle Butonu -->
+      <div class="quantity-add-row">
+        <ion-label class="quantity-label">Miktar:</ion-label>
+        <ion-input
+          type="number"
+          [(ngModel)]="quantity"
+          placeholder="0"
+          class="compact-input"
+        ></ion-input>
+        <ion-button class="add-button" (click)="confirmItem()">
+          Ekle
+        </ion-button>
+      </div>
     </div>
   </div>
+  
 </ion-content>

@@ -121,7 +121,7 @@ export class ProfileEditPage implements OnInit {
           message: 'Kullanıcı bilgileriniz başarıyla güncellendi.',
           duration: 1000,
           position: 'bottom',
-          color: 'warning',
+          color: 'success',
         });
         await toast.present();
       },
