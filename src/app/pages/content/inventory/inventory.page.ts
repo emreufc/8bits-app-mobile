@@ -5,15 +5,8 @@ import { AddItemComponent } from 'src/app/shared/components/add-item/add-item.co
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { ShopListService } from 'src/app/core/services/shop-list.service';
+import { Ingredient } from 'src/app/core/models/ingredient';
 
-export interface Ingredient {
-  ingredientId: number;         // Malzeme ID'si
-  ingredientName: string;       // Malzeme adı
-  ingImgUrl: string;            // Malzeme görsel URL'si
-  allergenId: number;           // Alerjen ID'si
-  isDeleted: boolean;           // Silinme durumu
-  allergen: any | null;         // Alerjen bilgisi (nullable)
-}
 
 @Component({
   selector: 'app-inventory',
@@ -45,7 +38,7 @@ export class InventoryPage implements OnInit {
         this.addItemToShoppingList(newItem);
       }
     });
-    this.loadShoppingList();
+    // this.loadShoppingList();
   }
 
   onSearchChange(event: any) {
@@ -181,25 +174,25 @@ export class InventoryPage implements OnInit {
   }
 
 
-  loadShoppingList() {
-    this.shopListService.getShoppingList().subscribe({
-      next: (response) => {
-        if (response.code === 200 && response.data) {
-          this.shoppingItems = response.data.map((item: any) => ({
-            ingredientId: item.ingredientId,
-            quantity: item.quantity,
-            quantityTypeId: item.quantityTypeId,
-          }));
-          console.log("Alışveriş listesi başarıyla yüklendi:", this.shoppingItems);
-        } else {
-          console.error("API'den geçersiz veri alındı:", response);
-        }
-      },
-      error: (error) => {
-        console.error("Alışveriş listesi yüklenirken hata oluştu:", error);
-      },
-    });
-  }
+  // loadShoppingList() {
+  //   this.shopListService.getShoppingList().subscribe({
+  //     next: (response) => {
+  //       if (response.code === 200 && response.data) {
+  //         this.shoppingItems = response.data.map((item: any) => ({
+  //           ingredientId: item.ingredientId,
+  //           quantity: item.quantity,
+  //           quantityTypeId: item.quantityTypeId,
+  //         }));
+  //         console.log("Alışveriş listesi başarıyla yüklendi:", this.shoppingItems);
+  //       } else {
+  //         console.error("API'den geçersiz veri alındı:", response);
+  //       }
+  //     },
+  //     error: (error) => {
+  //       console.error("Alışveriş listesi yüklenirken hata oluştu:", error);
+  //     },
+  //   });
+  // }
 
 
   private async showToast(message: string) {

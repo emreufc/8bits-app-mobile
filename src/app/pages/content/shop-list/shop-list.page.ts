@@ -27,7 +27,7 @@ export class ShopListPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadShoppingList();
+    // this.loadShoppingList();
     this.filterItems();
   }
 
@@ -138,25 +138,25 @@ export class ShopListPage implements OnInit {
     await modal.present();
   }
 
-  loadShoppingList() {
-    this.shopListService.getShoppingList().subscribe({
-      next: (response) => {
-        if (response.code === 200 && response.data) {
-          this.shoppingItems = response.data.map((item: any) => ({
-            ingredientId: item.ingredientId,
-            quantity: item.quantity,
-            quantityTypeId: item.quantityTypeId,
-          }));
-          console.log("Alışveriş listesi başarıyla yüklendi:", this.shoppingItems);
-        } else {
-          console.error("API'den geçersiz veri alındı:", response);
-        }
-      },
-      error: (error) => {
-        console.error("Alışveriş listesi yüklenirken hata oluştu:", error);
-      },
-    });
-  }
+  // loadShoppingList() {
+  //   this.shopListService.getShoppingList().subscribe({
+  //     next: (response) => {
+  //       if (response.code === 200 && response.data) {
+  //         this.shoppingItems = response.data.map((item: any) => ({
+  //           ingredientId: item.ingredientId,
+  //           quantity: item.quantity,
+  //           quantityTypeId: item.quantityTypeId,
+  //         }));
+  //         console.log("Alışveriş listesi başarıyla yüklendi:", this.shoppingItems);
+  //       } else {
+  //         console.error("API'den geçersiz veri alındı:", response);
+  //       }
+  //     },
+  //     error: (error) => {
+  //       console.error("Alışveriş listesi yüklenirken hata oluştu:", error);
+  //     },
+  //   });
+  // }
 
   addItemToShoppingList(newItem: Ingredient) {
     const existingItem = this.shoppingItems.find(
