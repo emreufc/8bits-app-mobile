@@ -16,6 +16,11 @@ export class ShopListService {
     const apiUrl = `${environment.apiUrl}ShoppingList/add`;
     return this.http.post(apiUrl, payload);
   }
+
+  getShoppingList(): Observable<any> {
+    const apiUrl = `${environment.apiUrl}ShoppingList/mylist`;
+    return this.http.get(apiUrl);
+  }
   
   
 }
