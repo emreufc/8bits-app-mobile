@@ -33,5 +33,10 @@ export class KitchenService {
     };
     return this.httpClient.put(`${environment.apiUrl}UserInventory/update`, payload);
   }
+
+  addshopListToKitchen(item: { ingredientId: number; quantityTypeId: number; quantity: number }): Observable<any> {
+    return this.httpClient.post(`${environment.apiUrl}UserInventory/shoppinglist-to-inventory`, item);
+  }
+  
 }
 

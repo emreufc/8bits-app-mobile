@@ -145,13 +145,14 @@ export class ShopListPage implements OnInit {
       // Seçilen her öğe için API çağrısı yap
       await Promise.all(
         this.selectedItems.map((item) =>
-          this.kitchenService.addKitchenItem({
+          this.kitchenService.addshopListToKitchen({
             ingredientId: item.ingredientId,
             quantityTypeId: item.quantityTypeId,
             quantity: item.quantity
           }).toPromise()
         )
       )
+      this.getMyShoppingList();
       const toast = await this.toastController.create({
         message: `${this.selectedItems.map(item => item.ingredientName).join(', ')} başarıyla mutfağa eklendi.`,
         duration: 1000,
@@ -161,11 +162,11 @@ export class ShopListPage implements OnInit {
       await toast.present();    
 
       this.showToast('Seçilen ürünler mutfağa eklendi.');
-      this.removeSelectedItems(); // Mutfağa eklenenler alışveriş listesinden kaldırılır
+      // this.removeSelectedItems(); // Mutfağa eklenenler alışveriş listesinden kaldırılır
     }  catch (error) {
       console.error('Öğeler mutfağa eklenirken hata oluştu:', error);
       const toast = await this.toastController.create({
-        message: `${this.selectedItems.map(item => item.ingredientName).join(', ')}  kaldırılırken bir hata oluştu.`,
+        message: `${this.selectedItems.map(item => item.ingredientName).join(', ')}  mutfağa eklenirken bir hata oluştu.`,
         duration: 1000,
         position: 'bottom',
         color: 'danger',
@@ -214,21 +215,33 @@ export class ShopListPage implements OnInit {
   
   async removeItem(id: number) {
     const removedItem = this.shoppingItems.find((item: any) => item.ingredientId === id);
-
+    console.log('Kaldırılacak öğe:', removedItem);
+    id = removedItem.shoppingListId;
     if (removedItem) {
-      this.shoppingItems = this.shoppingItems.filter(
-        (item) => item.ingredientId !== id
-      );
-      this.filterItems();
-
-      // Başarılı toast mesajı
-      const toast = await this.toastController.create({
-        message: `${removedItem.ingredientName} başarıyla kaldırıldı.`,
-        duration: 1000,
-        position: 'bottom',
-        color: 'warning',
-      });
-      await toast.present();
+      try {
+        // API çağrısı yaparak öğeyi sil
+        console.log('Kaldırılacak öğe ID:', id);
+        await this.shopListService.deleteItemFromList(id).toPromise();
+        this.getMyShoppingList();
+        // Başarılı toast mesajı
+        const toast = await this.toastController.create({
+          message: `${removedItem.ingredientName} başarıyla kaldırıldı.`,
+          duration: 1000,
+          position: 'bottom',
+          color: 'warning',
+        });
+        await toast.present();
+      } catch (error) {
+        console.error('Öğe kaldırılırken hata oluştu:', error);
+        // Hata durumunda toast mesajı
+        const toast = await this.toastController.create({
+          message: 'Öğe kaldırılırken bir hata oluştu. Lütfen tekrar deneyin.',
+          duration: 2000,
+          position: 'bottom',
+          color: 'danger',
+        });
+        await toast.present();
+      }
     }
   }
 

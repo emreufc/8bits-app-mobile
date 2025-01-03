@@ -188,21 +188,33 @@ export class InventoryPage implements OnInit {
 
   async removeItem(id: number) {
     const removedItem = this.shoppingItems.find((item: any) => item.ingredientId === id);
-
+    console.log('Kaldırılacak öğe:', removedItem);
+    id = removedItem.inventoryId;
     if (removedItem) {
-      this.shoppingItems = this.shoppingItems.filter(
-        (item) => item.ingredientId !== id
-      );
-      this.filterItems();
-
-      // Başarılı toast mesajı
-      const toast = await this.toastController.create({
-        message: `${removedItem.ingredientName} başarıyla kaldırıldı.`,
-        duration: 1000,
-        position: 'bottom',
-        color: 'warning',
-      });
-      await toast.present();
+      try {
+        // API çağrısı yaparak öğeyi sil
+        console.log('Kaldırılacak öğe ID:', id);
+        await this.kitchenService.deleteKitchenItem(id).toPromise();
+        this.getMyInventory();
+        // Başarılı toast mesajı
+        const toast = await this.toastController.create({
+          message: `${removedItem.ingredientName} başarıyla kaldırıldı.`,
+          duration: 1000,
+          position: 'bottom',
+          color: 'warning',
+        });
+        await toast.present();
+      } catch (error) {
+        console.error('Öğe kaldırılırken hata oluştu:', error);
+        // Hata durumunda toast mesajı
+        const toast = await this.toastController.create({
+          message: 'Öğe kaldırılırken bir hata oluştu. Lütfen tekrar deneyin.',
+          duration: 2000,
+          position: 'bottom',
+          color: 'danger',
+        });
+        await toast.present();
+      }
     }
   }
 
