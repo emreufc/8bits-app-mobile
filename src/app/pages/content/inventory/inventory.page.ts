@@ -46,7 +46,7 @@ export class InventoryPage implements OnInit {
     } else {
       const searchTermLower = this.searchTerm.toLowerCase();
       this.filteredItems = this.shoppingItems.filter((item:any) =>
-        item.ingredient.ingredientName.toLowerCase().includes(searchTermLower)
+        item.ingredientName.toLowerCase().includes(searchTermLower)
       );
 
       if (this.filteredItems.length === 0) {
@@ -81,8 +81,8 @@ export class InventoryPage implements OnInit {
       if (res.data) {
         this.getMyInventory()     // Başarılı toast mesajı
         console.log('Kitchen geri döndürüldü', this.shoppingItems)
-        this.showToast(`${res.data.ingredient.ingredientName} mutfağa başarıyla eklendi.`);
-        console.log('Modal kapatıldı ve veri döndü:', res.data.ingredient.ingredientName);
+        this.showToast(`${res.data.ingredientName} mutfağa başarıyla eklendi.`);
+        console.log('Modal kapatıldı ve veri döndü:', res.data.ingredientName);
       }
     });
 
@@ -123,12 +123,12 @@ export class InventoryPage implements OnInit {
       this.selectedItems = this.selectedItems.filter((i) => i !== item);
 
       // Toast mesajı
-      this.showToast(`${item.ingredient.ingredientName} seçimi kaldırıldı.`);
+      this.showToast(`${item.ingredientName} seçimi kaldırıldı.`);
     } else {
       this.selectedItems.push(item);
 
       // Toast mesajı
-      this.showToast(`${item.ingredient.ingredientName} seçildi.`);
+      this.showToast(`${item.ingredientName} seçildi.`);
     }
 
   }
@@ -147,7 +147,7 @@ export class InventoryPage implements OnInit {
   }
 
   async removeSelectedItems() {
-    const removedItemNames = this.selectedItems.map((item) => item.ingredient?.ingredientName);
+    const removedItemNames = this.selectedItems.map((item) => item.ingredientName);
     const removedItemIds = this.selectedItems.map((item) => item.inventoryId);
 
     try {
@@ -197,7 +197,7 @@ export class InventoryPage implements OnInit {
 
       // Başarılı toast mesajı
       const toast = await this.toastController.create({
-        message: `${removedItem.ingredient.ingredientName} başarıyla kaldırıldı.`,
+        message: `${removedItem.ingredientName} başarıyla kaldırıldı.`,
         duration: 1000,
         position: 'bottom',
         color: 'warning',
