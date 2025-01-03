@@ -52,4 +52,29 @@ export class RecipeService {
     return this.httpClient.get(`${environment.apiUrl}Recipes`, { params });
   }
 
+  getMatchedRecipes(pageNumber: number = 1, pageSize: number = 10): Observable<any> {
+    const params = new HttpParams()
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString());
+
+    return this.httpClient.get(`${environment.apiUrl}Recipes/recipes-with-match`, { params });
+  }
+
+  // getSearchedRecipes(searchText: string, pageNumber: number = 1, pageSize: number = 10): Observable<any> {
+  //   const params = new HttpParams()
+  //     .set('searchText', searchText)
+  //     .set('pageNumber', pageNumber.toString())
+  //     .set('pageSize', pageSize.toString());
+
+  //   return this.httpClient.get(`${environment.apiUrl}Recipes/filtered`, { params });
+  // }
+
+  getFilteredRecipes(categories: string, pageNumber: number = 1, pageSize: number = 10): Observable<any> {
+    const params = new HttpParams()
+      .set('categories', categories)
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString());
+
+    return this.httpClient.get(`${environment.apiUrl}Recipes/filtered`, { params });
+  }
 }

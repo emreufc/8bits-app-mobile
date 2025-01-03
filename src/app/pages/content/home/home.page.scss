@@ -1,5 +1,27 @@
 ion-content {
     --padding-bottom: 10px; /* Alt iç boşluk */
+    .section-title {
+        text-align: left;
+        margin-top: 20px;
+        color: #FF8C00; /* Başlık rengi */
+      }
+      
+      .section-title h2 {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+      }
+      
+    .loading-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%; /* Ekranın tamamını kaplar */
+        text-align: center;
+        color: #666;
+      }      
     .recipes-grid {
         display: grid; /* Izgara düzeni */
         gap: 16px; /* Elemanlar arası boşluk */
@@ -9,7 +31,7 @@ ion-content {
         display: flex; /* Yatay düzen */
         gap: 16px; /* Kartlar arası boşluk */
         overflow-x: auto; /* Yatay kaydırmayı etkinleştir */
-        padding: 8px 0; /* Üst ve alt boşluk */
+        padding-bottom: 8px;
         scroll-snap-type: x mandatory; /* Kartları kaydırırken hizalamayı zorunlu yap */
       
       

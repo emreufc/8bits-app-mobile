@@ -15,6 +15,12 @@ export class HomePage implements OnInit {
   pagination: any = {};
   currentPage: number = 1; // Varsayılan ilk sayfa
   pageSize: number = 10; // Varsayılan sayfa başına öğe sayısı
+  filteredRecipes: any[] = [];
+  matchedRecipes: any[] = [];
+  loadingMatchedRecipes = true; // Mutfağa uygun Verinin yüklenme durumunu takip eder
+  currentFilter: string = 'hepsi'; // Varsayılan olarak 'hepsi'
+  chips: string[] = ['Hepsi', 'Kahvalti', 'Oglen', 'Aksam', 'Tatli', 'Icecek'];
+
 
   constructor(private router: Router,
               private recipeService: RecipeService,
@@ -23,10 +29,87 @@ export class HomePage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    console.log('Home Page Initialized');
     await this.loadFavoriteRecipes(); // Favori tarifleri yükle
+    this.loadingMatchedRecipes = true;
+    await this.loadMatchedRecipes(this.currentPage, this.pageSize);
+    this.loadingMatchedRecipes = false; // Verinin yüklenme durumunu takip eder
+
     this.loadRecipes(this.currentPage, this.pageSize); // Tarifleri yükle
   }
+
+  onFilterChange(filter: string): void {
+    this.currentFilter = filter.toLowerCase(); // Filtreyi küçük harfe çevir
+    this.loadRecipes(); // Filtreye göre tarifleri yükle
+  }
+
+  loadRecipes(pageNumber: number = 1, pageSize: number = 10): void {
+    if (this.currentFilter === 'hepsi') {
+      // Tüm tarifler için
+      this.recipeService.getRecipes(pageNumber, pageSize).subscribe(
+        (response) => {
+          this.recipes = response.data.map((recipe: any) => ({
+            ...recipe,
+            favouriteRecipes: this.favRecipeIds.includes(recipe.recipeId) // Favori kontrolü
+          }));
+          this.pagination = response.pagination; // Sayfalama bilgileri
+        },
+        (error) => {
+          console.error('Error fetching recipes:', error);
+        }
+      );
+    } else {
+      this.recipeService.getFilteredRecipes(this.currentFilter, pageNumber, pageSize).subscribe(
+        (response) => {
+          console.log('Filtrelenmiş tarifler:', response.data);
+          this.recipes = response.data.map((recipe: any) => ({
+            ...recipe,
+            favouriteRecipes: this.favRecipeIds.includes(recipe.recipeId) // Favori kontrolü
+          }));
+          this.pagination = response.pagination; // Sayfalama bilgileri
+        },
+        (error) => {
+          console.error('Error fetching filtered recipes:', error);
+        }
+      );
+    }
+  }
+  
+
+  loadMoreRecipes(event: any) {
+    this.currentPage++; // Sayfa numarasını artır
+  
+    if (this.currentFilter === 'hepsi') {
+      // "Hepsi" seçiliyse tüm tarifleri yükle
+      this.recipeService.getRecipes(this.currentPage, this.pageSize).subscribe(
+        (response) => {
+          this.recipes = [...this.recipes, ...response.data]; // Yeni tarifleri mevcut tariflere ekle
+          this.pagination = response.pagination; // Sayfalama bilgileri
+          console.log('Tüm tarifler:', this.recipes);
+          event.target.complete(); // Sonsuz kaydırma olayını tamamla
+        },
+        (error) => {
+          console.error('Tüm tarifler yüklenirken hata:', error);
+          event.target.complete(); // Hata durumunda da olay tamamlanır
+        }
+      );
+    } else {
+      // Filtre seçiliyse filtreye göre tarifleri yükle
+      this.recipeService.getFilteredRecipes(this.currentFilter, this.currentPage, this.pageSize).subscribe(
+        (response) => {
+          this.recipes = [...this.recipes, ...response.data]; // Yeni tarifleri mevcut tariflere ekle
+          this.pagination = response.pagination; // Sayfalama bilgileri
+          console.log('Filtrelenmiş tarifler:', this.recipes);
+          event.target.complete(); // Sonsuz kaydırma olayını tamamla
+        },
+        (error) => {
+          console.error('Filtrelenmiş tarifler yüklenirken hata:', error);
+          event.target.complete(); // Hata durumunda da olay tamamlanır
+        }
+      );
+    }
+  }
+  
+
   
   
   async loadFavoriteRecipes() {
@@ -41,12 +124,11 @@ export class HomePage implements OnInit {
     }
   }
   
-  
 
-  loadRecipes(pageNumber: number, pageSize: number) {
-    this.recipeService.getRecipes(pageNumber, pageSize).subscribe(
+  loadMatchedRecipes(pageNumber: number, pageSize: number) {
+    this.recipeService.getMatchedRecipes(pageNumber, pageSize).subscribe(
       (response) => {
-        this.recipes = response.data.map((recipe: any) => ({
+        this.matchedRecipes = response.data.map((recipe: any) => ({
           ...recipe,
           favouriteRecipes: this.favRecipeIds.includes(recipe.recipeId) // Favori kontrolü
         }));
@@ -60,24 +142,6 @@ export class HomePage implements OnInit {
     );
   }
   
-
-  loadMoreRecipes(event: any) {
-    this.currentPage++; // Sayfa numarasını artır
-    this.recipeService.getRecipes(this.currentPage, this.pageSize).subscribe(
-      (response) => {
-        this.recipes = [...this.recipes, ...response.data]; // Yeni tarifleri mevcut tariflere ekle
-        this.pagination = response.pagination; // Sayfalama bilgileri
-        console.log('Recipes:', this.recipes);
-        console.log('Pagination:', this.pagination);
-        event.target.complete(); // Sonsuz kaydırma olayını tamamla
-      },
-      (error) => {
-        console.error('Error fetching recipes:', error);
-        event.target.complete(); // Hata durumunda da sonsuz kaydırma olayını tamamla
-      }
-    );
-  }
-
 
   
   onPageChange(newPage: number) {
