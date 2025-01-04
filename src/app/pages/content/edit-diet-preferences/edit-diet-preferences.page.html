@@ -1,9 +1,3 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-title>Diyet Tercihleri</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
   <div class="curved-header">
     <h1>Diyet tercihlerinizi mi değiştirmek istiyorsunuz?</h1>
@@ -11,24 +5,24 @@
   </div>
   <ion-grid>
     <ion-row>
-      <ion-col size="6" *ngFor="let diet of dietOptions"> <!-- diet optionsta dönüyor kaç tane varsa ona göre kutu oluşturcak -->
-        <ion-button 
-            expand="block" 
-            fill="clear" 
-            class="diet-button" 
-            [ngClass]="{ 'selected': isDietSelected(diet.id) }" 
-            (click)="toggleDiet(diet)">
-        <ion-icon [src]="diet.icon" slot="start"></ion-icon>
-        {{ diet.name }}
-      </ion-button>
-
+      <ion-col size="6" *ngFor="let diet of dietOptions">
+        <ion-button
+          expand="block"
+          fill="clear"
+          class="diet-button"
+          [ngClass]="{ 'selected': isDietSelected(diet.dietTypeId) }"
+          (click)="toggleDiet(diet)">
+          <ion-icon [src]="diet.icon" slot="start"></ion-icon>
+          {{ diet.dietTypeName }}
+        </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
+  
 
   
   <ion-button expand="block" fill="clear" shape="round" class="next-button" (click)="next()" [disabled]="selectedDiets.size === 0"
-  >İLERLE</ion-button>
+  >İlerle</ion-button>
 
 </ion-content>
 
