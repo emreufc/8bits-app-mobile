@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NavController, ToastController } from '@ionic/angular';
+import { AlertController, IonTabs, NavController, ToastController } from '@ionic/angular';
 import { RecipeService } from 'src/app/core/services/recipe.service';
 import { Share } from '@capacitor/share';
+import { OldRecipe } from 'src/app/core/models/recipe';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -25,32 +26,56 @@ export class RecipeDetailComponent  implements OnInit {
     private navCtrl: NavController, 
     private route: ActivatedRoute,
     private recipeService: RecipeService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private alertController: AlertController,
+    private tabs: IonTabs,
+    private cdr: ChangeDetectorRef
   ) {
     this.backgroundImage = '';
    }
 
   ngOnInit() {
+    // this.loadData();
+  } 
+
+  loadData() {
     const id = this.route.snapshot.paramMap.get('id');
     this.recipeId = id;
     this.recipeService.getRecipeDetail(Number(id)).then((result: any) => {
-      console.log('Recipe Detail:', result);
       this.recipeDetail = result.data;
       this.recipeDetail.isFavourited = result.isFavourited;
       this.recipeDetail.isOldRecipe = result.isOldRecipe;
       this.backgroundImage = this.recipeDetail.imageUrl;
-
+      this.cdr.detectChanges();
     });
     this.recipeService.getRecipeIngredients(Number(id)).then((result: any) => {
-      console.log('Recipe Ingredients:', result);
       this.ingredients = result.data;
     });
 
     this.recipeService.getRecipeSteps(Number(id)).then((result: any) => {
-      console.log('Recipe Steps:', result);
       this.steps = result.data;
     });
+
+    this.recipeService.checkIngredients(Number(id)).then((result: any) => {
+      this.recipeDetail.hasEnoughIngredients = result.isSufficient;
+      this.recipeDetail.missingIngredients = result.data;
+    });
+
+    console.log('Recipe Detail:', this.recipeDetail);
   }
+
+  ngAfterViewInit() {  
+    this.tabs.ionTabsDidChange.subscribe(async () => {
+      if (this.isActiveTab()) {
+        this.loadData();
+      }
+    });
+  }
+
+  isActiveTab() {
+    return this.tabs.getSelected() === 'recipe-detail'; 
+  }
+  
 
   closePage() {
     this.navCtrl.back();
@@ -80,8 +105,10 @@ export class RecipeDetailComponent  implements OnInit {
   async toggleRecipeStatus() {
     try {
       // Servise istek gönder
-      console.log('Recipe ID:', this.recipeId);
-      const result = await this.recipeService.toggleOldRecipeStatus(this.recipeId);
+      const oldRecipe: OldRecipe = {
+        recipeId: (this.recipeId as number),
+      }
+      const result = await this.recipeService.toggleOldRecipeStatus(oldRecipe);
 
       // Durumu güncelle
       this.recipeDetail.isOldRecipe = !this.recipeDetail.isOldRecipe;
@@ -108,5 +135,141 @@ export class RecipeDetailComponent  implements OnInit {
       });
       await toast.present();
     }
+  }
+
+  async addToOldRecipes() {
+    try {
+      const hasEnoughIngredients = this.recipeDetail.hasEnoughIngredients;
+      if (hasEnoughIngredients) {
+        const deductIngredients = await this.confirmDialog(
+          'Elinizde yeterli malzeme var. Tarifteki malzemeleri mutfağınızdan düşülerek mi devam edilsin?'
+        );
+  
+        if (deductIngredients) {
+          await this.deductFromPantry(); 
+          await this.addOldRecipe(); 
+        } else {
+          const proceedWithoutDeduction = await this.confirmDialog(
+            'Malzeme düşmeden sadece tarifinize eklemek istiyor musunuz?'
+          );
+      
+          if (proceedWithoutDeduction) {
+            await this.addOldRecipe(); 
+          } else {
+            this.showToast('İşlem iptal edildi.', 'danger'); 
+          }
+        }
+      } else {
+        const addToShoppingList = await this.confirmDialog(
+          'Elinizde bu tarif için yeterli malzeme yok. Alışveriş sepetine ekleyerek devam etmek ister misiniz?'
+        );
+  
+        if (addToShoppingList) {
+          await this.addToShoppingCart();
+        } else {
+          const proceedWithoutDeduction = await this.confirmDialog(
+            'Mutfağınızdaki malzemelerden eksiltmeden işleminize devam etmek ister misiniz?'
+          );
+  
+          if (proceedWithoutDeduction) {
+            await this.addOldRecipe();
+          } else {
+            this.showToast('İşlem iptal edildi.', 'danger'); 
+          }
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      this.showToast('Bir hata oluştu. Lütfen tekrar deneyin.', 'danger');
+    }
+  }
+  
+  async retryRecipe() {
+    await this.addToOldRecipes();
+  }
+  
+  async removeFromOldRecipes() {
+    try {
+      await this.recipeService.toggleOldRecipeStatus({ recipeId: this.recipeId });
+      this.recipeDetail.isOldRecipe = false;
+      this.showToast('Tarif yaptığınız tariflerden çıkarıldı.', 'success');
+    } catch (error) {
+      console.error(error);
+      this.showToast('Bir hata oluştu. Lütfen tekrar deneyin.', 'danger');
+    }
+  }
+
+  async checkIngredients(): Promise<boolean> {
+    const result = await this.recipeService.checkIngredients(this.recipeId);
+    return result.data.hasEnoughIngredients;
+  }
+  
+  async deductFromPantry(): Promise<void> {
+    await this.recipeService.deductIngredients(this.recipeId).then(() => {
+      this.showToast('Malzemeler mutfaktan düşüldü.', 'success');
+    }).catch((error) => {
+      this.showToast('Malzemeler düşülürken bir hata oluştu.', 'danger');
+    });
+    
+  }
+  
+  async addToShoppingCart(): Promise<void> {
+    try {
+      const missingIngredients = this.recipeDetail.missingIngredients;
+  
+      for (const ingredient of missingIngredients) {
+        
+        await this.recipeService.addToShoppingCart(ingredient); 
+      }
+  
+      this.showToast('Eksikler alışveriş sepetine eklendi.', 'success');
+      this.routeToShoppingCart();
+    } catch (error) {
+      console.error(error);
+      this.showToast('Eksikler alışveriş sepetine eklenirken bir hata oluştu.', 'danger');
+    }
+  }
+  
+  async addOldRecipe(): Promise<void> {
+    await this.recipeService.toggleOldRecipeStatus({ recipeId: this.recipeId });
+    this.recipeDetail.isOldRecipe = !this.recipeDetail.isOldRecipe;
+    this.showToast('Tarif yaptığınız tariflere eklendi.', 'success');
+  }
+  
+  routeToShoppingCart(): void {
+    this.navCtrl.navigateForward('/content/shop-list');
+  }
+  
+  async confirmDialog(message: string): Promise<boolean> {
+    const alert = await this.alertController.create({
+      header: 'Onay',
+      message,
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: 'Hayır',
+          role: 'cancel',
+          handler: () => false,
+        },
+        {
+          text: 'Evet',
+          handler: () => true,
+        },
+      ],
+    });
+  
+    await alert.present();
+    const { role } = await alert.onDidDismiss();
+    return role !== 'cancel';
+  }
+  
+  async showToast(message: string, color: string): Promise<void> {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      color,
+      position: 'bottom',
+    });
+    await toast.present();
   }
 }

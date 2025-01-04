@@ -99,7 +99,15 @@ ion-content {
         margin-bottom: 0;
         padding-bottom: 0;
         padding: 0px;
-
+        .nutrition-grid ion-icon {
+            color: #FF8C00; /* Turuncu renk */
+          }
+        ion-avatar img {
+            width: auto;
+            height: auto;
+            object-fit: cover;
+            border-radius: 8px;
+          }
         .preparation-steps {
             background-color: var(--ion-color-white);  
         }
@@ -199,9 +207,11 @@ ion-content {
     }
 
     ion-segment {
-        ion-segment-button::part(indicator-background) {
-            --background: var(--ion-color-dark);
-        }
+        ion-segment-button {
+            --color-checked: #FF8C00; /* Turuncu rengi */
+            --background-checked: #FFE4B2; /* İsteğe bağlı: Seçili arka plan rengi */
+            --indicator-color: #FF8C00; /* Seçili göstergenin rengi */
+          }
 
         margin-bottom: 25px;
         height: 50px;

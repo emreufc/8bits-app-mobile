@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, ToastController } from '@ionic/angular';
+import { IonTabs, ModalController, ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { AddItemComponent } from 'src/app/shared/components/add-item/add-item.component';
 import { Router } from '@angular/router';
@@ -30,11 +30,26 @@ export class InventoryPage implements OnInit {
     private alertController: AlertController,
     private toastController: ToastController,
     private shopListService: ShopListService,
-    private kitchenService: KitchenService
+    private kitchenService: KitchenService,
+    private tabs: IonTabs
   ) {}
 
   ngOnInit() {
-    this.getMyInventory();
+    // this.getMyInventory();
+  }
+
+  ngAfterViewInit() {  
+    
+    this.tabs.ionTabsDidChange.subscribe(async () => {
+      console.log('Inventory Page Initialized');
+      if (this.isActiveTab()) {
+        this.getMyInventory();
+      }
+    });
+  }
+
+  isActiveTab() {
+    return this.tabs.getSelected() === 'inventory'; 
   }
 
   onFilterChange(filter: string): void {
@@ -116,7 +131,6 @@ export class InventoryPage implements OnInit {
     await modal.present();
   }
 
-  // ** Seçme ve Silme İşlevleri **
 
   toggleSelectMode() {
     this.isSelectMode = !this.isSelectMode;
