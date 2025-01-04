@@ -23,12 +23,17 @@ export class RecipeService {
     return lastValueFrom(this.httpClient.get(`${environment.apiUrl}RecipeStep/steps/recipe/${id}`));
   }
 
-  toggleOldRecipeStatus(oldRecipe: OldRecipe) {
-    return lastValueFrom(this.httpClient.post(`${environment.apiUrl}OldRecipe/ToggleOldRecipe`, oldRecipe));
+  toggleOldRecipeStatus(recipeId: number) {
+    const payload = { recipeId };
+    return lastValueFrom(this.httpClient.post(`${environment.apiUrl}OldRecipe/ToggleOldRecipe`, payload));
   }
 
   getFavRecipes() {
     return lastValueFrom(this.httpClient.get(`${environment.apiUrl}FavoriteRecipes/user-favorites`)) as any;
+  }
+
+  getOldRecipes() {
+    return lastValueFrom(this.httpClient.get(`${environment.apiUrl}OldRecipe/OldRecipe-GET`)) as any;
   }
 
   checkIngredients(recipeId: number): Promise<any> {

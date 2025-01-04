@@ -16,6 +16,7 @@ export class ProfilePage implements OnInit {
   public userLocation: string = 'New York, USA';
   public selectedSegment: string = 'old-recipes'; // Başlangıçta 'Old Recipes' seçili
   favoriteRecipes: RecipeSummary[] = []; // Favoriler listesi
+  oldRecipes: RecipeSummary[] = []; // Eski tarifler listesi
   recipes: RecipeSummary[] = []; // Tarif verileri
 
   user: User = {
@@ -93,6 +94,21 @@ export class ProfilePage implements OnInit {
     this.selectedSegment = event.detail.value; // Hangi segment seçildiyse o değer atanır
     if (this.selectedSegment === 'favorites') {
       this.loadFavoriteRecipes(); // Favoriler güncellensin
+    } else if (this.selectedSegment === 'old-recipes') {
+      this.loadOldRecipes(); // Eski tarifler güncellensin
+    }
+  }
+
+  async loadOldRecipes() {
+    try {
+      const response = await this.recipeService.getOldRecipes();
+      this.oldRecipes = response.data.map((recipe: any) => ({
+        ...recipe,
+        favouriteRecipes: false // Favori değil
+      }));
+      console.log('Eski tarifler yüklendi:', this.recipes);
+    } catch (error) {
+      console.error('Eski tarifler yüklenirken hata oluştu:', error);
     }
   }
   
@@ -106,8 +122,7 @@ export class ProfilePage implements OnInit {
     this.router.navigate(['/content/recipe-detail', recipeId]);
     console.log('Tarife git');
   }
-  // Geri dönülmesi gerekilen sayfalarda bu tarz bir navigasyon öneriyorlardı o yüzden denedim. 
-  // Gerekirse normal haline döneriz.
+
   editProfile() {
     this.navCtrl.navigateForward('/content/profile-edit', {
       animated: true,

@@ -22,7 +22,7 @@
   <!-- Tarif Listesi -->
   <div class="recipes-grid" *ngIf="selectedSegment === 'old-recipes'">
     <app-recipe-card
-      *ngFor="let recipe of recipes"
+      *ngFor="let recipe of oldRecipes"
       [recipe]="recipe"
       (likeToggled)="handleLikeToggled($event)"
       (click)="goToRecipeDetail(recipe.recipeId)"

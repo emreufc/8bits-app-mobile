@@ -45,7 +45,7 @@ export class RecipeDetailComponent  implements OnInit {
       }
     });
   }
-  
+
   isActiveTab() {
     return this.tabs.getSelected() === 'recipe-detail'; 
   }
@@ -124,11 +124,9 @@ export class RecipeDetailComponent  implements OnInit {
 
   async toggleRecipeStatus() {
     try {
-      // Servise istek gönder
-      const oldRecipe: OldRecipe = {
-        recipeId: (this.recipeId as number),
-      }
-      const result = await this.recipeService.toggleOldRecipeStatus(oldRecipe);
+
+      console.log("this.recipeId", this.recipeId);
+      const result = await this.recipeService.toggleOldRecipeStatus(this.recipeId);
 
       // Durumu güncelle
       this.recipeDetail.isOldRecipe = !this.recipeDetail.isOldRecipe;
@@ -188,7 +186,7 @@ export class RecipeDetailComponent  implements OnInit {
           await this.addToShoppingCart();
         } else {
           const proceedWithoutDeduction = await this.confirmDialog(
-            'Mutfağınızdaki malzemelerden eksiltmeden işleminize devam etmek ister misiniz?'
+            'Elinizde yeterli malzeme olmadığından, işleminize mutfağınızdaki malzemelerden düşülmeden devam edilecektir. Onaylıyor musunuz?'
           );
   
           if (proceedWithoutDeduction) {
@@ -210,8 +208,9 @@ export class RecipeDetailComponent  implements OnInit {
   
   async removeFromOldRecipes() {
     try {
-      await this.recipeService.toggleOldRecipeStatus({ recipeId: this.recipeId });
-      this.recipeDetail.isOldRecipe = false;
+      console.log("this.recipeId", this.recipeId);
+      await this.recipeService.toggleOldRecipeStatus(this.recipeId);
+      this.recipeDetail.isOldRecipe = !this.recipeDetail.isOldRecipe;
       this.showToast('Tarif yaptığınız tariflerden çıkarıldı.', 'success');
     } catch (error) {
       console.error(error);
@@ -251,7 +250,8 @@ export class RecipeDetailComponent  implements OnInit {
   }
   
   async addOldRecipe(): Promise<void> {
-    await this.recipeService.toggleOldRecipeStatus({ recipeId: this.recipeId });
+    console.log("this.recipeId", this.recipeId);
+    await this.recipeService.toggleOldRecipeStatus(this.recipeId);
     this.recipeDetail.isOldRecipe = !this.recipeDetail.isOldRecipe;
     this.showToast('Tarif yaptığınız tariflere eklendi.', 'success');
   }
