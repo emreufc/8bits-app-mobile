@@ -105,11 +105,10 @@ export class ProfilePage implements OnInit {
   async loadOldRecipes() {
     try {
       const response = await this.recipeService.getOldRecipes();
-      // this.oldRecipes = response.data.map((recipe: any) => ({
-      //   ...recipe,
-      //   favouriteRecipes: false // Favori değil
-      // }));
-      this.oldRecipes = [];
+      this.oldRecipes = response.data.map((recipe: any) => ({
+        ...recipe,
+        favouriteRecipes: false // Favori değil
+      }));
       console.log('Eski tarifler yüklendi:', this.recipes);
     } catch (error) {
       console.error('Eski tarifler yüklenirken hata oluştu:', error);
