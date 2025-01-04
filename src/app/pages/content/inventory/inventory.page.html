@@ -6,7 +6,7 @@
       <h1>Mutfağım</h1>
     </div>
 
-    <app-category [chips]="['Hepsi','Baharat','Bakliyat','Çikolata ve Soslar','Içecek','Kuruyemis','Meyve','Sebze','Süt Ürünleri','Temel Gida']"></app-category>
+    <app-category [chips]="chips" (chipSelected)="onFilterChange($event)"></app-category>
 
     <ion-searchbar 
     placeholder="Type ingredients..." 

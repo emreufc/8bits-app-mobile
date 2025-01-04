@@ -1,11 +1,20 @@
 <app-header></app-header>
 
 <ion-content class="ion-padding">
-  <app-searchbar></app-searchbar>
-  <!-- <app-category [chips]="['Hepsi','Kahvaltı','Öğle Yemeği','Akşam Yemeği']"></app-category> -->
+  <app-category [chips]="chips" (chipSelected)="onFilterChange($event)"></app-category>
+  <app-searchbar (search)="onSearch($event)"></app-searchbar>
+  <!-- Burası tam çalışmıyor -->
+  <div *ngIf="loadingMatchedRecipes && currentFilter === 'hepsi'" class="loading-container">
+    <ion-loading name="dots"></ion-loading>
+    <p>Veriler yükleniyor...</p>
+  </div>
+
+  <div *ngIf="!loadingMatchedRecipes && currentFilter === 'hepsi' && !currentSearchKeyword && matchedRecipes.length > 0" class="section-title">
+    <h2>Mutfağınızdakilere Göre Öneriler</h2>
+  </div>
   
-  <div class="recipes-grid-horizontal" #recipesGrid>
-    <ion-card class="recipe-card" *ngFor="let recipe of recipes" (click)="goToRecipeDetail(recipe.recipeId)">
+  <div *ngIf="!loadingMatchedRecipes && currentFilter === 'hepsi' && !currentSearchKeyword" class="recipes-grid-horizontal" #recipesGrid>
+    <ion-card class="recipe-card" *ngFor="let recipe of matchedRecipes" (click)="goToRecipeDetail(recipe.recipeId)">
       <img
       [alt]="recipe.recipeName"
       [src]="recipe.imageUrl"
@@ -37,6 +46,10 @@
       </div>
       </ion-card-content>
     </ion-card>
+  </div>
+
+  <div *ngIf="!loadingMatchedRecipes && currentFilter === 'hepsi' && currentSearchKeyword && recipes.length > 0" class="section-title">
+    <h2>{{ currentSearchKeyword }} için sonuçlar</h2>
   </div>
 <div class="recipes-grid">
   <app-recipe-card
