@@ -37,7 +37,17 @@ export class ProfilePage implements OnInit {
             ) {}
 
   ngOnInit(): void {
-    
+    this.userService.getCurrentUser().subscribe(
+      (response: any) => {
+        console.log('API Response:', response);
+        // Yanıttaki data katmanından kullanıcı bilgilerini çek
+        this.user = response.data;
+        console.log('Current Form Data:', this.user);
+      },
+      (error) => {
+        console.error('Kullanıcı bilgileri alınamadı:', error);
+      }
+    );
   }
 
   ngAfterViewInit() {  

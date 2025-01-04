@@ -35,8 +35,20 @@ export class RecipeDetailComponent  implements OnInit {
    }
 
   ngOnInit() {
-    // this.loadData();
+    this.loadData();
   } 
+
+  ngAfterViewInit() {  
+    this.tabs.ionTabsDidChange.subscribe(async () => {
+      if (this.isActiveTab()) {
+        this.loadData();
+      }
+    });
+  }
+  
+  isActiveTab() {
+    return this.tabs.getSelected() === 'recipe-detail'; 
+  }
 
   async loadData() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -80,17 +92,9 @@ export class RecipeDetailComponent  implements OnInit {
       });
     }
   }
-  ngAfterViewInit() {  
-    this.tabs.ionTabsDidChange.subscribe(async () => {
-      if (this.isActiveTab()) {
-        this.loadData();
-      }
-    });
-  }
+ 
 
-  isActiveTab() {
-    return this.tabs.getSelected() === 'recipe-detail'; 
-  }
+  
   
 
   closePage() {
