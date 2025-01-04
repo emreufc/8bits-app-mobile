@@ -9,7 +9,7 @@
     <p>Veriler yükleniyor...</p>
   </div>
 
-  <div class="section-title">
+  <div *ngIf="!loadingMatchedRecipes && currentFilter === 'hepsi'" class="section-title">
     <h2>Mutfağınızdakilere Göre Öneriler</h2>
   </div>
   
