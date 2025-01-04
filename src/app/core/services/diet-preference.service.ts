@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 export class DietPreferenceService {
   constructor(private httpClient: HttpClient) { }
 
-  getDietTypes(pageNumber: number = 1, pageSize: number = 10): Observable<any> {
+  getDietTypes(pageNumber: number = 1, pageSize: number = 11): Observable<any> {
     // HttpParams ile pageNumber ve pageSize ayarlanıyor
     const params = new HttpParams()
       .set('pageNumber', pageNumber.toString())

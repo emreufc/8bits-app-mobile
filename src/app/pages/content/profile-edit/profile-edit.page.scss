@@ -144,6 +144,11 @@ ion-content {
     display: flex;
     align-items: center;
   }
+
+  ion-item .diet-preferences-list ion-chip .diet-chip {
+    --color: white !important; /* Yazı rengini beyaz yapar */
+    --background: #FF8C00;
+  }
   
   ion-chip ion-icon {
     margin-left: 5px;
