@@ -1,17 +1,36 @@
 ion-content {
     --padding-bottom: 10px; /* Alt iç boşluk */
     .section-title {
-        text-align: left;
-        margin-top: 20px;
-        color: #FF8C00; /* Başlık rengi */
-      }
-      
-      .section-title h2 {
-        font-size: 18px;
-        font-weight: bold;
-        margin: 0;
-        padding: 0;
-      }
+      display: flex;
+      align-items: center; /* Dikey hizalama */
+      justify-content: space-between; /* Yatayda genişlik bırakma */
+      padding: 10px 15px; /* İç boşluk */
+      margin-top: 20px;
+      margin-bottom: 10px;
+      background-color: #f4f5f8; /* Hafif arka plan rengi */
+      border-radius: 10px; /* Yuvarlatılmış köşeler */
+      color: #FF8C00; /* Başlık rengi */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+    }
+    
+    .section-title h2 {
+      font-size: 20px; /* Daha büyük ve dikkat çekici yazı */
+      font-weight: 600;
+      margin: 0;
+      color: #FF8C00;
+    }
+    
+    .section-title::before {
+      // content: ''; /* Dekoratif bir çizgi */
+      display: block;
+      height: 2px;
+      width: 30px;
+      background-color: #FF8C00;
+      margin-right: 10px;
+      border-radius: 2px;
+    }
+    
+    
       
     .loading-container {
         display: flex;

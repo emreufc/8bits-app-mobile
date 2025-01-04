@@ -20,6 +20,7 @@ export class HomePage implements OnInit {
   loadingMatchedRecipes = true; // Mutfağa uygun Verinin yüklenme durumunu takip eder
   currentFilter: string = 'hepsi'; // Varsayılan olarak 'hepsi'
   chips: string[] = ['Hepsi', 'Kahvalti', 'Oglen', 'Aksam', 'Tatli', 'Icecek'];
+  currentSearchKeyword: string = ''; // Arama anahtar kelimesi
 
 
   constructor(private router: Router,
@@ -36,6 +37,49 @@ export class HomePage implements OnInit {
 
     this.loadRecipes(this.currentPage, this.pageSize); // Tarifleri yükle
   }
+
+  onSearch(keyword: string) {
+    this.currentSearchKeyword = keyword; // Arama anahtar kelimesini sakla
+    if (keyword) {
+      this.recipeService.getSearchedRecipes(keyword, this.currentPage, 20).subscribe(
+        (response) => {
+          this.recipes = response.data; // Gelen tarifleri recipes değişkenine aktar
+          console.log('Arama sonuçları:', this.recipes);
+        },
+        (error) => {
+          console.error('Error fetching searched recipes:', error);
+          this.recipes = [];
+          this.showNoResultsAlert();
+        }
+      );
+    } else {
+      this.loadRecipes(); // Kullanıcı arama çubuğunu temizlediğinde varsayılan tarifleri yükle
+    }
+  }
+
+  clearSearch(): void {
+    this.currentSearchKeyword = ''; // Arama kelimesini sıfırla
+    this.loadRecipes(); // Varsayılan tarifleri yükle
+  }
+  
+  showNoResultsAlert(): void {
+    // Kullanıcıya alert göstermek için
+    const alert = document.createElement('ion-alert');
+    alert.header = 'Tarif Bulunamadı';
+    alert.message = `Aradığınız "${this.currentSearchKeyword}" ile eşleşen bir tarif bulunamadı.`;
+    alert.buttons = [
+      {
+        text: 'Tamam',
+        handler: () => {
+          this.clearSearch(); // Kullanıcı "Tamam" dediğinde aramayı temizle
+        },
+      },
+    ];
+  
+    document.body.appendChild(alert);
+    alert.present();
+  }
+
 
   onFilterChange(filter: string): void {
     this.currentFilter = filter.toLowerCase(); // Filtreyi küçük harfe çevir
@@ -75,16 +119,31 @@ export class HomePage implements OnInit {
   }
   
 
-  loadMoreRecipes(event: any) {
+  loadMoreRecipes(event: any): void {
     this.currentPage++; // Sayfa numarasını artır
   
-    if (this.currentFilter === 'hepsi') {
+    if (this.currentSearchKeyword) {
+      // Eğer arama yapılıyorsa
+      this.recipeService.getSearchedRecipes(this.currentSearchKeyword, this.currentPage, this.pageSize).subscribe(
+        (response) => {
+          this.recipes = [...this.recipes, ...response.data]; // Yeni tarifleri mevcut tariflere ekle
+          this.pagination = response.pagination; // Sayfalama bilgileri
+          console.log('Arama sonuçları (paginasyon):', this.recipes);
+          event.target.complete(); // Sonsuz kaydırma olayını tamamla
+        },
+        (error) => {
+          console.error('Arama sonuçları yüklenirken hata:', error);
+          event.target.complete(); // Hata durumunda da olay tamamlanır
+          event.target.disabled = true; // Hata durumunda infinite scroll'u deaktif et
+        }
+      );
+    } else if (this.currentFilter === 'hepsi') {
       // "Hepsi" seçiliyse tüm tarifleri yükle
       this.recipeService.getRecipes(this.currentPage, this.pageSize).subscribe(
         (response) => {
           this.recipes = [...this.recipes, ...response.data]; // Yeni tarifleri mevcut tariflere ekle
           this.pagination = response.pagination; // Sayfalama bilgileri
-          console.log('Tüm tarifler:', this.recipes);
+          console.log('Tüm tarifler (paginasyon):', this.recipes);
           event.target.complete(); // Sonsuz kaydırma olayını tamamla
         },
         (error) => {
@@ -98,7 +157,7 @@ export class HomePage implements OnInit {
         (response) => {
           this.recipes = [...this.recipes, ...response.data]; // Yeni tarifleri mevcut tariflere ekle
           this.pagination = response.pagination; // Sayfalama bilgileri
-          console.log('Filtrelenmiş tarifler:', this.recipes);
+          console.log('Filtrelenmiş tarifler (paginasyon):', this.recipes);
           event.target.complete(); // Sonsuz kaydırma olayını tamamla
         },
         (error) => {
@@ -108,6 +167,7 @@ export class HomePage implements OnInit {
       );
     }
   }
+  
   
 
   
