@@ -49,12 +49,14 @@ export class ProfilePage implements OnInit {
         console.error('Kullanıcı bilgileri alınamadı:', error);
       }
     );
+    this.loadOldRecipes();
   }
 
   ngAfterViewInit() {  
     this.tabs.ionTabsDidChange.subscribe(async () => {
       if (this.isActiveTab()) {
         console.log('Aktif tab: profile');
+
         this.userService.getCurrentUser().subscribe(
           (response: any) => {
             console.log('API Response:', response);
@@ -66,6 +68,7 @@ export class ProfilePage implements OnInit {
             console.error('Kullanıcı bilgileri alınamadı:', error);
           }
         );
+        this.loadOldRecipes();
       }
     });
   }
@@ -102,10 +105,11 @@ export class ProfilePage implements OnInit {
   async loadOldRecipes() {
     try {
       const response = await this.recipeService.getOldRecipes();
-      this.oldRecipes = response.data.map((recipe: any) => ({
-        ...recipe,
-        favouriteRecipes: false // Favori değil
-      }));
+      // this.oldRecipes = response.data.map((recipe: any) => ({
+      //   ...recipe,
+      //   favouriteRecipes: false // Favori değil
+      // }));
+      this.oldRecipes = [];
       console.log('Eski tarifler yüklendi:', this.recipes);
     } catch (error) {
       console.error('Eski tarifler yüklenirken hata oluştu:', error);

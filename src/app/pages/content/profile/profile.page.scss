@@ -84,4 +84,25 @@ ion-content {
     grid-template-columns: repeat(2, 1fr); /* Her zaman iki sütun */
     margin-top: 25px; /* Üstten 25px boşluk */
   }
+
+  .empty-state {
+    text-align: center;
+    margin-top: 50px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .empty-state-image {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  .empty-state-text {
+    font-size: 18px;
+    color: var(--ion-color-medium);
+  }
 }

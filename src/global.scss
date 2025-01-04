@@ -93,6 +93,63 @@ app-content ion-content {
     }
   }
 
+  .inner-padding {
+    padding-inline-start: 25px;
+    padding-inline-end: 25px;
+  }
+
+  .empty-state-area {
+    text-align: center;
+    margin-top: 50px;
+  
+    ion-icon {
+      color: var(--ion-color-gray-300);
+      font-size: 260px;
+    }
+  
+    .empty-text {
+      color: var(--ion-color-black);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 26px;
+      line-height: 31px;
+      margin: -20px 0 24px 0;
+      padding: 0px 20px;
+    }
+  
+    .empty-sub-text {
+      color: var(--ion-color-gray-700);
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
+      margin: 0;
+    }
+  
+    .in-chart {
+      margin: -20px 0 0 0;
+    }
+  }
+
+  .empty-state-card {
+    background-color: var(--ion-color-white);
+    margin: 20px 0;
+    padding-inline-start: 25px;
+    padding-inline-end: 25px;
+  
+    .empty-image {
+      width: 240px;
+    }
+  
+    .not-found-text {
+      font-size: 14px;
+      color: #000;
+      margin: 10px 0 0 0;
+      line-height: 18px;
+      font-style: normal;
+      font-weight: 400;
+    }
+  }
 
 .light-header {
     box-shadow: none;
