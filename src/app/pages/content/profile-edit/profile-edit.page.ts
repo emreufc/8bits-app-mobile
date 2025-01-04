@@ -21,6 +21,7 @@ export class ProfileEditPage implements OnInit {
   };
 
   public loading = false;
+  // tabs!: IonTabs;
 
   // Düzenleme modları (hangi alanın düzenleme modunda olduğunu tutmak için)
   isEditingFirstName = false;
@@ -69,30 +70,30 @@ export class ProfileEditPage implements OnInit {
   }
 
 
-  ngAfterViewInit() {  
-    this.tabs.ionTabsDidChange.subscribe(async () => {
-      if (this.isActiveTab()) {
-        this.userService.getCurrentUser().subscribe(
-          (response: any) => {
-            this.user = response.data;
-          },
-          (error) => {
-            console.error('Kullanıcı bilgileri alınamadı:', error);
-          }
-        );
-      }
-    });
-  }
+  // ngAfterViewInit() {  
+  //   this.tabs.ionTabsDidChange.subscribe(async () => {
+  //     if (this.isActiveTab()) {
+  //       this.userService.getCurrentUser().subscribe(
+  //         (response: any) => {
+  //           this.user = response.data;
+  //         },
+  //         (error) => {
+  //           console.error('Kullanıcı bilgileri alınamadı:', error);
+  //         }
+  //       );
+  //     }
+  //   });
+  // }
   
-  isActiveTab() {
-    return this.tabs.getSelected() === 'profile-edit'; 
-  }
+  // isActiveTab() {
+  //   return this.tabs.getSelected() === 'profile-edit'; 
+  // }
   
 
   // Sunucudan diyet türlerini getirip "dietOptions" dizisine atıyoruz
   loadDietTypes() {
     // Burada 1 ve 10 yerine istediğin sayfa numarası ve boyutu gönderebilirsin
-    this.dietPreferenceService.getDietTypes(1, 10).subscribe({
+    this.dietPreferenceService.getDietTypes(1, 11).subscribe({
       next: (res) => {
         // res.data, her diyet tipi objesini içeren bir dizi
         // Örn: { dietTypeId:1, dietTypeName:'Vegan', ... }
