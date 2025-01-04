@@ -12,6 +12,7 @@ export class HeaderComponent  implements OnInit {
     name: '',
     surname: ''
   };
+  userName: string = 'Kullanıcı Adı';
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
@@ -21,6 +22,7 @@ export class HeaderComponent  implements OnInit {
   async loadUser() {
     try {
         this.user= await this.authService.getUser(); // API çağrısı
+        this.userName = this.user.name + ' ' + this.user.surname;
         console.log('Kullanıcı başarıyla yüklendi:', this.user);
     } catch (error) {
         console.error('Kullanıcı yüklenirken hata oluştu:', error);

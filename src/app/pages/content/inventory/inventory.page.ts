@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, ToastController } from '@ionic/angular';
+import { IonTabs, ModalController, ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { AddItemComponent } from 'src/app/shared/components/add-item/add-item.component';
 import { Router } from '@angular/router';
@@ -28,11 +28,26 @@ export class InventoryPage implements OnInit {
     private alertController: AlertController,
     private toastController: ToastController,
     private shopListService: ShopListService,
-    private kitchenService: KitchenService
+    private kitchenService: KitchenService,
+    private tabs: IonTabs
   ) {}
 
   ngOnInit() {
-    this.getMyInventory();
+    // this.getMyInventory();
+  }
+
+  ngAfterViewInit() {  
+    
+    this.tabs.ionTabsDidChange.subscribe(async () => {
+      console.log('Inventory Page Initialized');
+      if (this.isActiveTab()) {
+        this.getMyInventory();
+      }
+    });
+  }
+
+  isActiveTab() {
+    return this.tabs.getSelected() === 'inventory'; 
   }
 
   onSearchChange(event: any) {
@@ -96,7 +111,7 @@ export class InventoryPage implements OnInit {
         if (response.code === 200 && response.data) {
           this.shoppingItems = response.data;
           this.filterItems();
-          console.log("Alışveriş listesi başarıyla yüklendi:", this.shoppingItems);
+          console.log("Mutfagim yüklendi:", this.shoppingItems);
         } else {
           console.error("API'den geçersiz veri alındı:", response);
         }

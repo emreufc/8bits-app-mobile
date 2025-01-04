@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { lastValueFrom, Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { environment } from 'src/environments/environment';
+import { OldRecipe } from '../models/recipe';
 
 @Injectable()
 export class RecipeService {
@@ -22,12 +23,30 @@ export class RecipeService {
     return lastValueFrom(this.httpClient.get(`${environment.apiUrl}RecipeStep/steps/recipe/${id}`));
   }
 
-  toggleOldRecipeStatus(recipeId: number) {
-    return lastValueFrom(this.httpClient.post(`${environment.apiUrl}OldRecipe/ToggleOldRecipe`, recipeId));
+  toggleOldRecipeStatus(oldRecipe: OldRecipe) {
+    return lastValueFrom(this.httpClient.post(`${environment.apiUrl}OldRecipe/ToggleOldRecipe`, oldRecipe));
   }
 
   getFavRecipes() {
     return lastValueFrom(this.httpClient.get(`${environment.apiUrl}FavoriteRecipes/user-favorites`)) as any;
+  }
+
+  checkIngredients(recipeId: number): Promise<any> {
+    return lastValueFrom(
+      this.httpClient.get(`${environment.apiUrl}userInventory/check-inventory/${recipeId}`)
+    );
+  }
+  
+  deductIngredients(recipeId: number): Promise<any> {
+    return lastValueFrom(
+      this.httpClient.post(`${environment.apiUrl}userInventory/deduct-ingredient`, {recipeId})
+    );
+  }
+  
+  addToShoppingCart(shoppingListRequest: any): Promise<any> {
+    return lastValueFrom(
+      this.httpClient.post(`${environment.apiUrl}ShoppingList/add`, shoppingListRequest)
+    );
   }
 
   async favRecipe(status: boolean, recipeId: number) {

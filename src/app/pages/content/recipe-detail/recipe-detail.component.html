@@ -26,6 +26,7 @@
   <div class="recipe-content ion-padding">
     <div class="top-stick"></div>
     <ion-card-header class="content-title ion-padding">
+      
       <h1>{{ recipeDetail?.title }}</h1>
       <!-- <p>15 Dk</p> -->
     </ion-card-header>
@@ -71,6 +72,9 @@
         <ion-card *ngFor="let ingredient of ingredients" class="ingredient-card">
           <ion-card-content class="ingredient-content">
             <ion-item lines="none" class="ingredient-item">
+              <ion-avatar slot="start">
+                <img [src]="ingredient.ingImgUrl" />
+              </ion-avatar>
               <ion-label class="ingredient-label">
                 <h3>{{ ingredient.ingredientName }}</h3>
                 <p>{{ ingredient.quantity | number }} {{ ingredient.unit }}</p>
@@ -101,8 +105,17 @@
         <ion-label></ion-label>
       </ion-item>
       <div class="button-container">
-        <ion-button expand="full" (click)="toggleRecipeStatus()">
-          {{ recipeDetail?.isOldRecipe ? 'Yaptığım tariflerden çıkar' : 'Yaptığım tariflere ekle' }}
+        <!-- Eğer IsOldRecipe true ise bu iki buton gösterilecek -->
+        <ion-button expand="full" *ngIf="recipeDetail?.isOldRecipe" (click)="retryRecipe()">
+          Tarifi yeniden yap
+        </ion-button>
+        <ion-button expand="full" *ngIf="recipeDetail?.isOldRecipe" color="danger" (click)="removeFromOldRecipes()">
+          Yaptığım tariflerden çıkar
+        </ion-button>
+      
+        <!-- Eğer IsOldRecipe false ise bu buton gösterilecek -->
+        <ion-button expand="full" *ngIf="!recipeDetail?.isOldRecipe" (click)="addToOldRecipes()">
+          Yaptığım tariflere ekle
         </ion-button>
       </div>
     </ion-card-content>

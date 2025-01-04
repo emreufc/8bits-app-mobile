@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { RecipeService } from 'src/app/core/services/recipe.service';
 import { RecipeSummary } from 'src/app/core/models/recipe';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, IonTabs, ToastController } from '@ionic/angular';
+import { HeaderComponent } from 'src/app/shared/components/header/header.component';
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -16,18 +17,32 @@ export class HomePage implements OnInit {
   currentPage: number = 1; // Varsayılan ilk sayfa
   pageSize: number = 10; // Varsayılan sayfa başına öğe sayısı
 
+  @ViewChild('header') header!: HeaderComponent;
+
   constructor(private router: Router,
               private recipeService: RecipeService,
               private toastController: ToastController,
-              private alertController: AlertController
+              private alertController: AlertController,
+              private tabs: IonTabs
   ) { }
 
   async ngOnInit() {
-    console.log('Home Page Initialized');
-    await this.loadFavoriteRecipes(); // Favori tarifleri yükle
-    this.loadRecipes(this.currentPage, this.pageSize); // Tarifleri yükle
   }
   
+
+  ngAfterViewInit() {  
+    this.tabs.ionTabsDidChange.subscribe(async () => {
+      if (this.isActiveTab()) {
+        this.header?.loadUser();
+        await this.loadFavoriteRecipes(); // Favori tarifleri yükle
+        this.loadRecipes(this.currentPage, this.pageSize); // Tarifleri yükle
+      }
+    });
+  }
+
+  isActiveTab() {
+    return this.tabs.getSelected() === 'home'; // Aktif tab'ı kontrol et
+  }
   
   async loadFavoriteRecipes() {
     try {
@@ -183,7 +198,7 @@ export class HomePage implements OnInit {
     }
   }
   
-
-
-
+  ngOnDesroy() {
+    console.log('Home Page Destroyed');
+  }
 }

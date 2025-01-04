@@ -8,3 +8,7 @@ export interface RecipeSummary {
   cookingTime: number | any;
   favouriteRecipes: boolean | any;
 }
+
+export interface OldRecipe {
+  recipeId: number;
+}
