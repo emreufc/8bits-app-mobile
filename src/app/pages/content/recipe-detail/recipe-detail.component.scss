@@ -102,6 +102,25 @@ ion-content {
         .nutrition-grid ion-icon {
             color: #FF8C00; /* Turuncu renk */
           }
+
+          .ingredient-status {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          
+          .ingredient-status ion-icon {
+            font-size: 12px;
+            margin-left: 10px;
+          }
+          
+          .ingredient-status .missing {
+            color: red; /* Kırmızı renk eksik malzemeler için */
+          }
+          
+          .ingredient-status .available {
+            color: green; /* Yeşil renk mevcut malzemeler için */
+          }
         ion-avatar img {
             width: auto;
             height: auto;

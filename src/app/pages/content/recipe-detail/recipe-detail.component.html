@@ -79,6 +79,12 @@
                 <h3>{{ ingredient.ingredientName }}</h3>
                 <p>{{ ingredient.quantity | number }} {{ ingredient.unit }}</p>
               </ion-label>
+
+              <div class="ingredient-status" [ngClass]="{'missing': ingredient.missing, 'available': !ingredient.missing}">
+                <ion-icon name="ellipse" *ngIf="ingredient.isMissing" color="danger"></ion-icon>
+                <ion-icon name="ellipse" *ngIf="!ingredient.isMissing" color="success"></ion-icon>
+              </div>
+
             </ion-item>
           </ion-card-content>
         </ion-card>

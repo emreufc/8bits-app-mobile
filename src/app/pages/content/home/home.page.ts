@@ -34,6 +34,11 @@ export class HomePage implements OnInit {
   ) { }
 
   async ngOnInit() {
+    await this.loadFavoriteRecipes(); // Favori tarifleri yükle
+    this.loadingMatchedRecipes = true;
+    await this.loadMatchedRecipes(this.currentPage, this.pageSize);
+    this.loadingMatchedRecipes = false; //
+    this.loadRecipes(this.currentPage, this.pageSize); // Tarifleri yükle
   }
   
 
@@ -105,7 +110,6 @@ export class HomePage implements OnInit {
         (response) => {
           this.recipes = [...this.recipes, ...response.data]; // Yeni tarifleri mevcut tariflere ekle
           this.pagination = response.pagination; // Sayfalama bilgileri
-          console.log('Arama sonuçları (paginasyon):', this.recipes);
           event.target.complete(); // Sonsuz kaydırma olayını tamamla
         },
         (error) => {
@@ -120,7 +124,6 @@ export class HomePage implements OnInit {
         (response) => {
           this.recipes = [...this.recipes, ...response.data]; // Yeni tarifleri mevcut tariflere ekle
           this.pagination = response.pagination; // Sayfalama bilgileri
-          console.log('Tüm tarifler (paginasyon):', this.recipes);
           event.target.complete(); // Sonsuz kaydırma olayını tamamla
         },
         (error) => {
@@ -134,7 +137,6 @@ export class HomePage implements OnInit {
         (response) => {
           this.recipes = [...this.recipes, ...response.data]; // Yeni tarifleri mevcut tariflere ekle
           this.pagination = response.pagination; // Sayfalama bilgileri
-          console.log('Filtrelenmiş tarifler (paginasyon):', this.recipes);
           event.target.complete(); // Sonsuz kaydırma olayını tamamla
         },
         (error) => {
@@ -148,9 +150,7 @@ export class HomePage implements OnInit {
   async loadFavoriteRecipes() {
     try {
       const response = await this.recipeService.getFavRecipes();
-      console.log('API Yanıtı:', response); // Yanıtı loglayın
       this.favRecipeIds = response.data.map((fav: any) => fav.recipeId) || []; // Favori tariflerin ID'lerini al
-      console.log('Favori tarifler yüklendi:', this.favRecipeIds);
     } catch (error) {
       console.error('Favori tarifler yüklenirken hata oluştu:', error);
       this.favRecipeIds = []; // Hata durumunda boş liste
