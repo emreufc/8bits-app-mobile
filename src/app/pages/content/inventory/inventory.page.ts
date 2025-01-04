@@ -20,6 +20,8 @@ export class InventoryPage implements OnInit {
   filteredItems: any[] = [];
   selectedItems: any[] = [];
   isSelectMode: boolean = false;
+  currentFilter: string = 'hepsi'; // Varsayılan olarak 'hepsi'
+  chips: string[] = ['Hepsi', 'Baharat', 'Bakliyat', 'Cikolata ve Soslar', 'Icecek', 'Kuruyemis', 'Meyve', 'Sebze', 'Sut Urunleri', 'Temel Gida'];
 
   constructor(
     private route: ActivatedRoute,
@@ -50,11 +52,35 @@ export class InventoryPage implements OnInit {
     return this.tabs.getSelected() === 'inventory'; 
   }
 
+  onFilterChange(filter: string): void {
+    this.currentFilter = filter.toLowerCase(); // Filtreyi küçük harfe çevir
+    this.getMyInventory(); // Filtreye göre tarifleri yükle
+  }
+  getMyInventory() {
+    // modal dan döndüğünde çalışan kod -> burada api ye get isteği atılacak response shopping items a eşitlenecek
+    this.kitchenService.getKitchenList().subscribe({
+      next: (response) => {
+        if (response.code === 200 && response.data) {
+          this.shoppingItems = response.data;
+          this.filterItems();
+          console.log("Alışveriş listesi başarıyla yüklendi:", this.shoppingItems);
+        } else {
+          console.error("API'den geçersiz veri alındı:", response);
+        }
+      },
+      error: (error) => {
+        console.error("Alışveriş listesi yüklenirken hata oluştu:", error);
+      },
+    });
+
+    this.filterItems();
+  }
+
+
   onSearchChange(event: any) {
     this.searchTerm = event.detail.value;
     this.filterItems();
   }
-
   filterItems(): void {
     if (!this.searchTerm) {
       this.filteredItems = [...this.shoppingItems];
@@ -94,9 +120,10 @@ export class InventoryPage implements OnInit {
 
     modal.onDidDismiss().then((res) => {
       if (res.data) {
+        console.log('Modal kapatıldı ve veri döndü:', res.data);
         this.getMyInventory()     // Başarılı toast mesajı
         console.log('Kitchen geri döndürüldü', this.shoppingItems)
-        this.showToast(`${res.data.ingredientName} mutfağa başarıyla eklendi.`);
+        this.showToast(`${res.data.ingredient.ingredientName} mutfağa başarıyla eklendi.`);
         console.log('Modal kapatıldı ve veri döndü:', res.data.ingredientName);
       }
     });
@@ -104,27 +131,6 @@ export class InventoryPage implements OnInit {
     await modal.present();
   }
 
-  getMyInventory() {
-    // modal dan döndüğünde çalışan kod -> burada api ye get isteği atılacak response shopping items a eşitlenecek
-    this.kitchenService.getKitchenList().subscribe({
-      next: (response) => {
-        if (response.code === 200 && response.data) {
-          this.shoppingItems = response.data;
-          this.filterItems();
-          console.log("Mutfagim yüklendi:", this.shoppingItems);
-        } else {
-          console.error("API'den geçersiz veri alındı:", response);
-        }
-      },
-      error: (error) => {
-        console.error("Alışveriş listesi yüklenirken hata oluştu:", error);
-      },
-    });
-
-    this.filterItems();
-  }
-
-  // ** Seçme ve Silme İşlevleri **
 
   toggleSelectMode() {
     this.isSelectMode = !this.isSelectMode;
