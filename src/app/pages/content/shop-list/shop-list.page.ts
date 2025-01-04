@@ -153,16 +153,19 @@ export class ShopListPage implements OnInit {
         )
       )
       this.getMyShoppingList();
-      const toast = await this.toastController.create({
-        message: `${this.selectedItems.map(item => item.ingredientName).join(', ')} başarıyla mutfağa eklendi.`,
-        duration: 1000,
-        position: 'bottom',
-        color: 'success',
-      });
-      await toast.present();    
-
-      this.showToast('Seçilen ürünler mutfağa eklendi.');
-      // this.removeSelectedItems(); // Mutfağa eklenenler alışveriş listesinden kaldırılır
+      // Tüm öğeler seçili mi kontrol et
+      if (this.selectedItems.length === this.shoppingItems.length) {
+        this.showToast('Tüm ürünler mutfağa eklendi.');
+      } else {
+        const toast = await this.toastController.create({
+          message: `${this.selectedItems.map(item => item.ingredientName).join(', ')} başarıyla mutfağa eklendi.`,
+          duration: 1000,
+          position: 'bottom',
+          color: 'success',
+        });
+        await toast.present();    
+      }
+         // this.removeSelectedItems(); // Mutfağa eklenenler alışveriş listesinden kaldırılır
     }  catch (error) {
       console.error('Öğeler mutfağa eklenirken hata oluştu:', error);
       const toast = await this.toastController.create({
