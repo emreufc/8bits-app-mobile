@@ -34,6 +34,12 @@ export class HomePage implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.header?.loadUser();
+    await this.loadFavoriteRecipes(); // Favori tarifleri yükle
+    this.loadingMatchedRecipes = true;
+    await this.loadMatchedRecipes(this.currentPage, this.pageSize);
+    this.loadingMatchedRecipes = false; //
+    this.loadRecipes(this.currentPage, this.pageSize); // Tarifleri yükle
   }
   
 
