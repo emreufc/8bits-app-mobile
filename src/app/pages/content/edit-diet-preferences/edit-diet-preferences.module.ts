@@ -8,6 +8,7 @@ import { EditDietPreferencesPageRoutingModule } from './edit-diet-preferences-ro
 
 import { EditDietPreferencesPage } from './edit-diet-preferences.page';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
+import { DietPreferenceService } from 'src/app/core/services/diet-preference.service';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
     EditDietPreferencesPageRoutingModule,
     ComponentsModule
   ],
+  providers: [DietPreferenceService], // Servisi burada da ekleyin
   declarations: [EditDietPreferencesPage]
 })
 export class EditDietPreferencesPageModule {}

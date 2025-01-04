@@ -38,7 +38,10 @@ export class SignupPage implements OnInit {
    */
   constructor(private alertController: AlertController, private authService: AuthService, private navController: NavController) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // Initialization logic can be added here
+    console.log('SignupPage initialized');
+  }
 
   /**
    * Toggles the visibility of the password field.
@@ -99,7 +102,7 @@ export class SignupPage implements OnInit {
       await alert.present();
       console.log(response);
       // Başarılı kayıt sonrası giriş sayfasına yönlendir
-      this.navController.navigateRoot('auth/login');
+      this.navController.navigateRoot('/content/edit-diet-preferences');
     } catch (error: any) {
       console.error(error);
       // Kayıt başarısızsa uyarı göster

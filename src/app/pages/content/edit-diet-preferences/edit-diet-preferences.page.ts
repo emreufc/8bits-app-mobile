@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-
-interface Diet {
-  id: string;
-  name: string;
-  icon: string;
-}
+import { DietPreferenceService } from 'src/app/core/services/diet-preference.service'; // Servisin doğru yolunu kontrol edin
 
 @Component({
   selector: 'app-edit-diet-preferences',
@@ -13,44 +8,91 @@ interface Diet {
   styleUrls: ['./edit-diet-preferences.page.scss'],
 })
 export class EditDietPreferencesPage implements OnInit {
-  dietOptions: Diet[] = [
-    { id: 'vegetarian', name: 'Vejetaryan', icon: 'assets/icons/leaf.svg' },
-    { id: 'vegan', name: 'Vegan', icon: 'seedling' },
-    { id: 'keto', name: 'Keto', icon: 'assets/icons/lightning.svg' },
-    { id: 'düşük-karbonhidrat', name: 'Düşük Karbonhidrat', icon: 'assets/icons/salad.svg' },
-    { id: 'paleo', name: 'Paleo', icon: 'assets/icons/apple.svg' },
-    { id: 'none', name: 'Yok', icon: 'assets/icons/utensils.svg' },
-  ];
+  dietOptions: any[] = []; // API'den alınacak diyetler buraya atanacak
+  selectedDiets: Set<number> = new Set(); // Türü number olarak güncellendi
+  alertController: any;
 
-  selectedDiets: Set<string> = new Set();
+  constructor(
+    private navCtrl: NavController,
+    private dietPreferenceService: DietPreferenceService // Servis ekleniyor
+  ) {}
 
-  constructor(private navCtrl: NavController) {}
+  ngOnInit() {
+    this.loadDietTypes(); // Component yüklendiğinde API'ye istek at
+  }
 
-  toggleDiet(diet: Diet) {
-    if (this.selectedDiets.has(diet.id)) {
-      this.selectedDiets.delete(diet.id);
-    } else {
-      if (diet.id === 'none') {
-        this.selectedDiets.clear();
-      } else {
-        this.selectedDiets.delete('none');
+  // Diet tiplerini API'den yükleme
+  loadDietTypes() {
+    const pageNumber = 1;
+    const pageSize = 11;
+  
+    this.dietPreferenceService.getDietTypes(pageNumber, pageSize).subscribe(
+      (response) => {
+        this.dietOptions = response.data.map((diet: any) => ({
+          dietTypeId: diet.dietTypeId, // API'den gelen ID
+          dietTypeName: diet.dietTypeName.replace(/_/g, ' '), // Alt tireleri boşluk ile değiştir
+        }));
+        console.log('Diet Types:', this.dietOptions);
+      },
+      (error) => {
+        console.error('Error fetching diet types:', error);
       }
-      this.selectedDiets.add(diet.id);
+    );
+  }
+  
+  
+  
+  
+
+  toggleDiet(diet: any) {
+    if (diet.dietTypeName === "Normal") {
+      // Eğer "Normal" seçilmişse diğer tüm seçimleri kaldır ve sadece "Normal"i ekle
+      this.selectedDiets.clear();
+      this.selectedDiets.add(diet.dietTypeId);
+    } else {
+      // Eğer başka bir diyet seçilmişse "Normal"i kaldır
+      this.selectedDiets.delete(
+        this.dietOptions.find((option) => option.dietTypeName === "Normal")?.dietTypeId
+      );
+  
+      // Seçilen diyeti toggle yap
+      if (this.selectedDiets.has(diet.dietTypeId)) {
+        this.selectedDiets.delete(diet.dietTypeId); // Seçilmişse kaldır
+      } else {
+        this.selectedDiets.add(diet.dietTypeId); // Yeni bir değer ekle
+      }
     }
+  
+    console.log("Selected Diets:", Array.from(this.selectedDiets));
   }
+  
+  
+  
+  
 
-  isDietSelected(dietId: string): boolean {
-    return this.selectedDiets.has(dietId);
+  isDietSelected(dietTypeId: string): boolean {
+    console.log('dietTypeId:', dietTypeId);
+    const id = Number(dietTypeId); // Number'a dönüştür
+    console.log('isDietSelected:', id);
+    console.log('Selected Diets:', this.selectedDiets);
+    // const isSelected = this.selectedDiets.has(id); // Eşleşme kontrolü
+    // console.log('Return Value:', isSelected);
+    return this.selectedDiets.has(id);
   }
-
-  next() {
+  
+  
+  
+  async next() {
     if (this.selectedDiets.size > 0) {
       const selectedDiets = this.dietOptions.filter(diet => this.selectedDiets.has(diet.id));
-      this.navCtrl.navigateForward('/content/allergen-filter', { state: { diets: selectedDiets } });
+      this.navCtrl.navigateForward('/content/home', { state: { diets: selectedDiets } });
     } else {
-      console.log("Lütfen en az bir diyet seçin.");
+      const alert = await this.alertController.create({
+        header: 'Uyarı',
+        message: 'Lütfen en az bir diyet seçin.',
+        buttons: ['Tamam']
+      });
+      await alert.present();
     }
   }
-
-  ngOnInit() {}
 }
