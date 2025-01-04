@@ -10,6 +10,7 @@ import { ProfileEditPage } from './profile-edit.page';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { UserService } from 'src/app/core/services/user.service';
 import { HttpClient } from '@angular/common/http';
+import { DietPreferenceService } from 'src/app/core/services/diet-preference.service';
 
 @NgModule({
   imports: [
@@ -19,6 +20,6 @@ import { HttpClient } from '@angular/common/http';
     ProfileEditPageRoutingModule
   ],
   declarations: [ProfileEditPage],
-  providers: [UserService]
+  providers: [UserService, DietPreferenceService]
 })
 export class ProfileEditPageModule {}
