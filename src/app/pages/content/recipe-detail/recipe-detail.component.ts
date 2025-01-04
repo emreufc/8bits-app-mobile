@@ -35,10 +35,22 @@ export class RecipeDetailComponent  implements OnInit {
    }
 
   ngOnInit() {
-    // this.loadData();
+    this.loadData();
   } 
 
-  loadData() {
+  ngAfterViewInit() {  
+    this.tabs.ionTabsDidChange.subscribe(async () => {
+      if (this.isActiveTab()) {
+        this.loadData();
+      }
+    });
+  }
+  
+  isActiveTab() {
+    return this.tabs.getSelected() === 'recipe-detail'; 
+  }
+
+  async loadData() {
     const id = this.route.snapshot.paramMap.get('id');
     this.recipeId = id;
     this.recipeService.getRecipeDetail(Number(id)).then((result: any) => {
@@ -48,33 +60,41 @@ export class RecipeDetailComponent  implements OnInit {
       this.backgroundImage = this.recipeDetail.imageUrl;
       this.cdr.detectChanges();
     });
-    this.recipeService.getRecipeIngredients(Number(id)).then((result: any) => {
+    await this.recipeService.getRecipeIngredients(Number(id)).then((result: any) => {
       this.ingredients = result.data;
     });
 
-    this.recipeService.getRecipeSteps(Number(id)).then((result: any) => {
+    await this.recipeService.getRecipeSteps(Number(id)).then((result: any) => {
       this.steps = result.data;
     });
 
-    this.recipeService.checkIngredients(Number(id)).then((result: any) => {
+    await this.recipeService.checkIngredients(Number(id)).then((result: any) => {
       this.recipeDetail.hasEnoughIngredients = result.isSufficient;
       this.recipeDetail.missingIngredients = result.data;
     });
-
-    console.log('Recipe Detail:', this.recipeDetail);
+    await this.updateIngredientsMissingStatus();
+    
+    console.log('ingredients:', this.ingredients);
+    console.log('missingIngredients:', this.recipeDetail.missingIngredients);
   }
 
-  ngAfterViewInit() {  
-    this.tabs.ionTabsDidChange.subscribe(async () => {
-      if (this.isActiveTab()) {
-        this.loadData();
-      }
-    });
+  updateIngredientsMissingStatus() {
+    if (this.recipeDetail && this.recipeDetail.missingIngredients) {
+      this.ingredients.forEach(ingredient => {
+        ingredient.isMissing = this.recipeDetail.missingIngredients.some((missingIngredient: any) => {
+          return missingIngredient.ingredientId === ingredient.ingredientId;
+        });
+      });
+    } else {
+      // Eğer missingIngredients verisi yoksa, tüm malzemeleri 'isMissing' false yapabiliriz
+      this.ingredients.forEach(ingredient => {
+        ingredient.isMissing = false;
+      });
+    }
   }
+ 
 
-  isActiveTab() {
-    return this.tabs.getSelected() === 'recipe-detail'; 
-  }
+  
   
 
   closePage() {

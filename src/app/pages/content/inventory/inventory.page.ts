@@ -35,13 +35,12 @@ export class InventoryPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.getMyInventory();
+    this.getMyInventory();
   }
 
   ngAfterViewInit() {  
     
     this.tabs.ionTabsDidChange.subscribe(async () => {
-      console.log('Inventory Page Initialized');
       if (this.isActiveTab()) {
         this.getMyInventory();
       }
@@ -63,7 +62,6 @@ export class InventoryPage implements OnInit {
         if (response.code === 200 && response.data) {
           this.shoppingItems = response.data;
           this.filterItems();
-          console.log("Alışveriş listesi başarıyla yüklendi:", this.shoppingItems);
         } else {
           console.error("API'den geçersiz veri alındı:", response);
         }
@@ -120,11 +118,8 @@ export class InventoryPage implements OnInit {
 
     modal.onDidDismiss().then((res) => {
       if (res.data) {
-        console.log('Modal kapatıldı ve veri döndü:', res.data);
-        this.getMyInventory()     // Başarılı toast mesajı
-        console.log('Kitchen geri döndürüldü', this.shoppingItems)
+        this.getMyInventory()     
         this.showToast(`${res.data.ingredient.ingredientName} mutfağa başarıyla eklendi.`);
-        console.log('Modal kapatıldı ve veri döndü:', res.data.ingredientName);
       }
     });
 

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/core/services/user.service';
 import { User } from 'src/app/core/models/user';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, IonTabs, ToastController } from '@ionic/angular';
 import { DietPreferenceService } from 'src/app/core/services/diet-preference.service'; // <-- Servisimizi import ediyoruz
+
 
 @Component({
   selector: 'app-profile-edit',
@@ -33,6 +34,7 @@ export class ProfileEditPage implements OnInit {
   // (örneğin: [{id:1, name:"Vegan"}, {id:2, name:"Vegetarian"} ... ])
   dietOptions: { id: number; name: string }[] = [];
 
+
   // Mevcut kullanıcının seçili diyet tercihleri (ID’lerin saklandığı set)
   // Sunucudan gelen "dietPreferenceId, dietTypeId" gibi alanları ID olarak alıp bu sete ekleyeceğiz.
   selectedDietIds: Set<number> = new Set<number>();
@@ -51,6 +53,7 @@ export class ProfileEditPage implements OnInit {
     // Kullanıcı bilgilerini çeken servis
     this.userService.getCurrentUser().subscribe({
       next: (response: any) => {
+
         this.user = response.data;
       },
       error: (err) => {
@@ -64,6 +67,27 @@ export class ProfileEditPage implements OnInit {
     // Mevcut kullanıcının diyet tercihlerini getir
     this.loadMyDietPreferences();
   }
+
+
+  ngAfterViewInit() {  
+    this.tabs.ionTabsDidChange.subscribe(async () => {
+      if (this.isActiveTab()) {
+        this.userService.getCurrentUser().subscribe(
+          (response: any) => {
+            this.user = response.data;
+          },
+          (error) => {
+            console.error('Kullanıcı bilgileri alınamadı:', error);
+          }
+        );
+      }
+    });
+  }
+  
+  isActiveTab() {
+    return this.tabs.getSelected() === 'profile-edit'; 
+  }
+  
 
   // Sunucudan diyet türlerini getirip "dietOptions" dizisine atıyoruz
   loadDietTypes() {
