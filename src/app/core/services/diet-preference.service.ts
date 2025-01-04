@@ -20,5 +20,14 @@ export class DietPreferenceService {
     return this.httpClient.get(`${environment.apiUrl}DietType`, { params });
   }
 
-  
+  getMyDietPreferences(): Observable<any> {
+    return this.httpClient.get(`${environment.apiUrl}DietPreference/getByCurrentUser`);
+  }
+
+  updateDietPreferences(selectedDiets: Set<number>): Observable<any> {
+    const dietTypeIds = Array.from(selectedDiets);
+
+    return this.httpClient.post(`${environment.apiUrl}DietPreference/updatePreferences`, dietTypeIds );
+  }
+
 }

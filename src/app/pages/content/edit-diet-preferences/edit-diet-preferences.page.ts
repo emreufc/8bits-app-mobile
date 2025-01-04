@@ -84,8 +84,27 @@ export class EditDietPreferencesPage implements OnInit {
   
   async next() {
     if (this.selectedDiets.size > 0) {
-      const selectedDiets = this.dietOptions.filter(diet => this.selectedDiets.has(diet.id));
-      this.navCtrl.navigateForward('/content/home', { state: { diets: selectedDiets } });
+      try {
+        // Seçilen diyetleri filtrele
+        const selectedDiets = this.dietOptions.filter(diet => this.selectedDiets.has(diet.dietTypeId));
+        
+        // API isteği için seçilen diyetlerin ID'lerini al
+        const selectedDietIds = Array.from(this.selectedDiets);
+        
+        // Servis fonksiyonuna istek at
+        await this.dietPreferenceService.updateDietPreferences(new Set(selectedDietIds)).toPromise();
+        
+        // Başarılı olduğunda yönlendirme yap
+        this.navCtrl.navigateForward('/content/home', { state: { diets: selectedDiets } });
+      } catch (error) {
+        console.error('Error updating diet preferences:', error);
+        const alert = await this.alertController.create({
+          header: 'Hata',
+          message: 'Diyet tercihlerinizi güncellerken bir hata oluştu. Lütfen tekrar deneyin.',
+          buttons: ['Tamam']
+        });
+        await alert.present();
+      }
     } else {
       const alert = await this.alertController.create({
         header: 'Uyarı',
@@ -95,4 +114,5 @@ export class EditDietPreferencesPage implements OnInit {
       await alert.present();
     }
   }
+  
 }
