@@ -59,6 +59,8 @@
           [(ngModel)]="quantity"
           placeholder="0"
           class="compact-input"
+          (ionFocus)="disableInfiniteScroll()"
+          (ionBlur)="enableInfiniteScroll()"
         ></ion-input>
         <ion-button class="add-button" (click)="confirmItem()">
           Ekle
