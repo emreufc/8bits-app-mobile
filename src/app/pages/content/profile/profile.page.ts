@@ -49,6 +49,7 @@ export class ProfilePage implements OnInit {
         console.error('Kullanıcı bilgileri alınamadı:', error);
       }
     );
+    this.loadFavoriteRecipes();
     this.loadOldRecipes();
   }
 
@@ -68,6 +69,7 @@ export class ProfilePage implements OnInit {
             console.error('Kullanıcı bilgileri alınamadı:', error);
           }
         );
+        this.loadFavoriteRecipes();
         this.loadOldRecipes();
       }
     });
@@ -81,7 +83,11 @@ export class ProfilePage implements OnInit {
   async loadFavoriteRecipes() {
     try {
       const response = await this.recipeService.getFavRecipes();
-      this.favoriteRecipes = response.data.map((recipe: any) => ({
+  
+      // Sunucudan gelen verileri kopyala ve ters çevir
+      const reversedData = [...response.data].reverse();
+  
+      this.favoriteRecipes = reversedData.map((recipe: any) => ({
         ...recipe,
         favouriteRecipes: true // Favori durumunu ekle
       }));
@@ -90,6 +96,32 @@ export class ProfilePage implements OnInit {
       console.error('Favori tarifler yüklenirken hata oluştu:', error);
     }
   }
+  
+  async loadOldRecipes() {
+    try {
+      const response = await this.recipeService.getOldRecipes();
+  
+      // Eski tariflerin verisini de ters çevir
+      const reversedData = [...response.data].reverse();
+  
+      this.oldRecipes = reversedData.map((recipe: any) => {
+        // 'this.favoriteRecipes' içinde recipe.recipeId var mı diye kontrol et
+        const isFavourite = this.favoriteRecipes?.some(
+          (fav: any) => fav.recipeId === recipe.recipeId
+        );
+  
+        return {
+          ...recipe,
+          favouriteRecipes: !!isFavourite
+        };
+      });
+  
+      console.log('Eski tarifler yüklendi:', this.oldRecipes);
+    } catch (error) {
+      console.error('Eski tarifler yüklenirken hata oluştu:', error);
+    }
+  }
+  
   
 
   segmentChanged(event: any) {
@@ -102,18 +134,6 @@ export class ProfilePage implements OnInit {
     }
   }
 
-  async loadOldRecipes() {
-    try {
-      const response = await this.recipeService.getOldRecipes();
-      this.oldRecipes = response.data.map((recipe: any) => ({
-        ...recipe,
-        favouriteRecipes: false // Favori değil
-      }));
-      console.log('Eski tarifler yüklendi:', this.recipes);
-    } catch (error) {
-      console.error('Eski tarifler yüklenirken hata oluştu:', error);
-    }
-  }
   
   // updateFavoriteRecipes() {
   //   this.favoriteRecipes = this.recipes.filter((recipe) => recipe.favouriteRecipes);
@@ -135,52 +155,94 @@ export class ProfilePage implements OnInit {
   
 
   async handleLikeToggled(recipeId: number) {
-    const recipeIndex = this.favoriteRecipes.findIndex((recipe) => recipe.recipeId === recipeId);
+    // Önce hem favoriteRecipes hem de oldRecipes dizilerinde arıyoruz
+    const favIndex = this.favoriteRecipes.findIndex(r => r.recipeId === recipeId);
+    const oldIndex = this.oldRecipes.findIndex(r => r.recipeId === recipeId);
   
-    if (recipeIndex !== -1) {
-      const recipe = this.favoriteRecipes[recipeIndex];
-      const newStatus = !recipe.favouriteRecipes;
+    // Eğer hiçbirinde yoksa herhangi bir işlem yapmaya gerek yok
+    if (favIndex === -1 && oldIndex === -1) {
+      console.log('Bu tarif, favorilerde veya eski tariflerde bulunamadı:', recipeId);
+      return;
+    }
   
-      try {
-        // API'ye isteği gönder
-        await this.recipeService.favRecipe(newStatus, recipeId);
+    // Hangisinde bulduysak oradaki “favouriteRecipes” değerine bakarak yeni durumu belirliyoruz.
+    // Örneğin önce favorilerde bulduysak onun newStatus’una göre işlem yapacağız;
+    // yoksa oldRecipes listesindekinin durumu esas alınacak.
+    let newStatus: boolean;
+    let recipeName: string;
   
-        if (!newStatus) {
-          // Eğer tarif favorilerden çıkarıldıysa, favori listesinden kaldır
-          this.favoriteRecipes.splice(recipeIndex, 1); // Listeyi güncelle
-          console.log(`${recipe.recipeName} favorilerden çıkarıldı ve listeden kaldırıldı.`);
+    if (favIndex !== -1) {
+      // Eğer favori listesinde bulduysak
+      const recipe = this.favoriteRecipes[favIndex];
+      newStatus = !recipe.favouriteRecipes;
+      recipeName = recipe.recipeName;
+    } else {
+      // Yoksa eski tarifler listesinde bulduk
+      const recipe = this.oldRecipes[oldIndex];
+      newStatus = !recipe.favouriteRecipes;
+      recipeName = recipe.recipeName;
+    }
   
-          // Başarılı toast mesajı
-          const toast = await this.toastController.create({
-            message: `${recipe.recipeName} favorilerden çıkarıldı.`,
-            duration: 1000, // Mesajın görünme süresi
-            position: 'bottom',
-            color: 'warning',
-          });
-          await toast.present();
-        } else {
-          console.log(`${recipe.recipeName} favorilere eklendi.`);
+    try {
+      // API'ye istek gönderip sunucu tarafında da favori durumunu güncelliyoruz
+      await this.recipeService.favRecipe(newStatus, recipeId);
   
-          // Başarılı toast mesajı
-          const toast = await this.toastController.create({
-            message: `${recipe.recipeName} favorilere eklendi.`,
-            duration: 1000,
-            position: 'bottom',
-            color: 'success',
-          });
-          await toast.present();
+      if (!newStatus) {
+        // Favorilikten çıkarma
+        if (favIndex !== -1) {
+          // Favoriler dizisinden o tarifi kaldırıyoruz
+          this.favoriteRecipes.splice(favIndex, 1);
         }
-      } catch (error) {
-        console.error(`Hata: ${recipe.recipeName} favori durumu değiştirilemedi`, error);
+        // oldRecipes içinde varsa “favouriteRecipes”i false yapıyoruz
+        if (oldIndex !== -1) {
+          this.oldRecipes[oldIndex].favouriteRecipes = false;
+        }
   
-        // Hata alert mesajı
-        const alert = await this.alertController.create({
-          header: 'Hata',
-          message: `${recipe.recipeName} favori durumu değiştirilemedi. Lütfen tekrar deneyin.`,
-          buttons: ['Tamam'],
+        console.log(`${recipeName} favorilerden çıkarıldı.`);
+        const toast = await this.toastController.create({
+          message: `${recipeName} favorilerden çıkarıldı.`,
+          duration: 1000,
+          position: 'bottom',
+          color: 'warning',
         });
-        await alert.present();
+        await toast.present();
+      } else {
+        // Favoriye ekleme
+        // Eğer favorilerde yoksa (favIndex === -1) ama oldRecipes'te varsa oradakini favori olarak ekleyebiliriz.
+        if (favIndex === -1 && oldIndex !== -1) {
+          // oldRecipes’teki kaydı kopyalayıp favoriteRecipes'e ekliyoruz
+          this.favoriteRecipes.push({
+            ...this.oldRecipes[oldIndex],
+            favouriteRecipes: true
+          });
+        } else if (favIndex !== -1) {
+          // Zaten favoriteRecipes içinde ise sadece durumu true yapıyoruz
+          this.favoriteRecipes[favIndex].favouriteRecipes = true;
+        }
+  
+        // oldRecipes dizisinde de bulduysak onu true yap
+        if (oldIndex !== -1) {
+          this.oldRecipes[oldIndex].favouriteRecipes = true;
+        }
+  
+        console.log(`${recipeName} favorilere eklendi.`);
+        const toast = await this.toastController.create({
+          message: `${recipeName} favorilere eklendi.`,
+          duration: 1000,
+          position: 'bottom',
+          color: 'success',
+        });
+        await toast.present();
       }
+    } catch (error) {
+      console.error(`Hata: ${recipeName} favori durumu değiştirilemedi`, error);
+      const alert = await this.alertController.create({
+        header: 'Hata',
+        message: `${recipeName} favori durumu değiştirilemedi. Lütfen tekrar deneyin.`,
+        buttons: ['Tamam'],
+      });
+      await alert.present();
     }
   }
+  
 }

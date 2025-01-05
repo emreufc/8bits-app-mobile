@@ -196,11 +196,11 @@ export class ShopListPage implements OnInit {
   }
 
   getMyShoppingList() {
-    // modal dan döndüğünde çalışan kod -> burada api ye get isteği atılacak response shopping items a eşitlenecek
     this.shopListService.getShoppingList().subscribe({
       next: (response) => {
         if (response.code === 200 && response.data) {
-          this.shoppingItems = response.data;
+          // Yine aynı şekilde kopyalayarak ters çeviriyoruz
+          this.shoppingItems = [...response.data].reverse();
           this.filterItems();
           console.log("Alışveriş listesi başarıyla yüklendi:", this.shoppingItems);
         } else {
@@ -211,7 +211,9 @@ export class ShopListPage implements OnInit {
         console.error("Alışveriş listesi yüklenirken hata oluştu:", error);
       },
     });
-
+  
+    // Yukarıdaki açıklama burada da geçerli. Dizi gelmeden filterItems çalışırsa
+    // filterItems içinde bu.shoppingItems henüz boş olabilir.
     this.filterItems();
   }
 

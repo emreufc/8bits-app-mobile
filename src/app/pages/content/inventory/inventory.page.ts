@@ -56,11 +56,11 @@ export class InventoryPage implements OnInit {
     this.getMyInventory(); // Filtreye göre tarifleri yükle
   }
   getMyInventory() {
-    // modal dan döndüğünde çalışan kod -> burada api ye get isteği atılacak response shopping items a eşitlenecek
     this.kitchenService.getKitchenList().subscribe({
       next: (response) => {
         if (response.code === 200 && response.data) {
-          this.shoppingItems = response.data;
+          // Gelen veriyi kopyalıyoruz ve sıralamasını ters çeviriyoruz
+          this.shoppingItems = [...response.data].reverse();
           this.filterItems();
         } else {
           console.error("API'den geçersiz veri alındı:", response);
@@ -70,7 +70,11 @@ export class InventoryPage implements OnInit {
         console.error("Alışveriş listesi yüklenirken hata oluştu:", error);
       },
     });
-
+  
+    // Bu satır, subscribe içindeki veriyi beklemeden çalışır.
+    // Dolayısıyla dizi atanmadığı için filterItems burada pek işe yaramayacaktır.
+    // Dilersen bu satırı kaldırabilirsin, ya da diziyi beklemek istiyorsan
+    // filterItems çağrısını yukarıdaki if bloklarında kullanmak daha mantıklıdır.
     this.filterItems();
   }
 
