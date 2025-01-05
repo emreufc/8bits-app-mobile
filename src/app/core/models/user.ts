@@ -14,4 +14,5 @@ export interface User {
     favouriteRecipe?: any[] | any;
     recipe?: any[] | any;
     userRefreshToken?: any[] | any;
+    imageUrl?: string | any;
 }
