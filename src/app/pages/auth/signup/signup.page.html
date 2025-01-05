@@ -51,7 +51,7 @@
           [(ngModel)]="userData.password">
         </ion-input>
         <ion-icon
-          [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+          [name]="!showPassword ? 'eye-off-outline' : 'eye-outline'"
           slot="end"
           (click)="togglePasswordVisibility()"
           class="eye-icon"
@@ -66,7 +66,7 @@
           [(ngModel)]="rePassword">
         </ion-input>
         <ion-icon
-          [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+          [name]="!showPassword ? 'eye-off-outline' : 'eye-outline'"
           slot="end"
           (click)="togglePasswordVisibility()"
           class="eye-icon"
@@ -76,8 +76,14 @@
 
     <ion-item lines="none">
       <ion-checkbox slot="start" [(ngModel)]="termsAccepted"></ion-checkbox>
-      <ion-label>Tüm şartları ve koşulları kabul ediyorum</ion-label>
+      
+      <!-- BURADA DEĞİŞİKLİK: CSS sınıfı ve altındaki yapılar -->
+      <ion-label (click)="openTermsModal()" class="terms-label">
+        <span>Tüm şartları ve koşulları kabul ediyorum</span>
+      </ion-label>
     </ion-item>
+    
+    
 
     <ion-button expand="block" class="signup-button" (click)="onSignup()">
       Şimdi Kayıt Ol
@@ -92,4 +98,45 @@
       <ion-button fill="clear" size="small" routerLink="/auth/login">Şimdi Giriş Yap</ion-button>
     </div>
   </div>
+
+  <!-- Yeni Eklenen Kısım: Modal -->
+  <ion-modal [isOpen]="showTermsModal" (ionModalDidDismiss)="closeTermsModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Şartlar ve Koşullar</ion-title>
+        </ion-toolbar>
+      </ion-header>
+  
+      <!-- Şık görünüm için ek CSS sınıfı -->
+      <ion-content class="ion-padding terms-content">
+        <h2>MealMatch Uygulaması Şartları</h2>
+        <p>
+          Bu uygulama, MealMatch için örnek bir metindir. Uygulama içerisinde sağlanan 
+          tarifler, diyet programları ve diğer içerikler bilgi amaçlıdır. 
+          Herhangi bir tıbbi tavsiye yerine geçmez.
+        </p>
+        <p>
+          Uygulamada yer alan tariflerin besin değerleri yaklaşık değerlerdir 
+          ve kişiden kişiye farklılık gösterebilir. 
+        </p>
+        <h3>Gizlilik ve Kullanım</h3>
+        <ul>
+          <li>Uygulama, kullanıcı verilerini üçüncü taraflarla paylaşmaz.</li>
+          <li>Gizliliğin korunması için gereken önlemler alınmıştır.</li>
+        </ul>
+        <p>
+          Daha fazla bilgi için <strong>destek&#64;meal-match.com</strong> adresiyle iletişime geçebilirsiniz.
+        </p>
+      </ion-content>
+  
+      <ion-footer>
+        <ion-toolbar>
+          <ion-button expand="block" (click)="closeTermsModal()">Kapat</ion-button>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
+  
+
 </ion-content>

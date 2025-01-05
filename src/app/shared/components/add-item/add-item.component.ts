@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { IngredientService } from 'src/app/core/services/ingredient.service';
 import { Ingredient } from 'src/app/core/models/ingredient';
 import { ShopListService } from 'src/app/core/services/shop-list.service';
 import { KitchenService } from 'src/app/core/services/kitchen.service';
+import { IonInfiniteScroll } from '@ionic/angular';
 
 @Component({
   selector: 'app-add-item',
@@ -16,12 +17,14 @@ export class AddItemComponent implements OnInit {
   filteredItems: any[] = []; // Filtrelenmiş malzemeler
   searchTerm: string = ''; // Arama terimi
   currentPage: number = 1; // İlk sayfa
-  pageSize: number = 10; // Sayfa başına öğe sayısı
+  pageSize: number = 15; // Sayfa başına öğe sayısı
   hasMore: boolean = true; // Daha fazla veri var mı
   selectedItem: any | null = null; // Seçilen malzeme
   selectedQuantityTypeId: number | null = null; // Seçilen quantityTypeId
   quantity: number | null = null; // Kullanıcıdan alınan miktar
   @Input() origin!: string; // Modal açılırken gelen parametre
+  @ViewChild('infiniteScroll', { static: false }) infiniteScroll?: IonInfiniteScroll;
+
 
 
   constructor(
@@ -41,6 +44,18 @@ export class AddItemComponent implements OnInit {
   // Quantity Type değişimi
   onQuantityTypeChange(event: any) {
     this.selectedQuantityTypeId = event.detail.value ? +event.detail.value : null; // Gelen değeri sayıya çevir
+  }
+
+  disableInfiniteScroll() {
+    if (this.infiniteScroll) {
+      this.infiniteScroll.disabled = true;
+    }
+  }
+
+  enableInfiniteScroll() {
+    if (this.infiniteScroll) {
+      this.infiniteScroll.disabled = false;
+    }
   }
 
   // Malzeme gönderme işlemi

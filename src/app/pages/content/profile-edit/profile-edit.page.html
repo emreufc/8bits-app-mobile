@@ -17,35 +17,35 @@
   <ion-list>
     <!-- First Name -->
     <ion-item lines="full">
-      <ion-label position="stacked">First name</ion-label>
+      <ion-label position="stacked">Ad</ion-label>
       <ion-input 
         [disabled]="!isEditingFirstName" 
         [(ngModel)]="user.name">
       </ion-input>
       <ion-buttons slot="end">
         <ion-button fill="clear" (click)="toggleEdit('firstName')">
-          {{ isEditingFirstName ? 'Kaydet' : 'Edit' }}
+          {{ isEditingFirstName ? 'Kaydet' : 'Düzenle' }}
         </ion-button>
       </ion-buttons>
     </ion-item>
 
     <!-- Last Name -->
     <ion-item lines="full">
-      <ion-label position="stacked">Last name</ion-label>
+      <ion-label position="stacked">Soyad</ion-label>
       <ion-input 
         [disabled]="!isEditingLastName" 
         [(ngModel)]="user.surname">
       </ion-input>
       <ion-buttons slot="end">
         <ion-button fill="clear" (click)="toggleEdit('lastName')">
-          {{ isEditingLastName ? 'Kaydet' : 'Edit' }}
+          {{ isEditingLastName ? 'Kaydet' : 'Düzenle' }}
         </ion-button>
       </ion-buttons>
     </ion-item>
 
     <!-- Gender -->
     <ion-item lines="full">
-      <ion-label position="stacked">Gender</ion-label>
+      <ion-label position="stacked">Cinsiyet</ion-label>
       <ng-container *ngIf="isEditingGender; else genderText">
         <ion-select interface="action-sheet" [(ngModel)]="user.gender">
           <ion-select-option value="Male">Male</ion-select-option>
@@ -58,42 +58,42 @@
       </ng-template>
       <ion-buttons slot="end">
         <ion-button fill="clear" (click)="toggleEdit('gender')">
-          {{ isEditingGender ? 'Kaydet' : 'Edit' }}
+          {{ isEditingGender ? 'Kaydet' : 'Düzenle' }}
         </ion-button>
       </ion-buttons>
     </ion-item>
 
     <!-- Email -->
     <ion-item lines="full">
-      <ion-label position="stacked">Email</ion-label>
+      <ion-label position="stacked">Mail Adresi</ion-label>
       <ion-input 
         [disabled]="!isEditingEmail" 
         [(ngModel)]="user.email">
       </ion-input>
       <ion-buttons slot="end">
         <ion-button fill="clear" (click)="toggleEdit('email')">
-          {{ isEditingEmail ? 'Kaydet' : 'Edit' }}
+          {{ isEditingEmail ? 'Kaydet' : 'Düzenle' }}
         </ion-button>
       </ion-buttons>
     </ion-item>
 
     <!-- Mobile Number -->
     <ion-item lines="full">
-      <ion-label position="stacked">Mobile Number</ion-label>
+      <ion-label position="stacked">Telefon Numarası</ion-label>
       <ion-input 
         [disabled]="!isEditingMobileNumber" 
         [(ngModel)]="user.phoneNumber">
       </ion-input>
       <ion-buttons slot="end">
         <ion-button fill="clear" (click)="toggleEdit('mobileNumber')">
-          {{ isEditingMobileNumber ? 'Kaydet' : 'Edit' }}
+          {{ isEditingMobileNumber ? 'Kaydet' : 'Düzenle' }}
         </ion-button>
       </ion-buttons>
     </ion-item>
 
     <!-- Birthday -->
     <ion-item lines="full">
-      <ion-label position="stacked">Birthday</ion-label>
+      <ion-label position="stacked">Doğum Günü</ion-label>
       <ng-container *ngIf="isEditingBirthday; else birthdayText">
         <ion-datetime display-format="DD MMM YYYY" [(ngModel)]="user.dateOfBirth"></ion-datetime>
       </ng-container>
@@ -102,12 +102,12 @@
       </ng-template>
       <ion-buttons slot="end">
         <ion-button fill="clear" (click)="toggleEdit('birthday')">
-          {{ isEditingBirthday ? 'Kaydet' : 'Edit' }}
+          {{ isEditingBirthday ? 'Kaydet' : 'Düzenle' }}
         </ion-button>
       </ion-buttons>
     </ion-item> 
     <ion-item lines="full" class="diet-preferences-item">
-      <ion-label position="stacked">Diet Preferences</ion-label>
+      <ion-label position="stacked">Diyet Tercihleri</ion-label>
       <div class="diet-list">
         <!-- Seçili diyetleri chip halinde gösteriyoruz -->
         <ng-container *ngFor="let option of dietOptions">
@@ -135,7 +135,7 @@
               Diyet Tercihi Seç
             </ion-title>
               <ion-buttons slot="end">
-              <ion-button (click)="closeDietModal()">Close</ion-button>
+              <ion-button (click)="closeDietModal()">Kapat</ion-button>
             </ion-buttons>
           </ion-toolbar>
         </ion-header>

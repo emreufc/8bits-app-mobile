@@ -3,50 +3,81 @@
 <ion-content class="ion-padding">
   <app-category [chips]="chips" (chipSelected)="onFilterChange($event)"></app-category>
   <app-searchbar (search)="onSearch($event)"></app-searchbar>
-  <!-- Burası tam çalışmıyor -->
-  <div *ngIf="loadingMatchedRecipes && currentFilter === 'hepsi'" class="loading-container">
-    <ion-loading name="dots"></ion-loading>
-    <p>Veriler yükleniyor...</p>
-  </div>
-
-  <div *ngIf="!loadingMatchedRecipes && currentFilter === 'hepsi' && !currentSearchKeyword && matchedRecipes.length > 0" class="section-title">
-    <h2>Mutfağınızdakilere Göre Öneriler</h2>
-  </div>
   
-  <div *ngIf="!loadingMatchedRecipes && currentFilter === 'hepsi' && !currentSearchKeyword" class="recipes-grid-horizontal" #recipesGrid>
-    <ion-card class="recipe-card" *ngFor="let recipe of matchedRecipes" (click)="goToRecipeDetail(recipe.recipeId)">
-      <img
-      [alt]="recipe.recipeName"
-      [src]="recipe.imageUrl"
-      class="recipe-image"
-      />
-      <ion-card-content>
+  <ng-container *ngIf="loadingMatchedRecipes && currentFilter === 'hepsi' && !currentSearchKeyword">
+    <div class="skeleton-container">
+      <!-- Bilgilendirme yazısı -->
+      <div class="loading-info">
+        <p>Mutfağınıza özel öneriler yükleniyor...</p>
+      </div>
+  
+      <!-- Skeleton kartlar -->
+      <div class="recipes-grid-horizontal skeleton">
+        <ion-card class="recipe-card" *ngFor="let _ of [1,2,3,4]">
+          <ion-card-content>
+            <!-- Görsel alanının iskeleti -->
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 100px;"></ion-skeleton-text>
+            <!-- Başlık -->
+            <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            <!-- Kısa bir alt bilgi -->
+            <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+  </ng-container>
+  
+
+<!-- Başlık (sadece veriler geldikten sonra görünsün) -->
+<div 
+  *ngIf="!loadingMatchedRecipes 
+         && currentFilter === 'hepsi' 
+         && !currentSearchKeyword 
+         && matchedRecipes.length > 0" 
+  class="section-title">
+  <h2>Mutfağınızdakilere Göre Öneriler</h2>
+</div>
+
+<!-- Yatay ızgara (sadece veriler geldikten sonra görünsün) -->
+<div 
+  *ngIf="!loadingMatchedRecipes && currentFilter === 'hepsi' && !currentSearchKeyword" 
+  class="recipes-grid-horizontal"
+  #recipesGrid
+>
+  <ion-card
+    class="recipe-card"
+    *ngFor="let recipe of matchedRecipes"
+    (click)="goToRecipeDetail(recipe.recipeId)"
+  >
+    <img [alt]="recipe.recipeName" [src]="recipe.imageUrl" class="recipe-image" />
+    <ion-card-content>
       <h3>{{ recipe.recipeName }}</h3>
       <div class="recipe-meta">
         <div class="rating">
-        <ion-icon name="star" color="warning"></ion-icon>
-        <span>{{ recipe.recipeRate | number:'1.1-1' }}</span>
+          <ion-icon name="star" color="warning"></ion-icon>
+          <span>{{ recipe.recipeRate | number:'1.1-1' }}</span>
         </div>
         <div class="time">
-        <ion-icon name="time"></ion-icon>
-        <span>{{ recipe.preparationTime + recipe.cookingTime }} dk</span>
+          <ion-icon name="time"></ion-icon>
+          <span>{{ recipe.preparationTime + recipe.cookingTime }} dk</span>
         </div>
       </div>
       <div class="recipe-stats">
         <div class="servings">
-        <ion-icon name="person-add-outline"></ion-icon>
-        <span>{{ recipe.personCount }}</span>
+          <ion-icon name="person-add-outline"></ion-icon>
+          <span>{{ recipe.personCount }}</span>
         </div>
         <ion-icon
-        [name]="recipe.favouriteRecipes ? 'heart' : 'heart-outline'"
-        class="heart-icon"
-        [style.color]="recipe.favouriteRecipes ? '#FF8C00' : '#666'"
-        (click)="toggleLike(recipe, $event)"
+          [name]="recipe.favouriteRecipes ? 'heart' : 'heart-outline'"
+          class="heart-icon"
+          [style.color]="recipe.favouriteRecipes ? '#FF8C00' : '#666'"
+          (click)="toggleLike(recipe, $event)"
         ></ion-icon>
       </div>
-      </ion-card-content>
-    </ion-card>
-  </div>
+    </ion-card-content>
+  </ion-card>
+</div>
+
 
   <div *ngIf="!loadingMatchedRecipes && currentFilter === 'hepsi' && currentSearchKeyword && recipes.length > 0" class="section-title">
     <h2>{{ currentSearchKeyword }} için sonuçlar</h2>

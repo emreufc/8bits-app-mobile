@@ -35,9 +35,7 @@ export class HomePage implements OnInit {
 
   async ngOnInit() {
     await this.loadFavoriteRecipes(); // Favori tarifleri yükle
-    this.loadingMatchedRecipes = true;
     await this.loadMatchedRecipes(this.currentPage, this.pageSize);
-    this.loadingMatchedRecipes = false; //
     this.loadRecipes(this.currentPage, this.pageSize); // Tarifleri yükle
   }
   
@@ -47,9 +45,7 @@ export class HomePage implements OnInit {
       if (this.isActiveTab()) {
         this.header?.loadUser();
         await this.loadFavoriteRecipes(); // Favori tarifleri yükle
-        this.loadingMatchedRecipes = true;
         await this.loadMatchedRecipes(this.currentPage, this.pageSize);
-        this.loadingMatchedRecipes = false; //
         this.loadRecipes(this.currentPage, this.pageSize); // Tarifleri yükle
       }
     });
@@ -203,12 +199,12 @@ export class HomePage implements OnInit {
           ...recipe,
           favouriteRecipes: this.favRecipeIds.includes(recipe.recipeId) // Favori kontrolü
         }));
+        this.loadingMatchedRecipes = false; // Veri gerçekten geldi, loading = false
         this.pagination = response.pagination; // Sayfalama bilgileri
-        console.log('Recipes:', this.recipes);
-        console.log('Pagination:', this.pagination);
       },
       (error) => {
         console.error('Error fetching recipes:', error);
+        this.loadingMatchedRecipes = false; // Hata da alsak loading’i kapat
       }
     );
   }

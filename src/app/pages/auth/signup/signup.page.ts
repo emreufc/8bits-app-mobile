@@ -16,6 +16,7 @@ export class SignupPage implements OnInit {
   showPassword = false; // Indicates whether the password is visible or not.
   rePassword: string = ''; // Stores the re-entered password for confirmation.
   termsAccepted: boolean = false; // Indicates whether the user has accepted the terms and conditions.
+  showTermsModal: boolean = false;
 
   /**
    * Interface for user data structure.
@@ -41,6 +42,15 @@ export class SignupPage implements OnInit {
   ngOnInit() {
     // Initialization logic can be added here
     console.log('SignupPage initialized');
+  }
+
+  openTermsModal() {
+    this.showTermsModal = true;
+  }
+
+  // YENİ EKLENDİ: Modal kapama
+  closeTermsModal() {
+    this.showTermsModal = false;
   }
 
   /**

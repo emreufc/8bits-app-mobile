@@ -27,7 +27,7 @@
     <div class="top-stick"></div>
     <ion-card-header class="content-title ion-padding">
       
-      <h1>{{ recipeDetail?.title }}</h1>
+      <h1>{{ recipeDetail?.recipeName}}</h1>
       <!-- <p>15 Dk</p> -->
     </ion-card-header>
 
@@ -93,7 +93,7 @@
       <ng-template #preparation>
         <!-- <ion-list> -->
         <div *ngFor="let step of steps" class="preparation-steps">
-          <ion-card-content class="ingredient-content" *ngIf="step.step != ''">
+          <ion-card-content class="ingredient-content" *ngIf="step.step !== ''">
             <ion-item lines="none" class="ingredient-item">
               <div class="step-number-circle">{{ step.stepNum }}</div>
               <ion-label class="ingredient-label">
