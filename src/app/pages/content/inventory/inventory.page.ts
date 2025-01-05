@@ -38,13 +38,16 @@ export class InventoryPage implements OnInit {
     this.getMyInventory();
   }
 
-  ngAfterViewInit() {  
+  // ngAfterViewInit() {  
     
-    this.tabs.ionTabsDidChange.subscribe(async () => {
-      if (this.isActiveTab()) {
-        this.getMyInventory();
-      }
-    });
+  //   this.tabs.ionTabsDidChange.subscribe(async () => {
+  //     if (this.isActiveTab()) {
+  //       this.getMyInventory();
+  //     }
+  //   });
+  // }
+  ionViewWillEnter() {
+    this.getMyInventory();
   }
 
   isActiveTab() {
