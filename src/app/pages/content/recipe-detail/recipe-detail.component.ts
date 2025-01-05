@@ -161,68 +161,59 @@ export class RecipeDetailComponent  implements OnInit {
  *  - HasEnoughIngredients = false ise "Sepete ekleyelim mi?" vb. sorar.
  *  - Sonunda addOldRecipe() metodunu çağırarak tarifi "eski tarif" olarak işaretler (isOldRecipe = true).
  */
-  /**
- * Tarif ilk kez "Yaptığım tariflere ekle" dendiğinde burası çalışır.
- *  - Eğer hasEnoughIngredients = true ise malzemeleri düşmek vs. için confirm dialog sorar.
- *  - HasEnoughIngredients = false ise "Sepete ekleyelim mi?" vb. sorar.
- *  - (Güncelleme) Sepete eklenince tarif "oldRecipes" olmaz; addOldRecipe() çağrılmıyor.
- */
-async addToOldRecipes() {
-  // Tarif zaten oldRecipe ise tekrar eklemeye gerek yok
-  if (this.recipeDetail.isOldRecipe) {
-    this.showToast('Bu tarif zaten "yaptığım tarifler" listesine ekli.', 'warning');
-    return;
-  }
-
-  try {
-    const hasEnoughIngredients = this.recipeDetail.hasEnoughIngredients;
-    if (hasEnoughIngredients) {
-      const deductIngredients = await this.confirmDialog(
-        'Elinizde yeterli malzeme var. Tarifteki malzemeleri mutfağınızdan düşülsün mü?'
-      );
-
-      if (deductIngredients) {
-        await this.deductFromPantry(); 
-        await this.addOldRecipe(); 
-      } else {
-        const proceedWithoutDeduction = await this.confirmDialog(
-          'Malzeme düşmeden sadece tarifinize eklemek istiyor musunuz?'
+  async addToOldRecipes() {
+    if (this.recipeDetail.isOldRecipe) {
+      this.showToast('Bu tarif zaten "yaptığım tarifler" listesine ekli.', 'warning');
+      return;
+    }
+  
+    try {
+      const hasEnoughIngredients = this.recipeDetail.hasEnoughIngredients;
+      if (hasEnoughIngredients) {
+        const deductIngredients = await this.confirmDialog(
+          'Elinizde yeterli malzeme var. Tarifteki malzemeleri mutfağınızdan düşülsün mü?'
         );
-    
-        if (proceedWithoutDeduction) {
+  
+        if (deductIngredients) {
+          await this.deductFromPantry(); 
           await this.addOldRecipe(); 
         } else {
-          this.showToast('İşlem iptal edildi.', 'danger'); 
+          const proceedWithoutDeduction = await this.confirmDialog(
+            'Malzeme düşmeden sadece tarifinize eklemek istiyor musunuz?'
+          );
+      
+          if (proceedWithoutDeduction) {
+            await this.addOldRecipe(); 
+          } else {
+            this.showToast('İşlem iptal edildi.', 'danger'); 
+          }
         }
-      }
-    } else {
-      // Malzeme yetersizse yine sepete eklemek ister misiniz?
-      const addToShoppingList = await this.confirmDialog(
-        'Elinizde bu tarif için yeterli malzeme yok. Alışveriş sepetine eklemek ister misiniz?'
-      );
-
-      if (addToShoppingList) {
-        // ↓↓↓ Burada ARTIK addOldRecipe() çağrılmıyor.
-        await this.addToShoppingCart();
-        // Tarif “yapıldı” (oldRecipe) statüsüne geçmiyor, sadece malzemeler sepete ekleniyor.
       } else {
-        const proceedWithoutDeduction = await this.confirmDialog(
-          'Eksik malzeme eklenmeden yine de tarifi "yaptığım tarifler" olarak eklemek istiyor musunuz?'
+        // Malzeme yetersizse yine sepete eklemek ister misiniz?
+        const addToShoppingList = await this.confirmDialog(
+          'Elinizde bu tarif için yeterli malzeme yok. Alışveriş sepetine eklemek ister misiniz?'
         );
-
-        if (proceedWithoutDeduction) {
+  
+        if (addToShoppingList) {
+          await this.addToShoppingCart();
           await this.addOldRecipe();
         } else {
-          this.showToast('İşlem iptal edildi.', 'danger'); 
+          const proceedWithoutDeduction = await this.confirmDialog(
+            'Eksik malzeme eklenmeden yine de tarifi "yaptığım tarifler" olarak eklemek istiyor musunuz?'
+          );
+  
+          if (proceedWithoutDeduction) {
+            await this.addOldRecipe();
+          } else {
+            this.showToast('İşlem iptal edildi.', 'danger'); 
+          }
         }
       }
+    } catch (error) {
+      console.error(error);
+      this.showToast('Bir hata oluştu. Lütfen tekrar deneyin.', 'danger');
     }
-  } catch (error) {
-    console.error(error);
-    this.showToast('Bir hata oluştu. Lütfen tekrar deneyin.', 'danger');
   }
-}
-
   
 
 /**
