@@ -37,6 +37,13 @@ export class KitchenService {
   addshopListToKitchen(item: { ingredientId: number; quantityTypeId: number; quantity: number }): Observable<any> {
     return this.httpClient.post(`${environment.apiUrl}UserInventory/shoppinglist-to-inventory`, item);
   }
+
+  getMyShoppingListByCategory(selectedCategories: string[]): Observable<any> {
+    const params = {
+      selectedCategories: selectedCategories.join(','), // Array'i string olarak formatla
+    };
+    return this.httpClient.get(`${environment.apiUrl}UserInventory/categories`, { params });
+  }
   
 }
 
