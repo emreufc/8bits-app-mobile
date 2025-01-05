@@ -1,7 +1,15 @@
 <ion-content>
   <div class="profile-container">
-    <ion-avatar class="profile-avatar">
-      <img src="https://i.pravatar.cc/150?img=3" />
+    <ion-avatar class="profile-avatar" (click)="triggerFileInput()">
+      <div 
+        *ngIf="!user.imageUrl" 
+        class="user-avatar" 
+        [ngStyle]="{ 'background-color': userColor }"
+      >
+        {{ userInitial }}
+      </div>
+      <img *ngIf="user.imageUrl" [src]="user.imageUrl" alt="{{ user.name }}" />
+      <!-- <ion-icon (click)="fileInput.click()" src="assets/icon/pencil.svg"></ion-icon> -->
     </ion-avatar>
     <h2>{{ user.name }} {{ user.surname }}</h2>
   </div>
@@ -159,3 +167,11 @@
       </ion-button>
 
 </ion-content>
+
+<input 
+  #fileInput 
+  type="file" 
+  style="display: none;" 
+  (change)="onFileSelected($event)" 
+  accept="image/*" 
+/>

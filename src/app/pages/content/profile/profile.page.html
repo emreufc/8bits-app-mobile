@@ -4,9 +4,16 @@
   <!-- Profil başlığı -->
   <div class="profile-header">
     <ion-avatar class="profile-avatar">
-      <img src="https://i.pravatar.cc/300" alt="Profile Picture"> <!-- Profil fotoğrafı -->
+      <div 
+        *ngIf="!user.imageUrl" 
+        class="user-avatar" 
+        [ngStyle]="{ 'background-color': userColor }"
+      >
+        {{ userInitial }}
+      </div>
+      <img *ngIf="user.imageUrl" [src]="user.imageUrl" alt="{{ user.name }}" />
     </ion-avatar>
-    <h2 class="profile-name">{{ user.name }}  {{ user.surname }}</h2> <!-- Profil adı ve soyadı -->
+    <h2 class="profile-name">{{ user.name }} {{ user.surname }}</h2> <!-- Profil adı ve soyadı -->
     <ion-button class="edit-profile-btn" fill="solid" (click)="editProfile()">Edit Profile</ion-button>
   </div>
 

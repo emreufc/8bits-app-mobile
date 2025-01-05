@@ -1,8 +1,15 @@
 <ion-header class="light-header">
   <ion-toolbar>
     <ion-item lines="none">
-      <ion-avatar>
-        <img src="https://picsum.photos/200/300" width="40" height="40" style="border-radius: 100%;">
+      <ion-avatar class="profile-avatar">
+        <div 
+          *ngIf="!user.imageUrl" 
+          class="user-avatar" 
+          [ngStyle]="{ 'background-color': userColor }"
+        >
+          {{ userInitial }}
+        </div>
+        <img *ngIf="user.imageUrl" [src]="user.imageUrl" alt="{{ user.name }}" />
       </ion-avatar>
       <ion-label>
         <h5>Hoşgeldin, 👋🏻</h5>

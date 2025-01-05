@@ -10,7 +10,7 @@ export interface User {
     createDate?: string | any;
     role?: string | any;
     refreshToken?: string | any;
-    profileImage?: string | any;
+    imageUrl?: string | any;
     favouriteRecipe?: any[] | any;
     recipe?: any[] | any;
     userRefreshToken?: any[] | any;

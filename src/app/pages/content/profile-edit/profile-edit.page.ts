@@ -18,7 +18,11 @@ export class ProfileEditPage implements OnInit {
     email: '',
     phoneNumber: '',
     dateOfBirth: '',
+    imageUrl: '',
   };
+
+  userInitial: string = '?'; 
+  userColor: string = '#95A5A6';
 
   public loading = false;
   // tabs!: IonTabs;
@@ -56,6 +60,9 @@ export class ProfileEditPage implements OnInit {
       next: (response: any) => {
 
         this.user = response.data;
+        this.userInitial = this.getUserInitial(this.user.name);
+        this.userColor = this.getColorByInitial(this.userInitial);
+        console.log('Current Form Data:', this.user);
       },
       error: (err) => {
         console.error('Kullanıcı bilgileri alınamadı:', err);
@@ -88,6 +95,29 @@ export class ProfileEditPage implements OnInit {
   // isActiveTab() {
   //   return this.tabs.getSelected() === 'profile-edit'; 
   // }
+
+  getUserInitial(name: string): string {
+    console.log('Name:', name);
+    return name ? name.charAt(0).toUpperCase() : '?'; // Ad yoksa '?' döner
+  }
+
+  getColorByInitial(initial: string): string {
+    const colorMap: { [key: string]: string } = {
+      A: '#FF5733', B: '#33FF57', C: '#3357FF', D: '#F39C12',
+      E: '#8E44AD', F: '#3498DB', G: '#E74C3C', H: '#1ABC9C',
+      I: '#9B59B6', J: '#E67E22', K: '#2ECC71', L: '#E74C3C',
+      M: '#2C3E50', N: '#16A085', O: '#F1C40F', P: '#D35400',
+      Q: '#2980B9', R: '#8E44AD', S: '#34495E', T: '#27AE60',
+      U: '#7D3C98', V: '#1F618D', W: '#117A65', X: '#B03A2E',
+      Y: '#784212', Z: '#1A5276'
+    };
+  
+    return colorMap[initial] || '#95A5A6'; // Harf yoksa varsayılan bir renk döner
+  }
+
+  public selectFile(event: any) {
+
+  }
   
 
   // Sunucudan diyet türlerini getirip "dietOptions" dizisine atıyoruz
@@ -106,6 +136,56 @@ export class ProfileEditPage implements OnInit {
       },
       error: (err) => {
         console.error('Diyet tipleri alınamadı:', err);
+      }
+    });
+  }
+
+  triggerFileInput() {
+    
+    const fileInput = document.querySelector('#fileInput') as HTMLInputElement;
+    console.log('File input tetiklendi', fileInput);
+    if (fileInput) {
+      fileInput.click();
+    }
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+  
+      reader.onload = () => {
+        this.user.imageUrl = reader.result as string;
+  
+        // Profil resmini sunucuya göndermek için bir API çağrısı yapabilirsiniz
+        this.uploadProfileImage(file);
+      };
+  
+      reader.readAsDataURL(file);
+    }
+  }
+
+  uploadProfileImage(file: File) {
+    this.userService.uploadProfileImage(file).subscribe({
+      next: async (res) => {
+        console.log('Profil resmi başarıyla yüklendi:', res);
+        const toast = await this.toastController.create({
+          message: 'Profil resmi başarıyla güncellendi.',
+          duration: 1000,
+          position: 'bottom',
+          color: 'success',
+        });
+        await toast.present();
+      },
+      error: async (err) => {
+        console.error('Profil resmi yüklenirken hata:', err);
+        const alert = await this.alertController.create({
+          header: 'Hata',
+          message: 'Profil resmi güncellenirken bir hata oluştu. Lütfen tekrar deneyin.',
+          buttons: ['Tamam'],
+        });
+        await alert.present();
       }
     });
   }
