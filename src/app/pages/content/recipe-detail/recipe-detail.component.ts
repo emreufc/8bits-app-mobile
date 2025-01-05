@@ -155,12 +155,23 @@ export class RecipeDetailComponent  implements OnInit {
     }
   }
 
+  /**
+ * Tarif ilk kez "Yaptığım tariflere ekle" dendiğinde burası çalışır.
+ *  - Eğer hasEnoughIngredients = true ise malzemeleri düşmek vs. için confirm dialog sorar.
+ *  - HasEnoughIngredients = false ise "Sepete ekleyelim mi?" vb. sorar.
+ *  - Sonunda addOldRecipe() metodunu çağırarak tarifi "eski tarif" olarak işaretler (isOldRecipe = true).
+ */
   async addToOldRecipes() {
+    if (this.recipeDetail.isOldRecipe) {
+      this.showToast('Bu tarif zaten "yaptığım tarifler" listesine ekli.', 'warning');
+      return;
+    }
+  
     try {
       const hasEnoughIngredients = this.recipeDetail.hasEnoughIngredients;
       if (hasEnoughIngredients) {
         const deductIngredients = await this.confirmDialog(
-          'Elinizde yeterli malzeme var. Tarifteki malzemeleri mutfağınızdan düşülerek mi devam edilsin?'
+          'Elinizde yeterli malzeme var. Tarifteki malzemeleri mutfağınızdan düşülsün mü?'
         );
   
         if (deductIngredients) {
@@ -178,15 +189,17 @@ export class RecipeDetailComponent  implements OnInit {
           }
         }
       } else {
+        // Malzeme yetersizse yine sepete eklemek ister misiniz?
         const addToShoppingList = await this.confirmDialog(
-          'Elinizde bu tarif için yeterli malzeme yok. Alışveriş sepetine ekleyerek devam etmek ister misiniz?'
+          'Elinizde bu tarif için yeterli malzeme yok. Alışveriş sepetine eklemek ister misiniz?'
         );
   
         if (addToShoppingList) {
           await this.addToShoppingCart();
+          await this.addOldRecipe();
         } else {
           const proceedWithoutDeduction = await this.confirmDialog(
-            'Elinizde yeterli malzeme olmadığından, işleminize mutfağınızdaki malzemelerden düşülmeden devam edilecektir. Onaylıyor musunuz?'
+            'Eksik malzeme eklenmeden yine de tarifi "yaptığım tarifler" olarak eklemek istiyor musunuz?'
           );
   
           if (proceedWithoutDeduction) {
@@ -202,21 +215,103 @@ export class RecipeDetailComponent  implements OnInit {
     }
   }
   
-  async retryRecipe() {
-    await this.addToOldRecipes();
+
+/**
+ * "Tarifi Tekrar Yap" butonu. 
+ *  - Yine `addToOldRecipes()` metodunu çağırarak aynı süreci yürütür,
+ *    ancak tarif zaten oldRecipe listesinde ise toggle yapmaz ve uyarı verir.
+ */
+/**
+ * "Tarifi Tekrar Yap" butonu.
+ * Tarif zaten isOldRecipe = true durumunda.
+ * Yalnızca malzeme kontrolü ve eksiltme/sepete ekleme sürecini tekrar uygular;
+ * isOldRecipe durumunu korur (yani toggle etmez).
+ */
+async retryRecipe() {
+  // Eğer tarif aslında henüz ekli değilse, önce eklenmesi gerekir.
+  if (!this.recipeDetail.isOldRecipe) {
+    this.showToast('Bu tarif henüz "yaptığım tarifler" arasında değil.', 'warning');
+    return;
   }
-  
-  async removeFromOldRecipes() {
-    try {
-      console.log("this.recipeId", this.recipeId);
-      await this.recipeService.toggleOldRecipeStatus(this.recipeId);
-      this.recipeDetail.isOldRecipe = !this.recipeDetail.isOldRecipe;
-      this.showToast('Tarif yaptığınız tariflerden çıkarıldı.', 'success');
-    } catch (error) {
-      console.error(error);
-      this.showToast('Bir hata oluştu. Lütfen tekrar deneyin.', 'danger');
+
+  try {
+    // Daha önce loadData() içinde recipeDetail.hasEnoughIngredients set edilmişti.
+    const hasEnoughIngredients = this.recipeDetail.hasEnoughIngredients;
+    
+    if (hasEnoughIngredients) {
+      const deductIngredients = await this.confirmDialog(
+        'Elinizde yeterli malzeme var. Bir kez daha mutfaktan düşmek ister misiniz?'
+      );
+
+      if (deductIngredients) {
+        await this.deductFromPantry(); 
+        // Burada tarif zaten oldRecipe, o yüzden tekrar toggle etmiyoruz.
+        this.showToast('Tarif yeniden yapıldı. Malzemeler tekrar mutfaktan düşüldü.', 'success');
+      } else {
+        const proceedWithoutDeduction = await this.confirmDialog(
+          'Malzemeler düşülmeden sadece tarifi yeniden yapmak ister misiniz?'
+        );
+    
+        if (proceedWithoutDeduction) {
+          this.showToast('Tarif yeniden yapıldı. (Malzemeler düşülmedi.)', 'success');
+        } else {
+          this.showToast('İşlem iptal edildi.', 'danger');
+        }
+      }
+    } else {
+      // Malzeme yetersizse yine sepete eklemek ister misin diye soralım
+      const addToShoppingList = await this.confirmDialog(
+        'Elinizde tarif için yeterli malzeme yok. Eksikleri alışveriş sepetine eklemek ister misiniz?'
+      );
+
+      if (addToShoppingList) {
+        await this.addToShoppingCart();
+        this.showToast('Tarif yeniden yapıldı. Eksikler sepete eklendi.', 'success');
+      } else {
+        const proceedWithoutDeduction = await this.confirmDialog(
+          'Yetersiz malzemeyle devam etmek istediğinize emin misiniz? (Malzeme düşülmeyecek.)'
+        );
+
+        if (proceedWithoutDeduction) {
+          this.showToast('Tarif yeniden yapıldı. (Eksik malzemeler düşülmedi.)', 'success');
+        } else {
+          this.showToast('İşlem iptal edildi.', 'danger');
+        }
+      }
     }
+  } catch (error) {
+    console.error('Tarifi yeniden yapma sırasında hata:', error);
+    this.showToast('Bir hata oluştu. Lütfen tekrar deneyin.', 'danger');
   }
+}
+
+
+/**
+ * Tarif halihazırda "yapılmış" (isOldRecipe = true) ise bu metotla çıkarıyoruz.
+ */
+async removeFromOldRecipes() {
+  if (!this.recipeDetail.isOldRecipe) {
+    this.showToast('Tarif zaten "yaptığım tarifler" arasında kayıtlı değil.', 'warning');
+    return;
+  }
+
+  try {
+    await this.recipeService.toggleOldRecipeStatus(this.recipeId);
+    this.recipeDetail.isOldRecipe = false;
+    this.showToast('Tarif yaptığınız tariflerden çıkarıldı.', 'success');
+  } catch (error) {
+    console.error(error);
+    this.showToast('Bir hata oluştu. Lütfen tekrar deneyin.', 'danger');
+  }
+}
+
+
+/**
+ * addToOldRecipes içindeki onaylardan sonra, gerçekten
+ * "tarifi oldRecipe olarak" işaretlemek için bu metot çağrılır.
+ * toggleOldRecipeStatus çağırırken `isOldRecipe`'yi doğrudan true'ya setleriz.
+ */
+
 
   async checkIngredients(): Promise<boolean> {
     const result = await this.recipeService.checkIngredients(this.recipeId);
@@ -252,7 +347,10 @@ export class RecipeDetailComponent  implements OnInit {
   async addOldRecipe(): Promise<void> {
     console.log("this.recipeId", this.recipeId);
     await this.recipeService.toggleOldRecipeStatus(this.recipeId);
-    this.recipeDetail.isOldRecipe = !this.recipeDetail.isOldRecipe;
+  
+    // Artık tarifi oldRecipe = true olarak işaretliyoruz.
+    this.recipeDetail.isOldRecipe = true;
+  
     this.showToast('Tarif yaptığınız tariflere eklendi.', 'success');
   }
   
