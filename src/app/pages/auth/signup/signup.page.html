@@ -51,7 +51,7 @@
           [(ngModel)]="userData.password">
         </ion-input>
         <ion-icon
-          [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+          [name]="!showPassword ? 'eye-off-outline' : 'eye-outline'"
           slot="end"
           (click)="togglePasswordVisibility()"
           class="eye-icon"
@@ -66,7 +66,7 @@
           [(ngModel)]="rePassword">
         </ion-input>
         <ion-icon
-          [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+          [name]="!showPassword ? 'eye-off-outline' : 'eye-outline'"
           slot="end"
           (click)="togglePasswordVisibility()"
           class="eye-icon"
