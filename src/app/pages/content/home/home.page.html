@@ -4,21 +4,29 @@
   <app-category [chips]="chips" (chipSelected)="onFilterChange($event)"></app-category>
   <app-searchbar (search)="onSearch($event)"></app-searchbar>
   
-  <!-- Yükleniyor (Spinner) Kısmı -->
-<ng-container *ngIf="loadingMatchedRecipes && currentFilter === 'hepsi' && !currentSearchKeyword">
-  <div class="recipes-grid-horizontal skeleton">
-    <ion-card class="recipe-card" *ngFor="let _ of [1,2,3,4]">
-      <ion-card-content>
-        <!-- Görsel alanının iskeleti -->
-        <ion-skeleton-text [animated]="true" style="width: 100%; height: 100px;"></ion-skeleton-text>
-        <!-- Başlık -->
-        <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
-        <!-- Kısa bir alt bilgi -->
-        <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
-      </ion-card-content>
-    </ion-card>
-  </div>
-</ng-container>
+  <ng-container *ngIf="loadingMatchedRecipes && currentFilter === 'hepsi' && !currentSearchKeyword">
+    <div class="skeleton-container">
+      <!-- Bilgilendirme yazısı -->
+      <div class="loading-info">
+        <p>Mutfağınıza özel öneriler yükleniyor...</p>
+      </div>
+  
+      <!-- Skeleton kartlar -->
+      <div class="recipes-grid-horizontal skeleton">
+        <ion-card class="recipe-card" *ngFor="let _ of [1,2,3,4]">
+          <ion-card-content>
+            <!-- Görsel alanının iskeleti -->
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 100px;"></ion-skeleton-text>
+            <!-- Başlık -->
+            <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            <!-- Kısa bir alt bilgi -->
+            <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+  </ng-container>
+  
 
 <!-- Başlık (sadece veriler geldikten sonra görünsün) -->
 <div 

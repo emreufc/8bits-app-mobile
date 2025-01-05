@@ -30,6 +30,31 @@ ion-content {
       border-radius: 2px;
     }
     
+    .skeleton-container {
+      display: flex;
+      flex-direction: column;
+      margin: 1rem 0; 
+      /* Dikeyde biraz boşluk */
+    }
+    
+    /* Bilgilendirme metni */
+    .loading-info {
+      text-align: center;
+      margin-bottom: 1rem;
+      p {
+        color: #666;         /* Yazı rengi */
+        font-weight: 500;    /* Yazıyı biraz vurgulamak için */
+        font-size: 1rem;     /* Boyut ayarı */
+      }
+    }
+    
+    /* Skeleton’ların bulunduğu yatay ızgara */
+    .recipes-grid-horizontal.skeleton {
+      display: flex;
+      gap: 1rem;          /* Kartlar arasında boşluk */
+      overflow-x: auto;   /* Yatay kaydırma */
+      padding: 0.5rem;    /* İç kenarlardan biraz boşluk */
+    }
     
       
     .loading-container {
