@@ -21,7 +21,7 @@ export class InventoryPage implements OnInit {
   selectedItems: any[] = [];
   isSelectMode: boolean = false;
   currentFilter: string = 'hepsi'; // Varsayılan olarak 'hepsi'
-  chips: string[] = ['Hepsi', 'Baharat', 'Bakliyat', 'Cikolata ve Soslar', 'Icecek', 'Kuruyemis', 'Meyve', 'Sebze', 'Sut Urunleri', 'Temel Gida'];
+  chips: string[] = ['Hepsi', 'Baharat', 'Bakliyat', 'Cikolata ve Soslar', 'Et', 'Icecek', 'Kuruyemis','Hamur Isi', 'Meyve', 'Sebze', 'Sut Urunleri', 'Temel Gida'];
 
   constructor(
     private route: ActivatedRoute,
@@ -38,13 +38,16 @@ export class InventoryPage implements OnInit {
     this.getMyInventory();
   }
 
-  ngAfterViewInit() {  
+  // ngAfterViewInit() {  
     
-    this.tabs.ionTabsDidChange.subscribe(async () => {
-      if (this.isActiveTab()) {
-        this.getMyInventory();
-      }
-    });
+  //   this.tabs.ionTabsDidChange.subscribe(async () => {
+  //     if (this.isActiveTab()) {
+  //       this.getMyInventory();
+  //     }
+  //   });
+  // }
+  ionViewWillEnter() {
+    this.getMyInventory();
   }
 
   isActiveTab() {
@@ -55,28 +58,91 @@ export class InventoryPage implements OnInit {
     this.currentFilter = filter.toLowerCase(); // Filtreyi küçük harfe çevir
     this.getMyInventory(); // Filtreye göre tarifleri yükle
   }
-  getMyInventory() {
-    this.kitchenService.getKitchenList().subscribe({
-      next: (response) => {
-        if (response.code === 200 && response.data) {
-          // Gelen veriyi kopyalıyoruz ve sıralamasını ters çeviriyoruz
-          this.shoppingItems = [...response.data].reverse();
-          this.filterItems();
-        } else {
-          console.error("API'den geçersiz veri alındı:", response);
-        }
-      },
-      error: (error) => {
-        console.error("Alışveriş listesi yüklenirken hata oluştu:", error);
-      },
-    });
   
-    // Bu satır, subscribe içindeki veriyi beklemeden çalışır.
-    // Dolayısıyla dizi atanmadığı için filterItems burada pek işe yaramayacaktır.
-    // Dilersen bu satırı kaldırabilirsin, ya da diziyi beklemek istiyorsan
-    // filterItems çağrısını yukarıdaki if bloklarında kullanmak daha mantıklıdır.
-    this.filterItems();
+  async getMyInventory() {
+    if (this.currentFilter.toLowerCase() === 'hepsi') {
+      this.kitchenService.getKitchenList().subscribe({
+        next: async (response) => {
+          if (response.code === 200 && response.data) {
+            this.shoppingItems = [...response.data].reverse();
+            this.filterItems();
+          } else {
+            console.error("API'den geçersiz veri alındı:", response);
+            this.shoppingItems = [];
+            // Ionic alert
+            const alert = await this.alertController.create({
+              header: 'Bilgi',
+              message: 'Seçilen kategoride malzeme bulunamadı.',
+              buttons: ['Tamam']
+            });
+            await alert.present();
+          }
+        },
+        error: async (error) => {
+          console.error("Mutfak envanteri yüklenirken hata oluştu:", error);
+          this.shoppingItems = [];
+          
+          if (error.status === 404) {
+            const alert = await this.alertController.create({
+              header: 'Bilgi',
+              message: 'Seçilen kategoride malzeme bulunamadı.',
+              buttons: ['Tamam']
+            });
+            await alert.present();
+          } else {
+            // 404 dışındaki durumlar için de aynı veya farklı mesaj
+            const alert = await this.alertController.create({
+              header: 'Hata',
+              message: 'Bir hata oluştu. Lütfen tekrar deneyin.',
+              buttons: ['Tamam']
+            });
+            await alert.present();
+          }
+        }
+      });
+    } else {
+      this.kitchenService.getMyShoppingListByCategory([this.currentFilter])
+        .subscribe({
+          next: async (response) => {
+            if (response.code === 200 && response.data) {
+              this.shoppingItems = [...response.data].reverse();
+              this.filterItems();
+            } else {
+              console.error("API'den geçersiz veri alındı:", response);
+              this.shoppingItems = [];
+              const alert = await this.alertController.create({
+                header: 'Bilgi',
+                message: 'Seçilen kategoride malzeme bulunamadı.',
+                buttons: ['Tamam']
+              });
+              await alert.present();
+            }
+          },
+          error: async (error) => {
+            console.error('Alışveriş listesi yüklenirken hata oluştu:', error);
+            this.shoppingItems = [];
+  
+            if (error.status === 404) {
+              const alert = await this.alertController.create({
+                header: 'Bilgi',
+                message: 'Seçilen kategoride malzeme bulunamadı.',
+                buttons: ['Tamam']
+              });
+              await alert.present();
+            } else {
+              const alert = await this.alertController.create({
+                header: 'Hata',
+                message: 'Bir hata oluştu. Lütfen tekrar deneyin.',
+                buttons: ['Tamam']
+              });
+              await alert.present();
+            }
+          }
+        });
+    }
   }
+  
+  
 
 
   onSearchChange(event: any) {
