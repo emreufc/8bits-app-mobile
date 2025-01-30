@@ -1,79 +1,77 @@
-
 # 8bites
 
-Bu uygulama 7 kişiden oluşan İTÜ Bilgisayar Mühendisliği öğrencilerinin Software Engineering Projesi uygulamasıdır. Bu proje, kullanıcıya özel yemek tarifleri öneren, alışveriş sepeti ve envanter saklama gibi özellikleri bulunan, yapılan tariflerin malzemelerini mutfaktaki malzemelerden düşen ve kullanıcın sahip olduğu malzemelere göre kullanıcıya yemek önerisinde bulunan bir mobil uygulamadır. Uygulamanın arayüz akışı ve backend isteklerinin detaylıca anlatıldığı demo videosuna linkten ulaşabilirsiniz : https://drive.google.com/file/d/1t82_sSYkLF6yDWvukfuv3dIUyxev8I20/view?usp=sharing
+This application is a Software Engineering Project developed by seven ITU Computer Engineering students. The project is a mobile application that provides personalized recipe recommendations, shopping cart and inventory management features. It automatically deducts the ingredients used in recipes from the kitchen inventory and suggests meals based on the available ingredients. You can watch the detailed demo video explaining the UI flow and backend requests from the following link: [Demo Video](https://drive.google.com/file/d/1t82_sSYkLF6yDWvukfuv3dIUyxev8I20/view?usp=sharing)
 
-## Başlarken
+## Getting Started
 
-Bu proje için aşağıdaki adımları takip ederek yerel ortamınızda çalıştırabilirsiniz.
+Follow the steps below to run this project on your local environment.
 
-### Gereksinimler
+### Requirements
 
-- [Node.js](https://nodejs.org/) (v14 veya üzeri)
-- [NPM](https://www.npmjs.com/) (Node.js ile birlikte gelir) veya [Yarn](https://yarnpkg.com/)
-- [Ionic CLI](https://ionicframework.com/docs/cli/installation) (Global olarak kurulmalıdır)
+- [Node.js](https://nodejs.org/) (v14 or higher)
+- [NPM](https://www.npmjs.com/) (comes with Node.js) or [Yarn](https://yarnpkg.com/)
+- [Ionic CLI](https://ionicframework.com/docs/cli/installation) (Must be installed globally)
 
-### Kurulum
+### Installation
 
-1. **Node.js** ve **NPM**'in kurulu olduğundan emin olun:
+1. Ensure that **Node.js** and **NPM** are installed:
    ```bash
    node -v
    npm -v
    ```
 
-2. **Ionic CLI**'yi global olarak kurun:
+2. Install **Ionic CLI** globally:
    ```bash
    npm install -g @ionic/cli
    ```
 
-3. Projenizi klonlayın veya yeni bir Ionic projesi başlatın:
+3. Clone the project or start a new Ionic project:
    ```bash
-   git clone https://github.com/kullanici/proje-adi.git
-   cd proje-adi
+   git clone https://github.com/user/project-name.git
+   cd project-name
    ```
 
-   *veya*
-
+   *or*
    ```bash
-   ionic start proje-adi blank
-   cd proje-adi
+   ionic start project-name blank
+   cd project-name
    ```
 
-4. Proje bağımlılıklarını yükleyin:
+4. Install project dependencies:
    ```bash
    npm install
    ```
 
-### Geliştirme Sunucusunu Başlatma
+### Starting the Development Server
 
-Projenizi yerel geliştirme ortamında çalıştırmak için aşağıdaki komutu kullanın:
+To run the project in your local development environment, use the following command:
 ```bash
 ionic serve
 ```
 
-Bu komut, projeyi yerel olarak `http://localhost:8100` adresinde başlatır ve dosyalarınızda yapılan değişiklikler otomatik olarak yenilenir. Bu yöntem, hızlı bir şekilde geliştirme yaparken projeyi test etmek için idealdir.
+This command starts the project locally on `http://localhost:8100` and automatically reloads changes made to the files. This is ideal for rapid development and testing.
 
-### Uygulamayı Cihaz veya Emülatörde Çalıştırma
+### Running the Application on a Device or Emulator
 
-1. **Android veya iOS platformunu ekleyin**:
+1. **Add Android or iOS platform:**
    ```bash
    ionic capacitor add android
    ionic capacitor add ios
    ```
 
-2. Uygulamayı cihazda veya emülatörde çalıştırın:
+2. Run the application on a device or emulator:
    ```bash
    ionic capacitor run android
    ionic capacitor run ios
    ```
 
-   *Not: iOS için Mac bilgisayara ve Xcode'a ihtiyacınız vardır.*
+   *Note: You need a Mac and Xcode to run the iOS application.*
 
-## Proje Yapısı
+## Project Structure
 
-Projenin genel klasör yapısı şu şekildedir:
+The general folder structure of the project is as follows:
 ```
-proje-adi/
+project-name/
 ├── src/
 │   ├── app/
 │   ├── assets/
@@ -84,15 +82,14 @@ proje-adi/
 └── README.md
 ```
 
-## Faydalı Komutlar
+## Useful Commands
 
-- **Ionic uygulamasını paketlemek için**:
+- **To build the Ionic application:**
   ```bash
   ionic build
   ```
 
-- **Capacitor komutlarını senkronize etmek için**:
+- **To synchronize Capacitor commands:**
   ```bash
   ionic capacitor sync
-  ```
-
+  
