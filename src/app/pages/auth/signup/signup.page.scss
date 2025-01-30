@@ -7,6 +7,44 @@ ion-header {
   }
   
   ion-content {
+
+    /* Metni tıklanabilir göstermek ve renklendirmek için */
+.terms-label {
+  cursor: pointer;          /* Fare imlecini "el" olarak gösterir */
+  color: var(--ion-color-primary); /* Ionic'in ana rengini uygular */
+  text-decoration: underline;      /* Altı çizili metin görüntüsü */
+}
+
+      /* Modal içindeki metinlerin görünümünü iyileştirme */
+      .terms-content {
+        font-size: 15px;
+        line-height: 1.5; /* Paragraflar arası okunabilirlik */
+        color: #444;      /* Yazı rengi */
+        
+        h2 {
+          margin-top: 8px;
+          margin-bottom: 8px;
+          font-weight: 600;
+        }
+
+        h3 {
+          margin-top: 12px;
+          margin-bottom: 8px;
+          font-weight: 500;
+        }
+
+        p {
+          margin-bottom: 10px;
+        }
+        
+        ul {
+          margin-left: 16px;
+          li {
+            margin-bottom: 6px;
+          }
+        }
+      }
+
     .curved-header {
       background: #FF8C00; /* Üst kısım için turuncu arka plan */
       height: 30vh; /* 30% dikey alanı kaplar */
@@ -96,6 +134,7 @@ ion-header {
     .signup-button {
       --background: #FF8C00; /* Giriş butonu turuncu */
       --border-radius: 25px; /* Kenarlar yuvarlak */
+      --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Hafif gölge */
       margin: 20px 0; /* Üst ve alt boşluk */
       height: 48px; /* Buton yüksekliği */
     }
@@ -151,5 +190,17 @@ ion-header {
         height: auto; /* Yükseklik otomatik */
         line-height: normal; /* Satır yüksekliği normal */
       }
+    }
+    /* filepath: /Users/mbanzaroglu/Desktop/ITU/Software Engineering/8bits-app-mobile/src/app/pages/auth/signup/signup.page.scss */
+    .phone-field {
+      display: flex;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .country-code {
+      width: 60px;
+      text-align: center;
+      margin-right: 8px;
     }
   }

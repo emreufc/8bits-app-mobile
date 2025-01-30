@@ -1,0 +1,62 @@
+.category-section {
+  margin-bottom: 0px; /* Alt marj */
+}
+
+.header-row {
+  display: flex; /* Esnek kutu düzeni */
+  justify-content: space-between; /* Elemanları yatayda dağıt */
+  align-items: center; /* Elemanları dikeyde ortala */
+  margin-bottom: 12px; /* Alt marj */
+}
+
+.see-all {
+  color: #f4a460; /* Yazı rengi */
+  text-decoration: none; /* Alt çizgi yok */
+}
+
+.scroll-container {
+  display: flex; /* Esnek kutu düzeni */
+  flex-wrap: nowrap; /* Satır taşmasını engeller */
+  overflow-x: auto; /* Yatay taşma */
+  gap: 12px; /* Elemanlar arası boşluk */
+  padding-bottom: 8px; /* Alt iç boşluk */
+  -webkit-overflow-scrolling: auto; /* Dokunmatik kaydırma */
+  scroll-behavior: smooth; /* Yumuşak kaydırma */
+  -ms-overflow-style: none;  /* IE ve Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+ion-chip {
+  --background: #f4f5f8; /* Varsayılan arka plan rengi */
+  --color: #000; /* Varsayılan yazı rengi */
+  font-size: 16px; /* Yazı boyutu */
+  white-space: nowrap; /* Tek satırda kalmasını sağlar */
+  cursor: pointer; /* Fare imlecini tık */
+  display: inline-flex; /* Satır içi esneklik sağlar */
+  align-items: center; /* Dikey ortalama */
+  justify-content: center; /* Yatay ortalama */
+  padding: 0 12px; /* Eşit sol ve sağ padding */
+  height: 35px; /* Chip'in yüksekliği */
+  box-sizing: border-box; /* Padding'in toplam genişliği etkilemesini engeller */
+  flex: none; /* Esnek büyüme ve küçülmeyi engeller */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Yumuşak geçişler */
+  border-radius: 50px;
+}
+
+.selected-chip {
+  --background: #FF8C00; /* Seçili chip'in arka plan rengi */
+  --color: #fff; /* Seçili chip'in yazı rengi */
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background: #cccccc; /* Kaydırma çubuğu rengi */
+  border-radius: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}

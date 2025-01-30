@@ -1,0 +1,8 @@
+ion-content {
+    --padding-bottom: 50px; /* Alt iç boşluk */
+    .recipes-grid {
+        display: grid; /* Izgara düzeni */
+        gap: 16px; /* Elemanlar arası boşluk */
+        grid-template-columns: repeat(2, 1fr); /* Her zaman iki sütun */
+    }
+}

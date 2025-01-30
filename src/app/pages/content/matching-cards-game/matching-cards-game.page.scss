@@ -1,0 +1,110 @@
+ion-content {
+    .start-screen {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .list-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 16px;
+    padding-bottom: 0px;
+      h1 {
+        font-family: 'Roboto', sans-serif;
+        font-size: 28px;
+        font-weight: 500;
+        color: #1f2937;
+        margin: 0;
+        letter-spacing: 0.5px;
+        text-transform: capitalize;
+        position: relative;
+      }
+  
+      h1::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -8px;
+        width: 300px;
+        height: 2px;
+        background-color: #FF8C00;
+      }
+    }
+    
+    .game-info-container {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .game-container {
+      margin: 50px auto;
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+      grid-gap: 10px;
+      justify-content: center;
+    }
+    
+    .card {
+      position: relative;
+      height: 100px;
+      width: 80px;
+      cursor: pointer;
+    }
+    
+    .card-face {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      border: 1px solid #ff6d00;
+      overflow: hidden;
+      transition: transform 0.5s ease-in-out;
+      backface-visibility: hidden;
+    }
+  
+    @keyframes dance {
+      0%, 100%  {
+        transform: rotate(0);
+      }
+      25% {
+        transform: rotate(-30deg);
+      }
+      75% {
+        transform: rotate(30deg);
+      }
+    }
+    
+    .card.matched ion-icon {
+      animation: dance 1s linear infinite 500ms;
+    }
+    
+    
+    .card.visible .card-back {
+      transform: rotateY(-180deg);
+    }
+    
+    .card.visible .card-front {
+      transform: rotateY(0);
+    }
+    
+    .card-back {
+      background-color: black;
+      transform: rotateY(0);
+    }
+    
+    .card-front {
+      background-color: black;
+      transform: rotateY(180deg);
+    }
+    
+  }
+  

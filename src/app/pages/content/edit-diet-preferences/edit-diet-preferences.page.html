@@ -1,0 +1,28 @@
+<ion-content>
+  <div class="curved-header">
+    <h1>Diyet tercihlerinizi oluşturmak ister misiniz?</h1>
+    <h2>Size yalnızca diyetinize yönelik tarifler göstereceğiz.</h2>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let diet of dietOptions">
+        <ion-button
+          expand="block"
+          fill="clear"
+          class="diet-button"
+          [ngClass]="{ 'selected': isDietSelected(diet.dietTypeId) }"
+          (click)="toggleDiet(diet)">
+          <ion-icon [src]="diet.icon" slot="start"></ion-icon>
+          {{ diet.dietTypeName }}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+
+  
+  <ion-button expand="block" fill="clear" shape="round" class="next-button" (click)="next()" [disabled]="selectedDiets.size === 0"
+  >İlerle</ion-button>
+
+</ion-content>
+

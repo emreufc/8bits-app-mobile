@@ -1,0 +1,177 @@
+<ion-content>
+  <div class="profile-container">
+    <ion-avatar class="profile-avatar" (click)="triggerFileInput()">
+      <div 
+        *ngIf="!user.imageUrl" 
+        class="user-avatar" 
+        [ngStyle]="{ 'background-color': userColor }"
+      >
+        {{ userInitial }}
+      </div>
+      <img *ngIf="user.imageUrl" [src]="user.imageUrl" alt="{{ user.name }}" />
+      <!-- <ion-icon (click)="fileInput.click()" src="assets/icon/pencil.svg"></ion-icon> -->
+    </ion-avatar>
+    <h2>{{ user.name }} {{ user.surname }}</h2>
+  </div>
+
+  <ion-list>
+    <!-- First Name -->
+    <ion-item lines="full">
+      <ion-label position="stacked">Ad</ion-label>
+      <ion-input 
+        [disabled]="!isEditingFirstName" 
+        [(ngModel)]="user.name">
+      </ion-input>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="toggleEdit('firstName')">
+          {{ isEditingFirstName ? 'Kaydet' : 'Düzenle' }}
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <!-- Last Name -->
+    <ion-item lines="full">
+      <ion-label position="stacked">Soyad</ion-label>
+      <ion-input 
+        [disabled]="!isEditingLastName" 
+        [(ngModel)]="user.surname">
+      </ion-input>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="toggleEdit('lastName')">
+          {{ isEditingLastName ? 'Kaydet' : 'Düzenle' }}
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <!-- Gender -->
+    <ion-item lines="full">
+      <ion-label position="stacked">Cinsiyet</ion-label>
+      <ng-container *ngIf="isEditingGender; else genderText">
+        <ion-select interface="action-sheet" [(ngModel)]="user.gender">
+          <ion-select-option value="Male">Male</ion-select-option>
+          <ion-select-option value="Female">Female</ion-select-option>
+          <ion-select-option value="Other">Other</ion-select-option>
+        </ion-select>
+      </ng-container>
+      <ng-template #genderText>
+        <div class="static-text">{{ user.gender }}</div>
+      </ng-template>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="toggleEdit('gender')">
+          {{ isEditingGender ? 'Kaydet' : 'Düzenle' }}
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <!-- Email -->
+    <ion-item lines="full">
+      <ion-label position="stacked">Mail Adresi</ion-label>
+      <ion-input 
+        [disabled]="!isEditingEmail" 
+        [(ngModel)]="user.email">
+      </ion-input>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="toggleEdit('email')">
+          {{ isEditingEmail ? 'Kaydet' : 'Düzenle' }}
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <!-- Mobile Number -->
+    <ion-item lines="full">
+      <ion-label position="stacked">Telefon Numarası</ion-label>
+      <ion-input 
+        [disabled]="!isEditingMobileNumber" 
+        [(ngModel)]="user.phoneNumber">
+      </ion-input>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="toggleEdit('mobileNumber')">
+          {{ isEditingMobileNumber ? 'Kaydet' : 'Düzenle' }}
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <!-- Birthday -->
+    <ion-item lines="full">
+      <ion-label position="stacked">Doğum Günü</ion-label>
+      <ng-container *ngIf="isEditingBirthday; else birthdayText">
+        <ion-datetime display-format="DD MMM YYYY" [(ngModel)]="user.dateOfBirth"></ion-datetime>
+      </ng-container>
+      <ng-template #birthdayText>
+        <div class="static-text">{{ user.dateOfBirth | date:'dd MMM yyyy' }}</div>
+      </ng-template>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="toggleEdit('birthday')">
+          {{ isEditingBirthday ? 'Kaydet' : 'Düzenle' }}
+        </ion-button>
+      </ion-buttons>
+    </ion-item> 
+    <ion-item lines="full" class="diet-preferences-item">
+      <ion-label position="stacked">Diyet Tercihleri</ion-label>
+      <div class="diet-list">
+        <!-- Seçili diyetleri chip halinde gösteriyoruz -->
+        <ng-container *ngFor="let option of dietOptions">
+          <!-- selectedDietIds.has(option.id) => true ise seçili demek -->
+          <ion-chip *ngIf="selectedDietIds.has(option.id)" class="diet-chip">
+            <ion-label>{{ option.name }}</ion-label>
+            <ion-icon name="close-circle" (click)="removeDietPreference(option.id)"></ion-icon>
+          </ion-chip>
+        </ng-container>
+    
+        <!-- Yeni diyet seçeneği eklemek için modalı açan chip -->
+        <ion-chip (click)="openDietModal()">
+          <ion-icon name="add-circle"></ion-icon>
+        </ion-chip>
+      </div>
+    </ion-item>
+    
+
+    
+    <ion-modal [isOpen]="isDietModalOpen" (ionModalWillDismiss)="closeDietModal()">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title style="color: #FF8C00">
+              Diyet Tercihi Seç
+            </ion-title>
+              <ion-buttons slot="end">
+              <ion-button (click)="closeDietModal()">Kapat</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-list>
+            <!-- Tüm diyet seçenekleri checkbox halinde gösterilir -->
+            <ion-item *ngFor="let option of dietOptions">
+              <ion-label>{{ option.name }}</ion-label>
+              <ion-checkbox slot="end"
+                            [checked]="selectedDietIds.has(option.id)"
+                            (ionChange)="onCheckboxChange($event, option.id)">
+              </ion-checkbox>
+            </ion-item>
+          </ion-list>
+          <ion-button expand="block" (click)="saveDietPreferences()">Kaydet</ion-button>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+      
+  </ion-list>
+
+  <!-- Save Changes Button -->
+      <ion-button class="saveButton" expand="block" color="primary" (click)="saveChanges()">
+        
+        <span *ngIf="!loading; else spin">Değişiklikleri Kaydet</span>
+        <ng-template #spin>
+          <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+        </ng-template>
+      </ion-button>
+
+</ion-content>
+
+<input 
+  #fileInput 
+  type="file" 
+  style="display: none;" 
+  (change)="onFileSelected($event)" 
+  accept="image/*" 
+/>

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NavController, AlertController } from '@ionic/angular';
+import { AuthService } from 'src/app/core/services/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -7,8 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginPage implements OnInit {
 
-  email: string = '';
-  password: string = '';
+  public loginForm = new FormGroup({
+    email: new FormControl<string>(''),
+    password: new FormControl<string>(''),
+  });
+
+  public showpassword = false;
+  public remember = false;
+  public loading = false;
+  public loginError = false;
 
   // This property controls whether the password is shown or hidden
   showPassword: boolean = false;
@@ -18,13 +28,80 @@ export class LoginPage implements OnInit {
     this.showPassword = !this.showPassword;
   }
   
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private navCtrl: NavController,
+    private alertController: AlertController,
+  ) { }
 
   ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      email: ['', Validators.compose([Validators.email, Validators.required])],
+      password: ['', Validators.required],
+    });
   }
 
-  onLogin() {
+  login() {
+    console.log('loginForm', this.loginForm.value);
+    // if (this.loading || this.loginForm.invalid) {
+    //   return;
+    // }
 
+    this.loading = true;
+    this.loginError = false;
+
+    this.authService.login({
+      email: this.loginForm.value.email as string,
+      password: this.loginForm.value.password as string,
+    }).subscribe(() => {
+      this.navCtrl.navigateRoot('/content/home');
+      this.loading = false;
+    }, (error) => {
+      console.log('error', error);
+      this.loginError = true;
+      this.loading = false;
+    });
   }
 
+  async loginWith(type: string) {
+    this.loading = true;
+
+    if (type === 'google') {
+      this.showAlert('Google ile giriş yap seçildi.', 'Bilgilendirme');
+      this.authService.loginWithGoogle().then((value: any) => {
+        if (value.status) {
+          if (value.isNewUser) {
+            this.navCtrl.navigateRoot('/content/health-form');
+          } else {
+            this.navCtrl.navigateRoot('/content/home');
+          }
+        }
+      });
+    } else if (type === 'facebook') {
+      this.showAlert('Facebook ile giriş yap seçildi.', 'Bilgilendirme');
+      this.authService.loginWithFacebook().then((value: any) => {
+        if (value.status) {
+          if (value.isNewUser) {
+            this.navCtrl.navigateRoot('/content/health-form');
+          } else {
+            this.navCtrl.navigateRoot('/content/home');
+          }
+        }
+      });
+    }
+  }
+
+  // This method creates and displays an alert
+  async showAlert(message: string, header: string) {
+    const alert = await this.alertController.create({
+      header: header,
+      message: message,
+      buttons: ['Tamam'],
+    });
+
+    await alert.present();
+  }
 }
+

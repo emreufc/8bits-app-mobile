@@ -1,0 +1,180 @@
+ion-header {
+  ion-toolbar {
+    background: #FF8C00;
+    color: #fff;
+  }
+}
+
+ion-content {
+  --padding-bottom: 10px !important;
+  .profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    text-align: center;
+
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      border-radius: 50%;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .profile-avatar::after {
+      content: '✏️';
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      background-color: white;
+      border-radius: 50%;
+      padding: 5px;
+      font-size: 12px;
+    }
+
+    h2 {
+      font-weight: bold;
+      margin: 0;
+      margin-bottom: 5px;
+      font-size: 1.4em;
+      color: #FF8C00;
+    }
+
+    p {
+      margin: 0;
+      color: #666;
+    }
+  }
+
+  ion-list {
+    margin-top: 30px;
+    padding: 0 20px;
+  }
+
+  /* Her bir itemda tam çizgi olsun, hizalama düzgün olsun */
+  ion-item {
+    margin-bottom: 20px;
+    --padding-start: 0px; /* Başlangıç paddingini kaldır */
+    --inner-padding-top: 0px;
+    --inner-padding-bottom: 0px;
+    --inner-padding-end: 0px; 
+    /* Böylece label ve metinler sol hizalı, tutarlı gözükür. */
+  }
+
+  /* Label'ların rengi gri (soluk görünüm) */
+  ion-label {
+    font-size: 0.9em;
+    color: #666 !important; /* Gri renk */
+    margin-bottom: 0 !important; /* Alt boşluğu kaldır */
+    /* Etiketler başlık olarak daha soluk görünür */
+  }
+
+  ion-input[disabled] {
+    color: #000 !important; /* Siyah renk */
+    opacity: 1 !important; /* Opaklık tamamen görünür olacak */
+    pointer-events: none; /* Disabled kalmaya devam eder */
+  }
+  
+  /* Input metin rengi siyah olacak */
+  ion-input, 
+  ion-select, 
+  ion-datetime{
+    font-size: 1em !important;
+    color: #000 !important; /* Siyah renk */
+    --background: transparent;
+    --border: none;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important; /* Fazladan paddingleri kaldır */
+    margin: 0 !important;  /* Fazladan marginleri kaldır */
+    display: block; /* Hepsi block gibi davransın, böylece hizalama sorunları azalır */
+  }
+  .static-text {
+    padding-left: 15px;
+    padding-bottom: 15px;
+  }
+  ion-datetime {
+    --ion-color-primary: #FF8C00; /* Seçili tarih için turuncu renk */
+    --ion-color-primary-contrast: #fff; /* Seçili tarihin metin rengi */
+    --ion-color-primary-shade: #e07b00; /* Turuncu rengin koyu tonu */
+    --ion-color-primary-tint: #ffa94d; /* Turuncu rengin açık tonu */
+  
+    --background: #fff; /* Arka plan beyaz */
+    --color: #000; /* Tarih metin rengi siyah */
+  } 
+  
+
+  /* Edit butonu turuncu olsun */
+  ion-button[fill="clear"] {
+    --color: #FF8C00;
+    font-size: 0.9em;
+  }
+  ion-button.saveButton {
+    --background: #FF8C00 !important; /* Arka plan rengi turuncu */
+    --border-radius: 25px; /* Köşe yuvarlatma */
+    --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Hafif gölge */
+    color: white; /* Metin rengi beyaz */
+    margin: 20px 0; /* Üst ve alt boşluk */
+    height: 48px; /* Yükseklik */
+    width: 100%;
+    padding : 0 20px;
+  }
+  ion-toolbar {
+    display: flex;
+    justify-content: center; /* Butonu yatay olarak ortalar */
+    align-items: center; /* Butonu dikey olarak ortalar */
+    padding: 0 20px; /* Kenarlardan uzaklaştırır */
+  }
+  
+  ion-item.diet-preferences-item {
+    display: block !important; /* Tüm içeriği yatay olarak kaplar */
+    width: 100%; /* Tam genişlikte olur */
+    margin-bottom: 20px; /* Altında boşluk bırakır */
+    clear: both !important; /* Yanına hiçbir şey gelmesini engeller */
+      ion-label {
+        display: block !important;    /* Blok düzende yerleştirir */
+        width: 100% !important;       /* Yatay doğrultuda tüm satırı kaplar */
+        margin: 0 !important;         /* Kenarlardaki olası boşlukları kaldırır */
+      }
+  }
+  
+  .diet-list {
+    display: flex;
+    flex-wrap: wrap; /* Chip'lerin satırlara taşınmasını sağlar */
+    gap: 10px; /* Chip'ler arasında boşluk bırakır */
+    margin-top: 15px; /* Label ile chip'ler arasında boşluk bırakır */
+    justify-content: flex-start; /* Chip'leri sola hizalar */
+  }
+  
+  ion-chip {
+    --background: #FF8C00 !important;
+    --color: white !important; /* Yazılar beyaz */
+    font-size: 0.9em;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+  }
+
+  ion-item .diet-preferences-list ion-chip .diet-chip {
+    --color: white !important; /* Yazı rengini beyaz yapar */
+    --background: #FF8C00;
+  }
+  
+  ion-chip ion-icon {
+    margin-left: 5px;
+    font-size: 1.2em;
+    color: white !important; /* İkon beyaz */
+  }
+  
+  ion-chip:last-child {
+    --background: #fff !important;
+    --color: #FF8C00;
+    border: 1px dashed #FF8C00;
+  }
+  
+  
+  
+}

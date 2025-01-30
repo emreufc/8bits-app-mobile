@@ -1,20 +1,21 @@
-<ion-header mode="ios">
+<ion-header class="light-header">
   <ion-toolbar>
-    <ion-item lines="none" >
-      <ion-avatar>
-        <img src="https://picsum.photos/200/300" width="40" height="40" style="border-radius: 100%;">
+    <ion-item lines="none">
+      <ion-avatar class="profile-avatar">
+        <div 
+          *ngIf="!user.imageUrl" 
+          class="user-avatar" 
+          [ngStyle]="{ 'background-color': userColor }"
+        >
+          {{ userInitial }}
+        </div>
+        <img *ngIf="user.imageUrl" [src]="user.imageUrl" alt="{{ user.name }}" />
       </ion-avatar>
       <ion-label>
         <h5>Hoşgeldin, 👋🏻</h5>
-        <h6 *ngIf="user">{{ user.name }} {{ user.surname }}</h6>
+        <h6 class="user-name" *ngIf="user">{{ userName }}</h6>
       </ion-label>
-    </ion-item>
-    <ion-item slot="end" lines="none">
-    <ion-buttons>
-      <ion-button [routerLink]="['/content/favorites']">
-        <ion-icon slot="icon-only" src="/assets/icon/notification.svg"></ion-icon>
-      </ion-button>
-    </ion-buttons>
     </ion-item>
   </ion-toolbar>
 </ion-header>
+

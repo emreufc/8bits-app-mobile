@@ -1,7 +1,7 @@
 
-# 8bits
+# 8bites
 
-Bu proje, Ionic kullanılarak geliştirilmiş bir mobil uygulama projesidir. Bu doküman, projeyi kurmak ve ayağa kaldırmak için gerekli adımları içermektedir.
+Bu uygulama 7 kişiden oluşan İTÜ Bilgisayar Mühendisliği öğrencilerinin Software Engineering Projesi uygulamasıdır. Bu proje, kullanıcıya özel yemek tarifleri öneren, alışveriş sepeti ve envanter saklama gibi özellikleri bulunan, yapılan tariflerin malzemelerini mutfaktaki malzemelerden düşen ve kullanıcın sahip olduğu malzemelere göre kullanıcıya yemek önerisinde bulunan bir mobil uygulamadır. Uygulamanın arayüz akışı ve backend isteklerinin detaylıca anlatıldığı demo videosuna linkten ulaşabilirsiniz : https://drive.google.com/file/d/1t82_sSYkLF6yDWvukfuv3dIUyxev8I20/view?usp=sharing
 
 ## Başlarken
 
@@ -96,6 +96,3 @@ proje-adi/
   ionic capacitor sync
   ```
 
-## Destek
-
-Sorularınız veya yardıma ihtiyaç duyduğunuz durumlar için [Ionic belgelerine](https://ionicframework.com/docs) göz atabilirsiniz.

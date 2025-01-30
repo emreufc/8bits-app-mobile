@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { User } from 'src/app/core/models/user';
+import { lastValueFrom } from 'rxjs';
 
 /**
  * SignupPage component handles the user signup functionality.
- * It includes form fields for name, email, password, and re-entered password.
- * It also includes a toggle for password visibility and a checkbox for terms acceptance.
  */
 @Component({
   selector: 'app-signup',
@@ -13,72 +14,114 @@ import { AlertController } from '@ionic/angular';
 })
 export class SignupPage implements OnInit {
   showPassword = false; // Indicates whether the password is visible or not.
-  name: string = ''; // Stores the user's name.
-  email: string = ''; // Stores the user's email.
-  password: string = ''; // Stores the user's password.
   rePassword: string = ''; // Stores the re-entered password for confirmation.
   termsAccepted: boolean = false; // Indicates whether the user has accepted the terms and conditions.
+  showTermsModal: boolean = false;
+
+  /**
+   * Interface for user data structure.
+   */
+
+
+  // Kullanıcı verileri için User interface'ini kullanıyoruz
+  userData: User = {
+    name: '',
+    surname: '',
+    email: '',
+    phoneNumber: '+90',
+    password: '',
+  };
 
   /**
    * Constructor for SignupPage.
    * @param alertController - Injects AlertController for displaying alerts.
+   * @param authService - Handles authentication-related operations.
    */
-  constructor(private alertController: AlertController) { }
-  
+  constructor(private alertController: AlertController, private authService: AuthService, private navController: NavController) {}
+
+  ngOnInit() {
+    // Initialization logic can be added here
+    console.log('SignupPage initialized');
+  }
+
+  openTermsModal() {
+    this.showTermsModal = true;
+  }
+
+  // YENİ EKLENDİ: Modal kapama
+  closeTermsModal() {
+    this.showTermsModal = false;
+  }
+
   /**
    * Toggles the visibility of the password field.
    */
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
-  
+
   /**
-   * Handles the signup process.
-   * Validates the terms acceptance and password match.
-   * Displays appropriate alerts if validation fails.
-   * Logs the signup data to the console.
+   * Ensures phone number starts with +90.
    */
-  async onSignup() {
-    if (!this.termsAccepted) {
-      const alert = await this.alertController.create({
-        header: 'Terms and Conditions',
-        message: 'You must accept the terms and conditions to sign up.',
-        buttons: ['OK']
-      });
-      await alert.present();
-      return;
+  enforcePrefix(event: any): void {
+    let val: string = event.target.value || '';
+    if (!val.startsWith('+90 ')) {
+      val = '+90 ' + val.replace(/^\+90\s*/, '');
     }
-
-    if (this.password !== this.rePassword) {
-      const alert = await this.alertController.create({
-        header: 'Password Mismatch',
-        message: 'Passwords do not match.',
-        buttons: ['OK']
-      });
-      await alert.present();
-      return;
-    }
-
-    const signupData = {
-      name: this.name,
-      email: this.email,
-      password: this.password
-    };
-
-    // Backend API call will be made here
-    console.log('Sign up data:', signupData);
-    // For example, you can make an API call using HttpClient
-    // this.http.post('https://api.example.com/signup', signupData)
-    //   .subscribe(response => {
-    //     console.log('Sign up successful', response);
-    //   }, error => {
-    //     console.error('Sign up error', error);
-    //   });
+    this.userData.phoneNumber = val;
+    event.target.value = this.userData.phoneNumber;
   }
 
   /**
-   * Lifecycle hook that is called after data-bound properties are initialized.
+   * Kayıt olma işlemini gerçekleştirir.
+   * Kullanıcının şartları kabul edip etmediğini ve şifrelerin eşleşip eşleşmediğini kontrol eder.
+   * Doğrulama başarısız olursa uygun uyarılar gösterir.
    */
-  ngOnInit() {
+  async onSignup() {
+    // Kullanıcı şartları kabul etmemişse uyarı göster
+    if (!this.termsAccepted) {
+      const alert = await this.alertController.create({
+        header: 'Şartlar ve Koşullar',
+        message: 'Kayıt olmak için şartlar ve koşulları kabul etmelisiniz.',
+        buttons: ['Tamam'],
+      });
+      await alert.present();
+      return;
+    }
+
+    // Şifreler eşleşmiyorsa uyarı göster
+    if (this.userData.password !== this.rePassword) {
+      const alert = await this.alertController.create({
+        header: 'Şifre Uyuşmazlığı',
+        message: 'Şifreler uyuşmuyor.',
+        buttons: ['Tamam'],
+      });
+      await alert.present();
+      return;
+    }
+
+    // Kayıt olma işlemini gerçekleştir
+    try {
+      const response: any = await lastValueFrom(this.authService.register(this.userData));
+      // Kayıt başarılıysa uyarı göster
+      const alert = await this.alertController.create({
+      header: 'Kayıt Başarılı',
+      message: 'Hesabınız başarıyla oluşturuldu.',
+      buttons: ['Tamam'],
+      });
+      await alert.present();
+      console.log(response);
+      // Başarılı kayıt sonrası giriş sayfasına yönlendir
+      this.navController.navigateRoot('/content/edit-diet-preferences');
+    } catch (error: any) {
+      console.error(error);
+      // Kayıt başarısızsa uyarı göster
+      const alert = await this.alertController.create({
+      header: 'Kayıt Başarısız',
+      message: 'Hesabınız oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.',
+      buttons: ['Tamam'],
+      });
+      await alert.present();
+    }
   }
 }

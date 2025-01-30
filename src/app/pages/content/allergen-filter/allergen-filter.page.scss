@@ -1,0 +1,73 @@
+ion-header {
+    position: absolute; /* Header'ın sayfa içinde mutlak konumlandırılması */
+    
+    ion-toolbar {
+      --background: transparent; /* Arka planı şeffaf ayarlanmış */
+    }
+  }
+  
+  ion-content {
+    .curved-header {
+      background: #FF8C00; /* Üst kısım için turuncu arka plan */
+      height: auto; /* Yükseklik içeriğe göre otomatik ayarlansın */
+      border-bottom-left-radius: 30px; /* Sol alt köşe kıvrımlı */
+      border-bottom-right-radius: 30px; /* Sağ alt köşe kıvrımlı */
+      padding: 15px 20px; /* Daha küçük padding */
+      color: white; /* Yazı rengi beyaz */
+      text-align: center; /* Metinleri ortala */
+    
+      h1 {
+        font-size: 24px; /* Daha küçük başlık metni */
+        margin-bottom: 10px; /* Alt boşluk */
+        font-weight: bold; /* Kalın yazı */
+        line-height: 1.3; /* Satır yüksekliği */
+        word-wrap: break-word; /* Kelimeler taşarsa kır */
+      }
+    
+      h2 {
+        font-size: 16px; /* Alt başlık için daha küçük metin */
+        margin-top: 5px; /* Üstten küçük boşluk */
+        font-weight: normal; /* Normal kalınlıkta yazı */
+        line-height: 1.3; /* Satır yüksekliği */
+        font-style: italic; /* İtalik yazı */
+      }
+    }
+       .ingredient-button {
+      /* .diet-button stilini yansıtır */
+      background-color: #f4f5f8; /* Varsayılan arka plan rengi */
+      color: #000;              /* Varsayılan metin rengi */
+      border: 2px solid transparent;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      height: 60px;
+      --padding-start: 0px;
+      transition: all 0.3s ease-in-out; /* Yumuşak geçiş efekti */
+    
+      &.selected {
+        background-color: #FF8C00; /* Seçilen buton arka plan rengi */
+        color: #fff;              /* Seçilen buton metin rengi */
+        border: 2px solid #FF8C00;
+      }
+    }
+    
+    .confirm-button {
+      /* .next-button stilini yansıtır */
+      background-color: #FF8C00;
+      color: #fff;
+      border: 2px solid transparent;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 60px;
+      width: auto;
+      font-weight: bold; 
+      margin-top: 10px;
+      margin-right: 15px;
+      float: right;
+      transition: all 0.3s ease-in-out;
+    }
+  }  

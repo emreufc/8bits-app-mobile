@@ -1,0 +1,129 @@
+<ion-content>
+  <div class="background-image-container" [ngStyle]="{'background-image': 'url(' + backgroundImage +')'}">
+    <ion-fab class="ion-padding" vertical="top" horizontal="start" slot="fixed" (click)="closePage()">
+      <ion-fab-button>
+        <ion-icon name="close"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+    <div *ngIf="recipeDetail?.video || recipeDetail?.videoUrl" class="video-cover">
+      <ion-icon name="play-circle-outline"></ion-icon>
+    </div>
+
+    <ion-fab class="ion-padding" style="margin-right: 48px;" vertical="top" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="share()">
+        <ion-icon name="share-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+    <ion-fab class="ion-padding" vertical="top" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="fav()">
+        <ion-icon
+          [src]="!recipeDetail?.isFavourited ? '/assets/icon/heart.svg':'/assets/icon/heart-filled.svg'"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+  <div class="recipe-content ion-padding">
+    <div class="top-stick"></div>
+    <ion-card-header class="content-title ion-padding">
+      
+      <h1>{{ recipeDetail?.recipeName}}</h1>
+      <!-- <p>15 Dk</p> -->
+    </ion-card-header>
+
+    <ion-card-content class="ion-padding">
+      <p>{{ recipeDetail?.description }}</p><br>
+      <ion-grid class="nutrition-grid">
+        <ion-row>
+          <ion-col size="6">
+            <ion-icon src="/assets/icon/carbs.svg"></ion-icon>
+            <p>{{ recipeDetail?.carbohydrate| number:'1.1-1' }}g karb</p>
+          </ion-col>
+          <ion-col size="6">
+            <ion-icon src="/assets/icon/proteins.svg"></ion-icon>
+            <p>{{ recipeDetail?.protein| number:'1.1-1' }}g protein</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-icon src="/assets/icon/calories.svg"></ion-icon>
+            <p>{{ recipeDetail?.kcalPerServing| number:'1.1-1' }} kcal</p>
+          </ion-col>
+          <ion-col size="6">
+            <ion-icon src="/assets/icon/fats.svg"></ion-icon>
+            <p>{{ recipeDetail?.fat| number:'1.1-1' }}g yağ</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+
+    <ion-card-content>
+
+      <ion-segment [(ngModel)]="segmentValue">
+        <ion-segment-button value="ingredients">
+          İçindekiler
+        </ion-segment-button>
+        <ion-segment-button value="preparation">
+          Yapılışı
+        </ion-segment-button>
+      </ion-segment>
+      <ng-container *ngIf="segmentValue === 'ingredients'; else preparation">
+        <h1>İçindekiler</h1>
+        <ion-card *ngFor="let ingredient of ingredients" class="ingredient-card">
+          <ion-card-content class="ingredient-content">
+            <ion-item lines="none" class="ingredient-item">
+              <ion-avatar slot="start">
+                <img [src]="ingredient.ingImgUrl" />
+              </ion-avatar>
+              <ion-label class="ingredient-label">
+                <h3>{{ ingredient.ingredientName }}</h3>
+                <p>{{ ingredient.quantity | number }} {{ ingredient.unit }}</p>
+              </ion-label>
+
+              <div class="ingredient-status" [ngClass]="{'missing': ingredient.missing, 'available': !ingredient.missing}">
+                <ion-icon name="ellipse" *ngIf="ingredient.isMissing" color="danger"></ion-icon>
+                <ion-icon name="ellipse" *ngIf="!ingredient.isMissing" color="success"></ion-icon>
+              </div>
+
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ng-container>
+
+      <ng-template #preparation>
+        <!-- <ion-list> -->
+        <div *ngFor="let step of steps" class="preparation-steps">
+          <ion-card-content class="ingredient-content" *ngIf="step.step !== ''">
+            <ion-item lines="none" class="ingredient-item">
+              <div class="step-number-circle">{{ step.stepNum }}</div>
+              <ion-label class="ingredient-label">
+                <p>{{ step.step }}</p>
+              </ion-label>
+            </ion-item>
+          </ion-card-content>
+        </div>
+
+        <div class="preparation-detail" [innerHTML]="summary">
+        </div>
+
+      </ng-template>
+      <ion-item lines="full">
+        <ion-label></ion-label>
+      </ion-item>
+      <div class="button-container">
+        <!-- Eğer IsOldRecipe true ise bu iki buton gösterilecek -->
+        <ion-button expand="full" *ngIf="recipeDetail?.isOldRecipe" (click)="retryRecipe()">
+          Tarifi yeniden yap
+        </ion-button>
+        <ion-button expand="full" *ngIf="recipeDetail?.isOldRecipe" color="danger" (click)="removeFromOldRecipes()">
+          Yaptığım tariflerden çıkar
+        </ion-button>
+      
+        <!-- Eğer IsOldRecipe false ise bu buton gösterilecek -->
+        <ion-button expand="full" *ngIf="!recipeDetail?.isOldRecipe" (click)="addToOldRecipes()">
+          Yaptığım tariflere ekle
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </div>
+</ion-content>

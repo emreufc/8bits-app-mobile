@@ -1,13 +1,48 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>profile</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">profile</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Profil başlığı -->
+  <div class="profile-header">
+    <ion-avatar class="profile-avatar">
+      <div 
+        *ngIf="!user.imageUrl" 
+        class="user-avatar" 
+        [ngStyle]="{ 'background-color': userColor }"
+      >
+        {{ userInitial }}
+      </div>
+      <img *ngIf="user.imageUrl" [src]="user.imageUrl" alt="{{ user.name }}" />
+    </ion-avatar>
+    <h2 class="profile-name">{{ user.name }} {{ user.surname }}</h2> <!-- Profil adı ve soyadı -->
+    <ion-button class="edit-profile-btn" fill="solid" (click)="editProfile()">Edit Profile</ion-button>
+  </div>
+
+  <ion-segment (ionChange)="segmentChanged($event)" value="old-recipes">
+    <ion-segment-button value="old-recipes">
+      <ion-label>Old Recipes</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="favorites">
+      <ion-label>Favorites</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Tarif Listesi -->
+  <div class="recipes-grid" *ngIf="selectedSegment === 'old-recipes'">
+    <app-recipe-card
+      *ngFor="let recipe of oldRecipes"
+      [recipe]="recipe"
+      (likeToggled)="handleLikeToggled($event)"
+      (click)="goToRecipeDetail(recipe.recipeId)"
+    ></app-recipe-card>
+  </div>
+
+  <div class="recipes-grid" *ngIf="selectedSegment === 'favorites'">
+    <app-recipe-card
+      *ngFor="let recipe of favoriteRecipes"
+      [recipe]="recipe"
+      (likeToggled)="handleLikeToggled($event)"
+      (click)="goToRecipeDetail(recipe.recipeId)"
+    ></app-recipe-card>
+  </div>
+  
 </ion-content>

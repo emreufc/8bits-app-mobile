@@ -29,13 +29,22 @@ ion-header {
                     font-weight: 600;
                     line-height: 28px;  
                 }
+
+                .user-name {
+                    white-space: nowrap; /* Satırın birden fazla satıra geçmesini engeller */
+                    overflow: hidden; /* Taşan metni gizler */
+                    text-overflow: ellipsis; /* Taşan metnin sonuna '...' ekler */
+                    max-width: 200px; /* Burada istediğiniz genişliği belirleyebilirsiniz */
+                  }
             }
         }
         
         ion-buttons {
             margin: 0px;
+            padding: 0;
             ion-button {
                 margin: 0px;
+                padding: 0;
                 ion-icon {
                     font-size: 22px;
                     color: var(--ion-color-dark);

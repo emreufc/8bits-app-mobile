@@ -1,0 +1,47 @@
+
+
+
+<ion-content>
+  <div class="list-header">
+    <h1>Kart Eşleştirme Oyunu</h1>
+  </div>
+  <div *ngIf="!gameStarted" class="start-screen">
+    <ion-button (click)="startGame()">Başlamak İçin Tıkla</ion-button>
+  </div>
+
+  <div *ngIf="gameStarted" class="game-container">
+    <div class="game-info-container">
+      <div class="game-info">
+        Kalan Süre: <span id="time-remaining">{{ (timeRemaining / 1000).toFixed(0) }}</span>
+      </div>
+      <div class="game-info">
+        Toplam Eşleştirme: <span>{{ flips }}</span>
+      </div>
+    </div>
+
+    <div *ngFor="let card of cardsArray" class="card" [ngClass]="{'visible': card.visible, 'matched': card.matched}" (click)="flipCard(card)">
+      <div class="card-back card-face">
+        <ion-icon name="logo-ionic" size="large" color="primary"></ion-icon>
+      </div>
+      <div class="card-front card-face">
+        <ion-icon [name]="card.icon" size="large" color="secondary"></ion-icon>
+      </div>
+    </div>
+  </div>
+
+  <ion-alert
+    [isOpen]="gameOver"
+    header="Oyun Bitti"
+    message="Kaybettin. Tekrar denemek ister misin?"
+    buttons="Restart"
+    (didDismiss)="resetGame()"
+  ></ion-alert>
+
+  <ion-alert
+    [isOpen]="victory"
+    header="Tebrikler!"
+    message="Kazandın. Tekrar denemek ister misin?"
+    buttons="Restart"
+    (didDismiss)="resetGame()"
+  ></ion-alert>
+</ion-content>

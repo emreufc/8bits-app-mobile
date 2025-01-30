@@ -1,0 +1,108 @@
+
+ion-content {
+    --ion-color-primary: #ff9f0a; // Birincil renk ayarı
+    background: transparent; // Arka plan şeffaf
+    
+    ion-segment-button {
+      --indicator-color: #ff9f0a; 
+      --color: white; // Buton metni rengi
+      --color-checked: white; 
+      --background-checked: #ff9f0a;
+      border-radius: 50px !important; // Butonlara yuvarlatılmış köşe 
+      margin: 0 5px; // Butonların arasına mesafe
+      
+      &[value="old-recipes"] {
+        &.segment-button-checked {
+          --color: white;
+          --background: #ff9f0a; 
+          border-radius: 50px !important;
+        }
+        
+        &::part(native) {
+          border-radius: 50px !important; 
+          transition: all 0.3s ease-in-out; /* Yumuşak geçiş */
+
+        }
+      }
+      
+      &[value="favorites"] {
+        &.segment-button-checked {
+          --color: white; 
+          --background: white;
+          border-radius: 50px !important;
+        }
+        
+        &::part(native) {
+          border-radius: 50px !important;
+        }
+      }
+    }
+  
+  // Profil başlığı ve filtrelerin stilleri
+  .profile-header {
+    text-align: center; // Ortaya hizala
+    margin-bottom: 20px; // Alt boşluk ekle
+    
+    .profile-avatar {
+      width: 100px; // Profil fotoğrafı genişliği
+      height: 100px; // Profil fotoğrafı yüksekliği
+      margin: 0 auto 10px; // Merkeze hizala ve alt boşluk ekle
+      border: 2px solid white; // Beyaz çerçeve ekle
+    }
+  
+    .profile-name {
+      font-weight: 700; // Yazı kalınlığı
+      font-size: 20px; // Yazı boyutu
+      margin: 10px 0 5px; // Kenar boşlukları
+    }
+  
+    .profile-location {
+      color: #666; // Yazı rengi
+      margin: 0 0 15px; // Alt boşluk
+      font-size: 14px; // Yazı boyutu
+    }
+  
+    .edit-profile-btn {
+      --background: #ff9f0a; // Arka plan rengi      --border-radius: 15px; // Yuvarlatılmış köşe
+      --padding-start: 30px; // Sol boşluk
+      --padding-end: 30px; // Sağ boşluk
+      font-size: 14px; // Yazı boyutu
+      min-height: 10px;
+      --background-activated: transparent; /* Tıklama sırasında arka planı kaldırır */      
+      --color-activated: white; /* Metin rengini varsayılan yapar */
+      border-radius: 50px;
+    }
+  }
+
+  // Araç çubuğu ve başlık stilleri
+  ion-title {
+    font-weight: 700; // Başlık kalınlığı
+  }
+  .recipes-grid {
+    display: grid; /* Izgara düzeni */
+    gap: 16px; /* Elemanlar arası boşluk */
+    grid-template-columns: repeat(2, 1fr); /* Her zaman iki sütun */
+    margin-top: 25px; /* Üstten 25px boşluk */
+  }
+
+  .empty-state {
+    text-align: center;
+    margin-top: 50px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .empty-state-image {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  .empty-state-text {
+    font-size: 18px;
+    color: var(--ion-color-medium);
+  }
+}

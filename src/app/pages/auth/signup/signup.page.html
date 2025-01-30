@@ -1,9 +1,3 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-title>Kayıt Ol</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
   <div class="curved-header">
     <h1>Hoş Geldiniz</h1>
@@ -14,19 +8,50 @@
     <ion-list class="ion-no-padding">
       <ion-item lines="none">
         <ion-label position="stacked">Ad</ion-label>
-        <ion-input type="text" placeholder="Adınızı girin"></ion-input>
+        <ion-input 
+          type="text" 
+          placeholder="Adınızı girin" 
+          [(ngModel)]="userData.name">
+        </ion-input>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="stacked">Soyisim</ion-label>
+        <ion-input 
+          type="text" 
+          placeholder="Soyisminizi girin" 
+          [(ngModel)]="userData.surname">
+        </ion-input>
       </ion-item>
 
       <ion-item lines="none">
         <ion-label position="stacked">E-posta</ion-label>
-        <ion-input type="email" placeholder="E-posta adresinizi girin"></ion-input>
+        <ion-input 
+          type="email" 
+          placeholder="E-posta adresinizi girin"
+          [(ngModel)]="userData.email">
+        </ion-input>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="stacked">Telefon Numarası</ion-label>
+        <ion-input
+          type="tel"
+          placeholder="Telefon Numarası"
+          [(ngModel)]="userData.phoneNumber"
+          (ionInput)="enforcePrefix($event)">
+        </ion-input>
       </ion-item>
 
       <ion-item lines="none" class="password-input-container">
         <ion-label position="stacked">Şifre</ion-label>
-        <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="Şifrenizi girin"></ion-input>
+        <ion-input 
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Şifrenizi girin" 
+          [(ngModel)]="userData.password">
+        </ion-input>
         <ion-icon
-          [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+          [name]="!showPassword ? 'eye-off-outline' : 'eye-outline'"
           slot="end"
           (click)="togglePasswordVisibility()"
           class="eye-icon"
@@ -35,9 +60,13 @@
 
       <ion-item lines="none" class="password-input-container">
         <ion-label position="stacked">Şifreyi Tekrar Girin</ion-label>
-        <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="Şifrenizi tekrar girin"></ion-input>
+        <ion-input 
+          [type]="showPassword ? 'text' : 'password'" 
+          placeholder="Şifrenizi tekrar girin" 
+          [(ngModel)]="rePassword">
+        </ion-input>
         <ion-icon
-          [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+          [name]="!showPassword ? 'eye-off-outline' : 'eye-outline'"
           slot="end"
           (click)="togglePasswordVisibility()"
           class="eye-icon"
@@ -46,11 +75,17 @@
     </ion-list>
 
     <ion-item lines="none">
-      <ion-checkbox slot="start"></ion-checkbox>
-      <ion-label>Tüm şartları ve koşulları kabul ediyorum</ion-label>
+      <ion-checkbox slot="start" [(ngModel)]="termsAccepted"></ion-checkbox>
+      
+      <!-- BURADA DEĞİŞİKLİK: CSS sınıfı ve altındaki yapılar -->
+      <ion-label (click)="openTermsModal()" class="terms-label">
+        <span>Tüm şartları ve koşulları kabul ediyorum</span>
+      </ion-label>
     </ion-item>
+    
+    
 
-    <ion-button expand="block" class="signup-button">
+    <ion-button expand="block" class="signup-button" (click)="onSignup()">
       Şimdi Kayıt Ol
     </ion-button>
 
@@ -63,4 +98,45 @@
       <ion-button fill="clear" size="small" routerLink="/auth/login">Şimdi Giriş Yap</ion-button>
     </div>
   </div>
+
+  <!-- Yeni Eklenen Kısım: Modal -->
+  <ion-modal [isOpen]="showTermsModal" (ionModalDidDismiss)="closeTermsModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Şartlar ve Koşullar</ion-title>
+        </ion-toolbar>
+      </ion-header>
+  
+      <!-- Şık görünüm için ek CSS sınıfı -->
+      <ion-content class="ion-padding terms-content">
+        <h2>MealMatch Uygulaması Şartları</h2>
+        <p>
+          Bu uygulama, MealMatch için örnek bir metindir. Uygulama içerisinde sağlanan 
+          tarifler, diyet programları ve diğer içerikler bilgi amaçlıdır. 
+          Herhangi bir tıbbi tavsiye yerine geçmez.
+        </p>
+        <p>
+          Uygulamada yer alan tariflerin besin değerleri yaklaşık değerlerdir 
+          ve kişiden kişiye farklılık gösterebilir. 
+        </p>
+        <h3>Gizlilik ve Kullanım</h3>
+        <ul>
+          <li>Uygulama, kullanıcı verilerini üçüncü taraflarla paylaşmaz.</li>
+          <li>Gizliliğin korunması için gereken önlemler alınmıştır.</li>
+        </ul>
+        <p>
+          Daha fazla bilgi için <strong>destek&#64;meal-match.com</strong> adresiyle iletişime geçebilirsiniz.
+        </p>
+      </ion-content>
+  
+      <ion-footer>
+        <ion-toolbar>
+          <ion-button expand="block" (click)="closeTermsModal()">Kapat</ion-button>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
+  
+
 </ion-content>

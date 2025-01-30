@@ -1,0 +1,34 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Diyet Tercihleri</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="curved-header">
+    <h1>Herhangi bir alerjiniz var mı?</h1>
+    <h2>Size alerjilerinize göre tarifler göstereceğiz.</h2>
+  </div>
+  
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let ingredient of ingredients">
+        <ion-button 
+              expand="block" 
+              fill="clear" 
+              class="ingredient-button" 
+              [ngClass]="{ 'selected': isIngredientSelected(ingredient.id) }" 
+              (click)="toggleIngredient(ingredient)">
+          <ion-icon [src]="ingredient.icon" slot="start"></ion-icon>
+          {{ ingredient.name }}
+        </ion-button>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-button expand="block" fill="clear" class="confirm-button" (click)="confirm()"
+      [disabled]="selectedIngredients.size === 0">
+      ONAYLA
+    </ion-button>
+</ion-content>
